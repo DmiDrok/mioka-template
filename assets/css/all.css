@@ -1,0 +1,45 @@
+/* Заголовок секций */
+.section-title {
+  font-family: Karton, Arial, sans-serif;
+  font-size: 42px;
+  line-height: 47px;
+}
+
+.section-title .marker {
+  color: var(--color-accent-2);
+}
+
+@media (max-width: 690px) {
+  .section-title {
+    font-size: 36px;
+    line-height: 40px;
+  }
+}
+
+@media (max-width: 440px) {
+  .section-title {
+    font-size: 30px;
+    line-height: 40px;
+  }
+}
+
+/* Синяя кнопка */
+.btn-blue {
+  border: none;
+  background-color: var(--color-accent-1);
+  border-radius: 10px;
+  color: #fff;
+  cursor: pointer;
+  padding: 7px 16px;
+  font-size: 15px;
+  transition: background-color ease .2s, opacity ease .2s, transform ease .2s;
+}
+
+.btn-blue:hover {
+  /* background-color: var(--color-accent-2); */
+  opacity: .7;
+}
+
+.btn-blue:active {
+  transform: scale(.95);
+}
