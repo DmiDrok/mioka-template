@@ -47,6 +47,7 @@ function setCorrectTelInputs() {
   });
 }
 
+// Настройка логики бургера
 function setCorrectBurger() {
   const burger = document.querySelector('.burger');
   const mobileMenu = document.querySelector('.mobile-menu');
@@ -57,6 +58,7 @@ function setCorrectBurger() {
   });
 }
 
+// Эффект наклона на карточах услуг
 function setCorrectServiceCards() {
   const cards = document.querySelectorAll('.service');
   const options = {
@@ -65,6 +67,7 @@ function setCorrectServiceCards() {
     speed: 600,
     glare: true,
     'max-glare': .2,
+    gyroscope: false,
   };
   
   cards.forEach((card) => {

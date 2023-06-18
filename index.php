@@ -16,44 +16,7 @@
 
   <!-- Шапка -->
   <header id="header" class="header">
-    <!-- Меню -->
-<div id="mobile-menu" class="mobile-menu">
-  <div class="mobile-menu__row">
-    <div class="mobile-menu__content">
-      <nav class="menu-nav">
-        <ul class="menu-nav__list">
-          <li class="menu-nav__item">
-            <a class="menu-nav__link" href="#">Каталог</a>
-          </li>
-          <li class="menu-nav__item">
-            <a class="menu-nav__link" href="#">Отзывы</a>
-          </li>
-          <li class="menu-nav__item">
-            <a class="menu-nav__link" href="#">Контакты</a>
-          </li>
-          <li class="menu-nav__item dropdown">
-            <a class="menu-nav__link dropdown__title" href="#">Информация для клиента</a>
-
-            <ul class="dropdown__list">
-              <li class="menu-nav__item dropdown__item">
-                <a class="menu-nav__link dropdown__link" href="#">Пункт меню №1</a>
-              </li>
-              <li class="menu-nav__item dropdown__item">
-                <a class="menu-nav__link dropdown__link" href="#">Пункт меню №2</a>
-              </li>
-              <li class="menu-nav__item dropdown__item">
-                <a class="menu-nav__link dropdown__link" href="#">Пункт меню №3</a>
-              </li>
-              <li class="menu-nav__item dropdown__item">
-                <a class="menu-nav__link dropdown__link" href="#">Пункт меню №4</a>
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </nav>
-    </div>
-  </div>
-</div>
+    <?php require_once './assets/mobile-menu.html' ?>
 
     <div class="header-top">
       <div class="container">
@@ -63,7 +26,7 @@
               <div class="contact-block__row">
                 <img class="contact-block__icon" src="./images/icons/marker.svg" alt="" aria-hidden="true">
                 <address class="contact-block__value contact-block__address">
-                  <span class="marker">г. Егорьевск</span>, 5 мкр123., д. 21
+                  <span class="marker">г. Егорьевск</span>, 5 мкр., д. 21
                 </address>
               </div>
             </li>

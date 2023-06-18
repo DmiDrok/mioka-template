@@ -1109,6 +1109,10 @@ body {
 }
 
 @media (max-width: 690px) {
+  .services__row {
+    padding-top: 100px;
+  }
+
   .services__title {
     font-size: 36px;
     line-height: 40px;
@@ -1124,6 +1128,10 @@ body {
 }
 
 @media (max-width: 440px) {
+  .services__row {
+    padding-top: 50px;
+  }
+
   .services__title {
     font-size: 30px;
     line-height: 40px;
@@ -1131,6 +1139,8 @@ body {
 
   .services-block__title {
     font-size: 20px;
+    display: block;
+    text-align: center;
   }
 
   .services__content {
