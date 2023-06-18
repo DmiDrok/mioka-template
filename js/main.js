@@ -1,6 +1,7 @@
 setCorrectHeaderByScroll();
 setCorrectTelInputs();
 setCorrectBurger();
+setCorrectServiceCards();
 
 
 // По скроллу - скрываем верхнюю часть шапки
@@ -13,21 +14,26 @@ function setCorrectHeaderByScroll() {
     const safetyPixels = 5; // Чтобы не было никаких зазоров
     headerTop.classList.add('hidden');
     headerBottom.classList.add('active');
-    header.style.marginTop = -(headerTop.clientHeight + safetyPixels) + 'px';
+    header.style.transform = `translateY(${-(headerTop.clientHeight + safetyPixels) + 'px'})`;
   };
 
   const topState = () => {
     headerTop.classList.remove('hidden');
     headerBottom.classList.remove('active');
-    header.style.marginTop = null;
+    header.style.transform = null;
   };
 
-  window.addEventListener('scroll', () => {
+  const checkScrollPosition = () => {
     if (window.scrollY > 0) {
       scrollState();
     } else {
       topState();
     }
+  };
+  checkScrollPosition();
+
+  window.addEventListener('scroll', () => {
+    checkScrollPosition();
   }, { passive: true });
 }
 
@@ -48,5 +54,20 @@ function setCorrectBurger() {
   burger.addEventListener('click', () => {
     burger.classList.toggle('active');
     mobileMenu.classList.toggle('active');
+  });
+}
+
+function setCorrectServiceCards() {
+  const cards = document.querySelectorAll('.service');
+  const options = {
+    reverse: true,
+    max: 5,
+    speed: 600,
+    glare: true,
+    'max-glare': .2,
+  };
+  
+  cards.forEach((card) => {
+    VanillaTilt.init(card, options);
   });
 }
