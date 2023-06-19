@@ -43,3 +43,55 @@
 .btn-blue:active {
   transform: scale(.95);
 }
+
+/* Список соцсетей */
+.social-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+}
+
+.social-list__icon {
+  width: 55px;
+  height: 55px;
+}
+
+.social-list__icon {
+  transition: opacity ease .2s;
+}
+
+.social-list__item:hover .social-list__icon {
+  opacity: .5;
+}
+
+.social-list__item:active .social-list__icon {
+  opacity: .2;
+}
+
+@media (max-width: 870px) {
+  .social-list__icon {
+    width: 45px;
+    height: 45px;
+  }
+}
+
+@media (max-width: 670px) {
+  .social-list__icon {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+/* Декоративные изображения */
+.decor-image {
+  pointer-events: none;
+  user-select: none;
+  z-index: -1;
+}
+
+@media (max-width: 650px) {
+  .decor-image {
+    display: none;
+  }
+}

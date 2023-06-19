@@ -25,16 +25,16 @@
           <nav class="menu-nav">
             <ul class="menu-nav__list">
               <li class="menu-nav__item">
-                <a class="menu-nav__link" href="#">Каталог</a>
+                <a class="menu-nav__link" href="#services">Услуги</a>
               </li>
               <li class="menu-nav__item">
-                <a class="menu-nav__link" href="#">Отзывы</a>
+                <a class="menu-nav__link" href="#reviews">Отзывы</a>
               </li>
               <li class="menu-nav__item">
-                <a class="menu-nav__link" href="#">Контакты</a>
+                <a class="menu-nav__link" href="#contacts">Контакты</a>
               </li>
               <li class="menu-nav__item dropdown">
-                <a class="menu-nav__link dropdown__title" href="#">Информация для клиента</a>
+                <a class="menu-nav__link dropdown__title">Информация для клиента</a>
 
                 <ul class="dropdown__list">
                   <li class="menu-nav__item dropdown__item">
@@ -98,13 +98,13 @@
                 <span class="burger__title">Меню</span>
               </li>
               <li class="nav__item">
-                <a class="nav__link" href="#">Каталог</a>
+                <a class="nav__link" href="#services">Услуги</a>
               </li>
               <li class="nav__item">
                 <a class="nav__link" href="#reviews">Отзывы</a>
               </li>
               <li class="nav__item">
-                <a class="nav__link" href="#">Контакты</a>
+                <a class="nav__link" href="#reviews">Контакты</a>
               </li>
 
               <li class="nav__item logo-item">
@@ -131,7 +131,7 @@
               </li>
 
               <li class="nav__item">
-                <a class="nav__link" href="#">Отзывы</a>
+                <a class="nav__link" href="#team">Команда</a>
               </li>
 
               <li class="nav__item">

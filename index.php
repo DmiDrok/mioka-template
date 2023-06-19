@@ -507,6 +507,75 @@
         </div>
       </div>
     </section>
+
+    <!-- Секция контактов -->
+    <section id="contacts" class="contacts">
+      <div class="contacts__row">
+        <div class="container">
+          <h2 class="section-title contacts__title">Наши <b class="marker">контактные данные</b></h2>
+          <p class="contacts__subtitle">Далеко-далеко, за словесными горами в стране гласных и согласных живут рыбные тексты. Текстов ipsum, всемогущая свой силуэт рукопись диких семантика переулка переписывается то большого даже безорфографичный он?</p>
+
+          <div class="contacts__content">
+            <div class="contacts__map-wrapper">
+              <img class="decor-image contacts__map-decor-image contacts__map-decor-image_1" src="<?php bloginfo('template_url') ?>/assets/images/map-decor-1.png" alt="" aria-hidden="true">
+              <img class="decor-image contacts__map-decor-image contacts__map-decor-image_2" src="<?php bloginfo('template_url') ?>/assets/images/map-decor-1.png" alt="" aria-hidden="true">
+
+              <iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3Aaf56307b455b4e6a13baafee6352c48eab909fba6238ae0d14965388882dda1d&amp;source=constructor" width="100%" height="400" frameborder="0"></iframe>
+            </div>
+
+            <div class="contacts__info">
+              <article class="tild-card  info-block">
+                <h3 class="info-block__title"><?php bloginfo('title') ?> | <?php bloginfo('description') ?></h3>
+                <address class="info-block__info">
+                  <span class="info-block__item">г. Егорьевск, 5 мкр., д. 21</span>
+                  <span class="info-block__item">Пн—Вс: с 10:00 до 20:00</span>
+                  <span class="info-block__item">+ 7 808 353 53 35</span>
+                  <a class="info-block__item blue" href="mailto:mioka2023@gmail.com">mioka2023@gmail.com</a>
+                </address>
+              </article>
+
+              <article class="tild-card  info-block">
+                <h3 class="info-block__title">Немного информации</h3>
+                <p class="info-block__text">Далеко-далеко за словесными горами в стране гласных и согласных живут рыбные тексты. Прямо толку грустный взобравшись они.</p>
+              </article>
+            </div>
+
+            <ul class="contacts__social social-list">
+              <li class="social-list__item">
+                <a class="social-list__item" href="#" title="<?php bloginfo('title') ?> в ВКонтакте">
+                  <svg class="social-list__icon" aria-hidden="true" id="Icons" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 215 215"><g id="VK"><path fill="#07f" id="Background" d="M0,103.2c0-48.65,0-73,15.11-88.09S54.55,0,103.2,0h8.6c48.65,0,73,0,88.09,15.11S215,54.55,215,103.2v8.6c0,48.65,0,73-15.11,88.09S160.45,215,111.8,215h-8.6c-48.65,0-73,0-88.09-15.11S0,160.45,0,111.8Z"/><path fill="#fff" id="VK-2" data-name="VK" class="cls-2" d="M112,151c-45.86,0-72-31.44-73.1-83.75h23c.75,38.4,17.69,54.66,31.1,58v-58h21.63v33.12c13.24-1.43,27.16-16.52,31.85-33.12h21.63c-3.6,20.46-18.69,35.55-29.42,41.75,10.73,5,27.91,18.19,34.45,42H149.29C144.18,135,131.44,122.7,114.59,121V151Z"/></g></svg>
+                </a>
+              </li>
+              <li class="social-list__item">
+                <a class="social-list__item" href="#" title="<?php bloginfo('title') ?> в Telegram">
+                  <svg class="social-list__icon" aria-hidden="true" id="Icons" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 215 215"><defs><linearGradient id="Безымянный_градиент_3" x1="554" y1="107.5" x2="769" y2="107.5" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#2aabee"/><stop offset="1" stop-color="#229ed9"/></linearGradient></defs><g id="Telegram"><path fill="url(#Безымянный_градиент_3)" id="Background" d="M554,103.2c0-48.65,0-73,15.11-88.09S608.55,0,657.2,0h8.6c48.65,0,73,0,88.09,15.11S769,54.55,769,103.2v8.6c0,48.65,0,73-15.11,88.09S714.45,215,665.8,215h-8.6c-48.65,0-73,0-88.09-15.11S554,160.45,554,111.8Z" transform="translate(-554)"/><path fill="#fff" id="Telegram-2" data-name="Telegram" d="M598.29,105q51.57-22.47,68.78-29.63c32.76-13.63,39.56-16,44-16.07a7.7,7.7,0,0,1,4.57,1.37,5,5,0,0,1,1.68,3.19,21,21,0,0,1,.2,4.65c-1.78,18.65-9.46,63.91-13.37,84.79-1.65,8.84-4.9,11.81-8.06,12.1-6.85.63-12.05-4.53-18.68-8.88-10.38-6.8-16.25-11-26.32-17.68-11.65-7.67-4.1-11.89,2.54-18.78,1.74-1.81,31.91-29.26,32.5-31.75a2.41,2.41,0,0,0-.55-2.08,2.68,2.68,0,0,0-2.44-.24q-1.56.36-49.75,32.88-7.07,4.86-12.79,4.73c-4.22-.09-12.32-2.38-18.34-4.34-7.38-2.4-13.25-3.67-12.74-7.75Q589.91,108.31,598.29,105Z" transform="translate(-554)"/></g></svg>
+                </a>
+              </li>
+              <li class="social-list__item">
+                <a class="social-list__item" href="#" title="<?php bloginfo('title') ?> в Одноклассниках">
+                  <svg class="social-list__icon" aria-hidden="true" id="Icons" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 215 215"><g id="Ok"><path id="Background" fill="#ee8208" d="M831,657.2c0-48.65,0-73,15.11-88.09S885.55,554,934.2,554h8.6c48.65,0,73,0,88.09,15.11S1046,608.55,1046,657.2v8.6c0,48.65,0,73-15.11,88.09S991.45,769,942.8,769h-8.6c-48.65,0-73,0-88.09-15.11S831,714.45,831,665.8Z" transform="translate(-831 -554)"/><g id="Ok-2" data-name="Ok"><path id="Ok-3" data-name="Ok" fill="#fff" d="M938.45,665.08a32.79,32.79,0,1,0-32.79-32.79,32.84,32.84,0,0,0,32.79,32.79m0-46.4a13.61,13.61,0,1,1-13.6,13.61,13.61,13.61,0,0,1,13.6-13.61" transform="translate(-831 -554)"/><path fill="#fff" id="Ok-4" data-name="Ok" d="M951.75,691.78a61.26,61.26,0,0,0,19.09-7.92,9.65,9.65,0,1,0-10.26-16.34,41.76,41.76,0,0,1-44.16,0,9.65,9.65,0,0,0-10.26,16.34,60.29,60.29,0,0,0,19.09,7.92l-18.37,18.38a9.61,9.61,0,0,0,0,13.6,9.93,9.93,0,0,0,6.8,2.84,9.37,9.37,0,0,0,6.8-2.84l18.07-18.07,18.07,18.07a9.62,9.62,0,0,0,13.61-13.6Z" transform="translate(-831 -554)"/></g></g></svg>
+                </a>
+              </li>
+              <li class="social-list__item">
+                <a class="social-list__item" href="#" title="<?php bloginfo('title') ?> в WhatsApp">
+                  <svg class="social-list__icon" aria-hidden="true" id="Icons" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 215 215"><g id="WhatsApp"><path id="Background" fill="#25d366" d="M831,103.2c0-48.65,0-73,15.11-88.09S885.55,0,934.2,0h8.6c48.65,0,73,0,88.09,15.11S1046,54.55,1046,103.2v8.6c0,48.65,0,73-15.11,88.09S991.45,215,942.8,215h-8.6c-48.65,0-73,0-88.09-15.11S831,160.45,831,111.8Z" transform="translate(-831)"/><g id="WhatsApp-2" data-name="WhatsApp"><path id="WhatsApp-3" data-name="WhatsApp" fill="#fff" d="M880.57,166.37l8.3-30.32a58.51,58.51,0,1,1,50.7,29.3h0a58.38,58.38,0,0,1-27.95-7.12ZM913,147.64l1.78,1.05a48.5,48.5,0,0,0,24.75,6.78h0a48.62,48.62,0,1,0-41.2-22.79l1.16,1.84-4.91,17.95Z" transform="translate(-831)"/><path id="WhatsApp-4" data-name="WhatsApp" fill="#fff" fill-rule="evenodd" d="M969,120.76c-.36-.61-1.34-1-2.8-1.71s-8.65-4.27-10-4.75-2.31-.74-3.29.73-3.77,4.75-4.63,5.73-1.7,1.1-3.16.37a40.29,40.29,0,0,1-11.76-7.26,44.05,44.05,0,0,1-8.13-10.13c-.85-1.46-.09-2.25.64-3s1.46-1.71,2.19-2.56a10,10,0,0,0,1.46-2.44,2.67,2.67,0,0,0-.12-2.56c-.36-.73-3.29-7.93-4.5-10.86s-2.4-2.46-3.29-2.51-1.83,0-2.81,0A5.38,5.38,0,0,0,915,81.61a16.41,16.41,0,0,0-5.12,12.2c0,7.19,5.24,14.14,6,15.12s10.31,15.74,25,22.07a81.77,81.77,0,0,0,8.34,3.08,19.86,19.86,0,0,0,9.2.58c2.81-.42,8.65-3.53,9.87-7S969.41,121.37,969,120.76Z" transform="translate(-831)"/></g></g></svg>
+                </a>
+              </li>
+              <li class="social-list__item">
+                <a class="social-list__item" href="#" title="<?php bloginfo('title') ?> в YouTube">
+                  <svg class="social-list__icon" aria-hidden="true" id="Icons" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 215 215"><g id="YouTube"><path fill="#f00" id="Background" d="M1385,380.2c0-48.65,0-73,15.11-88.09S1439.55,277,1488.2,277h8.6c48.65,0,73,0,88.09,15.11S1600,331.55,1600,380.2v8.6c0,48.65,0,73-15.11,88.09S1545.45,492,1496.8,492h-8.6c-48.65,0-73,0-88.09-15.11S1385,437.45,1385,388.8Z" transform="translate(-1385 -277)"/><path id="YouTube-2" data-name="YouTube" fill="#fff" d="M1550.87,354.5A15.34,15.34,0,0,0,1540,343.66c-9.56-2.56-47.89-2.56-47.89-2.56s-38.33,0-47.89,2.56a15.36,15.36,0,0,0-10.84,10.84c-2.56,9.56-2.56,29.5-2.56,29.5s0,19.94,2.56,29.5a15.36,15.36,0,0,0,10.84,10.84c9.56,2.56,47.89,2.56,47.89,2.56s38.33,0,47.89-2.56a15.34,15.34,0,0,0,10.83-10.84c2.56-9.56,2.56-29.5,2.56-29.5S1553.43,364.06,1550.87,354.5Zm-71,47.89V365.61L1511.73,384Z" transform="translate(-1385 -277)"/></g></svg>
+                </a>
+              </li>              
+              <li class="social-list__item">
+                <a class="social-list__item" href="#" title="<?php bloginfo('title') ?> в Яндекс Дзен">
+                  <svg class="social-list__icon" aria-hidden="true" id="Icons" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 215 215"><g id="Дзен"><path fill="#000" id="Background" d="M277,934.2c0-48.65,0-73,15.11-88.09S331.55,831,380.2,831h8.6c48.65,0,73,0,88.09,15.11S492,885.55,492,934.2v8.6c0,48.65,0,73-15.11,88.09S437.45,1046,388.8,1046h-8.6c-48.65,0-73,0-88.09-15.11S277,991.45,277,942.8Z" transform="translate(-277 -831)"/><path id="Дзен-2" data-name="Дзен" fill="#fff" fill-rule="evenodd" d="M382.18,865.17c-.37,29.69-2.39,46.38-13.52,57.52s-27.8,13.16-57.47,13.53v4.39c29.67.37,46.34,2.4,57.47,13.53s13.15,27.83,13.52,57.52h4.39c.37-29.69,2.39-46.38,13.52-57.52s27.8-13.16,57.46-13.53v-4.39c-29.66-.37-46.34-2.4-57.46-13.53s-13.15-27.83-13.52-57.52Z" transform="translate(-277 -831)"/></g></svg>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
 
 <?php get_footer(); ?>
