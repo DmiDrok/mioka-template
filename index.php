@@ -4,6 +4,10 @@
   <main id="main" class="main">
     <!-- Секция, встречающая пользователя -->
     <section id="hero" class="hero">
+      <!-- Декоративные изображения -->
+      <img class="decor-image hero__decor-image hero__decor-image_1" src="<?php bloginfo('template_url') ?>/assets/images/decor-hero-1.png" alt="" aria-hidden="true">
+      <img class="decor-image hero__decor-image hero__decor-image_2" src="<?php bloginfo('template_url') ?>/assets/images/decor-hero-2.png" alt="" aria-hidden="true">
+
       <div class="hero__row">
         <div class="container hero__container">
           <div class="hero__content">

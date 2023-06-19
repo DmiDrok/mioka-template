@@ -32,7 +32,6 @@ body {
   --color-accent-1: #8fadc7;
   --color-accent-2: #f4ca90;
   --color-accent-3: #f7faff;
-  --color-accent-4: #A3D3BF;
   --color-text: #5B4A58;
 }
 
@@ -381,6 +380,25 @@ body {
   margin: auto;
   margin-top: -70px;
   text-align: center;
+}
+
+.hero {
+  position: relative;
+}
+
+/* Hero Decor Images */
+.hero__decor-image {
+  position: absolute;
+}
+
+.hero__decor-image_1 {
+  left: 0;
+  top: -250px;
+}
+
+.hero__decor-image_2 {
+  right: 0;
+  bottom: -150px;
 }
 
 /* Hero title */
@@ -1179,15 +1197,15 @@ body {
 }
 
 .service:hover .service__action {
-  background-color: var(--color-accent-4);
+  background-color: var(--color-accent-2);
 }
 
 .service:hover .service__point::before {
-  color: var(--color-accent-4);
+  color: var(--color-accent-2);
 }
 
 .service:hover .service__title {
-  color: var(--color-accent-4);
+  color: var(--color-accent-2);
 }
 
 .service__inner {
@@ -1394,19 +1412,19 @@ body {
 }
 
 .team-member:hover .team-member__photo {
-  outline-color: var(--color-accent-4);
+  outline-color: var(--color-accent-2);
 }
 
 .team-member:hover .team-member__action {
-  background-color: var(--color-accent-4);
+  background-color: var(--color-accent-2);
 }
 
 .team-member:hover .team-member__skill-text::before {
-  color: var(--color-accent-4);
+  color: var(--color-accent-2);
 }
 
 .team-member:hover .team-member__position {
-  color: var(--color-accent-4);
+  color: var(--color-accent-2);
 }
 
 .team-member__info {
