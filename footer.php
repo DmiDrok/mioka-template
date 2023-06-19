@@ -66,7 +66,7 @@
                   <input type="tel" name="usertel" required>
                 </label>
     
-                <textarea title="Введите ваше сообщение" name="usermsg" pattern=".{10,}" title="Минимум 10 символов"></textarea>
+                <textarea title="Введите ваше сообщение" name="usermsg"></textarea>
     
                 <button type="submit">Отправить</button>
               </form>
