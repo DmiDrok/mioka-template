@@ -8,7 +8,8 @@ function add_styles() {
 // Добавление скриптов
 function add_scripts() {
   wp_enqueue_script('inputmask', get_template_directory_uri() . '/assets/js/inputmask.js', [], null, true);
-  wp_enqueue_script('vannila-tilt', get_template_directory_uri() . '/assets/js/tilt.min.js', [], null, true);
+  wp_enqueue_script('vanilla-tilt', get_template_directory_uri() . '/assets/js/tilt.min.js', [], null, true);
+  wp_enqueue_script('js-cookie', get_template_directory_uri() . '/assets/js/js-cookie.min.js', [], null, true);
   wp_enqueue_script('fix-wp', get_template_directory_uri() . '/assets/js/fix-wp.js', [], null, true);
   wp_enqueue_script('main', get_template_directory_uri() . '/assets/js/main.js', [], null, true);
 }
@@ -175,6 +176,7 @@ function true_custom_notice() {
 	}
 }
 
+// Свой пункт меню на сайдбаре
 add_action('admin_menu', 'my_menu_page');
 add_action('admin_init', 'tg_opts_fields');
 add_action( 'admin_notices', 'true_custom_notice' );
