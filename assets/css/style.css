@@ -1372,9 +1372,11 @@ body {
   position: relative;
 }
 
-.contacts__map-wrapper iframe {
+.contacts__map-wrapper iframe,
+.contacts__map-wrapper #map {
   position: relative;
   z-index: 100;
+  height: 400px;
 }
 
 /* Map Wrapper Decor */
@@ -1490,7 +1492,8 @@ a.info-block__item:active {
     line-height: 16px;
   }
 
-  .contacts__map-wrapper iframe {
+  .contacts__map-wrapper iframe,
+  .contacts__map-wrapper #map {
     height: 350px;
   }
 }
@@ -1508,7 +1511,8 @@ a.info-block__item:active {
 }
 
 @media (max-width: 550px) {
-  .contacts__map-wrapper iframe {
+  .contacts__map-wrapper iframe,
+  .contacts__map-wrapper #map {
     height: 300px;
   }
 
@@ -1533,6 +1537,7 @@ a.info-block__item:active {
   }
 }
 
+/* === Подвал сайта === */
 .footer {
   margin-top: 70px;
   background-color: var(--color-accent-1);
@@ -1668,7 +1673,8 @@ a.info-block__item:active {
 }
 
 /* Footer Form */
-.contact-form {
+/* .contact-form, */
+.wpcf7 {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-gap: 10px;
@@ -1696,7 +1702,7 @@ a.info-block__item:active {
   padding: 5px 10px;
 }
 
-.contact-form button[type="submit"] {
+.contact-form input[type="submit"] {
   justify-self: end;
   grid-column: 2/2;
 
@@ -1712,25 +1718,26 @@ a.info-block__item:active {
   transition: opacity ease .2s, transform ease .1s;
 }
 
-.contact-form button[type="submit"]:hover {
+.contact-form input[type="submit"]:hover {
   opacity: .7;
 }
 
-.contact-form button[type="submit"]:active {
+.contact-form input[type="submit"]:active {
   transform: scale(.95);
 }
 
 @media (max-width: 410px) {
-  .contact-form {
+  /* .contact-form, */
+  .wpcf7 {
     grid-template-columns: 1fr;
   }
 
   .contact-form textarea,
-  .contact-form button[type="submit"] {
+  .contact-form input[type="submit"] {
     grid-column: 1;
   }
 
-  .contact-form button[type="submit"] {
+  .contact-form input[type="submit"] {
     width: 100%;
   }
 }

@@ -5,11 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><?php bloginfo('title') ?> | <?php bloginfo('description') ?></title>
 
-  <link rel="stylesheet" href="./css/style.css">
-
-  <script defer src="./js/inputmask.js"></script>
-  <script defer src="./js/tilt.min.js"></script>
-  <script defer src="./js/main.js"></script>
+  <script src="https://api-maps.yandex.ru/2.1/?apikey=8a668916-04d0-4f25-8d4a-b97888776387&lang=ru_RU" type="text/javascript"></script>
 
   <?php wp_head(); ?>
 </head>
@@ -28,10 +24,10 @@
                 <a class="menu-nav__link" href="#services">Услуги</a>
               </li>
               <li class="menu-nav__item">
-                <a class="menu-nav__link" href="#reviews">Отзывы</a>
+                <a class="menu-nav__link" href="#team">Команда</a>
               </li>
               <li class="menu-nav__item">
-                <a class="menu-nav__link" href="#contacts">Контакты</a>
+                <a class="menu-nav__link" href="#reviews">Отзывы</a>
               </li>
               <li class="menu-nav__item dropdown">
                 <a class="menu-nav__link dropdown__title">Информация для клиента</a>
@@ -101,10 +97,10 @@
                 <a class="nav__link" href="#services">Услуги</a>
               </li>
               <li class="nav__item">
-                <a class="nav__link" href="#reviews">Отзывы</a>
+                <a class="nav__link" href="#team">Команда</a>
               </li>
               <li class="nav__item">
-                <a class="nav__link" href="#reviews">Контакты</a>
+                <a class="nav__link" href="#reviews">Отзывы</a>
               </li>
 
               <li class="nav__item logo-item">
@@ -131,7 +127,7 @@
               </li>
 
               <li class="nav__item">
-                <a class="nav__link" href="#team">Команда</a>
+                <a class="nav__link" href="#contacts">Контакты</a>
               </li>
 
               <li class="nav__item">

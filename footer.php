@@ -36,17 +36,11 @@
     
               <nav class="footer-nav">
                 <ul class="footer-nav__list">
-                  <li class="footer-nav__item">                                      
-                    <a class="footer-nav__link" href="#">Оформление заказа</a>
-                  </li>
                   <li class="footer-nav__item">
                     <a class="footer-nav__link" href="#">Вопросы и ответы</a>
                   </li>
                   <li class="footer-nav__item">
-                    <a class="footer-nav__link" href="#">Изменение или отмена заказа</a>
-                  </li>
-                  <li class="footer-nav__item">
-                    <a class="footer-nav__link" href="#">Способы доставки и оплаты</a>
+                    <a class="footer-nav__link" href="#">Документы, сертификаты</a>
                   </li>
                 </ul>
               </nav>
@@ -55,8 +49,9 @@
             <article class="footer-block footer-form">
               <h3 class="footer-block__title footer-form__title">Возникли вопросы? Свяжитесь с нами</h3>
     
-              <form action="#" name="contact-form" class="contact-form">
-                <label>
+              <form action="<?= admin_url('admin-post.php'); ?>" method="POST" name="contact-form" class="contact-form">
+                <input type="hidden" name="action" value="contact">
+                <!-- <label>
                   Ваше имя
                   <input type="text" name="username" required>
                 </label>
@@ -68,7 +63,9 @@
     
                 <textarea title="Введите ваше сообщение" name="usermsg"></textarea>
     
-                <button type="submit">Отправить</button>
+                <input type="submit" value="Отправить"> -->
+
+                <?php echo do_shortcode('[contact-form-7 id="21" title="Контактная форма 1"]') ?>
               </form>
             </article>
           </div>
