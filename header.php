@@ -6,8 +6,9 @@
   <title><?php bloginfo('title') ?> | <?php bloginfo('description') ?></title>
 
   <script src="https://api-maps.yandex.ru/2.1/?apikey=8a668916-04d0-4f25-8d4a-b97888776387&lang=ru_RU" type="text/javascript"></script>
-
+  
   <?php wp_head(); ?>
+  <link rel="shortcut icon" href="<?php bloginfo('template_url') ?>/assets/images/logo.svg">
 </head>
 <body>
   
@@ -127,11 +128,11 @@
               </li>
 
               <li class="nav__item">
-                <a class="nav__link" href="#contacts">Контакты</a>
+                <a class="nav__link" href="#our-works">Наши работы</a>
               </li>
 
               <li class="nav__item">
-                <a class="nav__link" href="#">Каталог</a>
+                <a class="nav__link" href="#contacts">Контакты</a>
               </li>
             </ul>
           </nav>

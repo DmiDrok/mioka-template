@@ -7,7 +7,7 @@ setCorrectSmoothScrollToAnchors();
 // setCorrectVisibilityForm();
 setCorrectContactForm();
 setCorrectPopupTriggers();
-
+setCorrectImagesZoom();
 
 // По скроллу - скрываем верхнюю часть шапки
 function setCorrectHeaderByScroll() {
@@ -221,3 +221,9 @@ function setCorrectPopupTriggers() {
   });
 }
 
+// Приближение фотографий
+function setCorrectImagesZoom() {
+  Fancybox.bind("[data-fancybox]", {
+
+  });
+}

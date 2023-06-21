@@ -514,6 +514,199 @@
       </div>
     </section>
 
+    <!-- Секция выполненных работ -->
+    <section id="our-works" class="our-works">
+      <div class="our-works__row">
+        <div class="container our-works__container">
+
+          <h2 class="section-title our-works__title">
+            Наши <b class="marker">выполненные работы</b>
+          </h2>
+
+
+          <div class="our-works__content">
+            <div class="work" data-caption="Название работы можно поместить сюда" data-fancybox="our-works-photos" data-src="<?php bloginfo('template_url') ?>/assets/images/work-1.jpg">
+              <img class="work__image" src="<?php bloginfo('template_url') ?>/assets/images/work-1.jpg" alt="наша работа">              
+
+              <div class="work__info">
+                <div class="work__head">
+                  <span class="work__title">Название работы</span>
+                </div>
+
+                <div class="work__middle">
+                  <button class="work__zoom" type="button" title="Рассмотреть подробнее">
+                    <svg aria-hidden="true" width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M37.5659 34.6188L46.4888 43.5397L43.5409 46.4876L34.62 37.5647C31.3008 40.2255 27.1721 41.6728 22.918 41.6667C12.568 41.6667 4.16797 33.2667 4.16797 22.9167C4.16797 12.5667 12.568 4.16675 22.918 4.16675C33.268 4.16675 41.668 12.5667 41.668 22.9167C41.674 27.1709 40.2268 31.2995 37.5659 34.6188ZM33.3867 33.073C36.0307 30.354 37.5073 26.7093 37.5013 22.9167C37.5013 14.8605 30.9742 8.33341 22.918 8.33341C14.8617 8.33341 8.33463 14.8605 8.33463 22.9167C8.33463 30.973 14.8617 37.5001 22.918 37.5001C26.7105 37.506 30.3552 36.0295 33.0742 33.3855L33.3867 33.073ZM20.8346 20.8334V14.5834H25.0013V20.8334H31.2513V25.0001H25.0013V31.2501H20.8346V25.0001H14.5846V20.8334H20.8346Z" fill="#f4ca90"/>
+                    </svg>
+                  </button>
+                </div>
+
+                <div class="work__bottom">
+                  <p class="work__description">Описание процесса работы находится прямо здесь</p>
+                  <span class="work__price">1500 руб.</span>
+                </div>
+              </div>
+            </div>
+            <div class="work" data-caption="Название работы можно поместить сюда" data-fancybox="our-works-photos" data-src="<?php bloginfo('template_url') ?>/assets/images/work-2.jpg">
+              <img class="work__image" src="<?php bloginfo('template_url') ?>/assets/images/work-2.jpg" alt="наша работа">              
+
+              <div class="work__info">
+                <div class="work__head">
+                  <span class="work__title">Название работы</span>
+                </div>
+
+                <div class="work__middle">
+                  <button class="work__zoom" type="button" title="Рассмотреть подробнее">
+                    <svg aria-hidden="true" width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M37.5659 34.6188L46.4888 43.5397L43.5409 46.4876L34.62 37.5647C31.3008 40.2255 27.1721 41.6728 22.918 41.6667C12.568 41.6667 4.16797 33.2667 4.16797 22.9167C4.16797 12.5667 12.568 4.16675 22.918 4.16675C33.268 4.16675 41.668 12.5667 41.668 22.9167C41.674 27.1709 40.2268 31.2995 37.5659 34.6188ZM33.3867 33.073C36.0307 30.354 37.5073 26.7093 37.5013 22.9167C37.5013 14.8605 30.9742 8.33341 22.918 8.33341C14.8617 8.33341 8.33463 14.8605 8.33463 22.9167C8.33463 30.973 14.8617 37.5001 22.918 37.5001C26.7105 37.506 30.3552 36.0295 33.0742 33.3855L33.3867 33.073ZM20.8346 20.8334V14.5834H25.0013V20.8334H31.2513V25.0001H25.0013V31.2501H20.8346V25.0001H14.5846V20.8334H20.8346Z" fill="#f4ca90"/>
+                    </svg>
+                  </button>
+                </div>
+
+                <div class="work__bottom">
+                  <p class="work__description">Описание процесса работы находится прямо здесь</p>
+                  <span class="work__price">1500 руб.</span>
+                </div>
+              </div>
+            </div>
+            <div class="work" data-caption="Название работы можно поместить сюда" data-fancybox="our-works-photos" data-src="<?php bloginfo('template_url') ?>/assets/images/work-3.jpg">
+              <img class="work__image" src="<?php bloginfo('template_url') ?>/assets/images/work-3.jpg" alt="наша работа">              
+
+              <div class="work__info">
+                <div class="work__head">
+                  <span class="work__title">Название работы</span>
+                </div>
+
+                <div class="work__middle">
+                  <button class="work__zoom" type="button" title="Рассмотреть подробнее">
+                    <svg aria-hidden="true" width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M37.5659 34.6188L46.4888 43.5397L43.5409 46.4876L34.62 37.5647C31.3008 40.2255 27.1721 41.6728 22.918 41.6667C12.568 41.6667 4.16797 33.2667 4.16797 22.9167C4.16797 12.5667 12.568 4.16675 22.918 4.16675C33.268 4.16675 41.668 12.5667 41.668 22.9167C41.674 27.1709 40.2268 31.2995 37.5659 34.6188ZM33.3867 33.073C36.0307 30.354 37.5073 26.7093 37.5013 22.9167C37.5013 14.8605 30.9742 8.33341 22.918 8.33341C14.8617 8.33341 8.33463 14.8605 8.33463 22.9167C8.33463 30.973 14.8617 37.5001 22.918 37.5001C26.7105 37.506 30.3552 36.0295 33.0742 33.3855L33.3867 33.073ZM20.8346 20.8334V14.5834H25.0013V20.8334H31.2513V25.0001H25.0013V31.2501H20.8346V25.0001H14.5846V20.8334H20.8346Z" fill="#f4ca90"/>
+                    </svg>
+                  </button>
+                </div>
+
+                <div class="work__bottom">
+                  <p class="work__description">Описание процесса работы находится прямо здесь</p>
+                  <span class="work__price">1500 руб.</span>
+                </div>
+              </div>
+            </div>
+            <div class="work" data-caption="Название работы можно поместить сюда" data-fancybox="our-works-photos" data-src="<?php bloginfo('template_url') ?>/assets/images/work-1.jpg">
+              <img class="work__image" src="<?php bloginfo('template_url') ?>/assets/images/work-1.jpg" alt="наша работа">              
+
+              <div class="work__info">
+                <div class="work__head">
+                  <span class="work__title">Название работы</span>
+                </div>
+
+                <div class="work__middle">
+                  <button class="work__zoom" type="button" title="Рассмотреть подробнее">
+                    <svg aria-hidden="true" width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M37.5659 34.6188L46.4888 43.5397L43.5409 46.4876L34.62 37.5647C31.3008 40.2255 27.1721 41.6728 22.918 41.6667C12.568 41.6667 4.16797 33.2667 4.16797 22.9167C4.16797 12.5667 12.568 4.16675 22.918 4.16675C33.268 4.16675 41.668 12.5667 41.668 22.9167C41.674 27.1709 40.2268 31.2995 37.5659 34.6188ZM33.3867 33.073C36.0307 30.354 37.5073 26.7093 37.5013 22.9167C37.5013 14.8605 30.9742 8.33341 22.918 8.33341C14.8617 8.33341 8.33463 14.8605 8.33463 22.9167C8.33463 30.973 14.8617 37.5001 22.918 37.5001C26.7105 37.506 30.3552 36.0295 33.0742 33.3855L33.3867 33.073ZM20.8346 20.8334V14.5834H25.0013V20.8334H31.2513V25.0001H25.0013V31.2501H20.8346V25.0001H14.5846V20.8334H20.8346Z" fill="#f4ca90"/>
+                    </svg>
+                  </button>
+                </div>
+
+                <div class="work__bottom">
+                  <p class="work__description">Описание процесса работы находится прямо здесь</p>
+                  <span class="work__price">1500 руб.</span>
+                </div>
+              </div>
+            </div>
+            <div class="work" data-caption="Название работы можно поместить сюда" data-fancybox="our-works-photos" data-src="<?php bloginfo('template_url') ?>/assets/images/work-3.jpg">
+              <img class="work__image" src="<?php bloginfo('template_url') ?>/assets/images/work-3.jpg" alt="наша работа">              
+
+              <div class="work__info">
+                <div class="work__head">
+                  <span class="work__title">Название работы</span>
+                </div>
+
+                <div class="work__middle">
+                  <button class="work__zoom" type="button" title="Рассмотреть подробнее">
+                    <svg aria-hidden="true" width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M37.5659 34.6188L46.4888 43.5397L43.5409 46.4876L34.62 37.5647C31.3008 40.2255 27.1721 41.6728 22.918 41.6667C12.568 41.6667 4.16797 33.2667 4.16797 22.9167C4.16797 12.5667 12.568 4.16675 22.918 4.16675C33.268 4.16675 41.668 12.5667 41.668 22.9167C41.674 27.1709 40.2268 31.2995 37.5659 34.6188ZM33.3867 33.073C36.0307 30.354 37.5073 26.7093 37.5013 22.9167C37.5013 14.8605 30.9742 8.33341 22.918 8.33341C14.8617 8.33341 8.33463 14.8605 8.33463 22.9167C8.33463 30.973 14.8617 37.5001 22.918 37.5001C26.7105 37.506 30.3552 36.0295 33.0742 33.3855L33.3867 33.073ZM20.8346 20.8334V14.5834H25.0013V20.8334H31.2513V25.0001H25.0013V31.2501H20.8346V25.0001H14.5846V20.8334H20.8346Z" fill="#f4ca90"/>
+                    </svg>
+                  </button>
+                </div>
+
+                <div class="work__bottom">
+                  <p class="work__description">Описание процесса работы находится прямо здесь</p>
+                  <span class="work__price">1500 руб.</span>
+                </div>
+              </div>
+            </div>
+            <div class="work" data-caption="Название работы можно поместить сюда" data-fancybox="our-works-photos" data-src="<?php bloginfo('template_url') ?>/assets/images/work-1.jpg">
+              <img class="work__image" src="<?php bloginfo('template_url') ?>/assets/images/work-1.jpg" alt="наша работа">              
+
+              <div class="work__info">
+                <div class="work__head">
+                  <span class="work__title">Название работы</span>
+                </div>
+
+                <div class="work__middle">
+                  <button class="work__zoom" type="button" title="Рассмотреть подробнее">
+                    <svg aria-hidden="true" width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M37.5659 34.6188L46.4888 43.5397L43.5409 46.4876L34.62 37.5647C31.3008 40.2255 27.1721 41.6728 22.918 41.6667C12.568 41.6667 4.16797 33.2667 4.16797 22.9167C4.16797 12.5667 12.568 4.16675 22.918 4.16675C33.268 4.16675 41.668 12.5667 41.668 22.9167C41.674 27.1709 40.2268 31.2995 37.5659 34.6188ZM33.3867 33.073C36.0307 30.354 37.5073 26.7093 37.5013 22.9167C37.5013 14.8605 30.9742 8.33341 22.918 8.33341C14.8617 8.33341 8.33463 14.8605 8.33463 22.9167C8.33463 30.973 14.8617 37.5001 22.918 37.5001C26.7105 37.506 30.3552 36.0295 33.0742 33.3855L33.3867 33.073ZM20.8346 20.8334V14.5834H25.0013V20.8334H31.2513V25.0001H25.0013V31.2501H20.8346V25.0001H14.5846V20.8334H20.8346Z" fill="#f4ca90"/>
+                    </svg>
+                  </button>
+                </div>
+
+                <div class="work__bottom">
+                  <p class="work__description">Описание процесса работы находится прямо здесь</p>
+                  <span class="work__price">1500 руб.</span>
+                </div>
+              </div>
+            </div>
+            <div class="work" data-caption="Название работы можно поместить сюда" data-fancybox="our-works-photos" data-src="<?php bloginfo('template_url') ?>/assets/images/work-2.jpg">
+              <img class="work__image" src="<?php bloginfo('template_url') ?>/assets/images/work-2.jpg" alt="наша работа">              
+
+              <div class="work__info">
+                <div class="work__head">
+                  <span class="work__title">Название работы</span>
+                </div>
+
+                <div class="work__middle">
+                  <button class="work__zoom" type="button" title="Рассмотреть подробнее">
+                    <svg aria-hidden="true" width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M37.5659 34.6188L46.4888 43.5397L43.5409 46.4876L34.62 37.5647C31.3008 40.2255 27.1721 41.6728 22.918 41.6667C12.568 41.6667 4.16797 33.2667 4.16797 22.9167C4.16797 12.5667 12.568 4.16675 22.918 4.16675C33.268 4.16675 41.668 12.5667 41.668 22.9167C41.674 27.1709 40.2268 31.2995 37.5659 34.6188ZM33.3867 33.073C36.0307 30.354 37.5073 26.7093 37.5013 22.9167C37.5013 14.8605 30.9742 8.33341 22.918 8.33341C14.8617 8.33341 8.33463 14.8605 8.33463 22.9167C8.33463 30.973 14.8617 37.5001 22.918 37.5001C26.7105 37.506 30.3552 36.0295 33.0742 33.3855L33.3867 33.073ZM20.8346 20.8334V14.5834H25.0013V20.8334H31.2513V25.0001H25.0013V31.2501H20.8346V25.0001H14.5846V20.8334H20.8346Z" fill="#f4ca90"/>
+                    </svg>
+                  </button>
+                </div>
+
+                <div class="work__bottom">
+                  <p class="work__description">Описание процесса работы находится прямо здесь</p>
+                  <span class="work__price">1500 руб.</span>
+                </div>
+              </div>
+            </div>
+            <div class="work" data-caption="Название работы можно поместить сюда" data-fancybox="our-works-photos" data-src="<?php bloginfo('template_url') ?>/assets/images/work-3.jpg">
+              <img class="work__image" src="<?php bloginfo('template_url') ?>/assets/images/work-3.jpg" alt="наша работа">              
+
+              <div class="work__info">
+                <div class="work__head">
+                  <span class="work__title">Название работы</span>
+                </div>
+
+                <div class="work__middle">
+                  <button class="work__zoom" type="button" title="Рассмотреть подробнее">
+                    <svg aria-hidden="true" width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M37.5659 34.6188L46.4888 43.5397L43.5409 46.4876L34.62 37.5647C31.3008 40.2255 27.1721 41.6728 22.918 41.6667C12.568 41.6667 4.16797 33.2667 4.16797 22.9167C4.16797 12.5667 12.568 4.16675 22.918 4.16675C33.268 4.16675 41.668 12.5667 41.668 22.9167C41.674 27.1709 40.2268 31.2995 37.5659 34.6188ZM33.3867 33.073C36.0307 30.354 37.5073 26.7093 37.5013 22.9167C37.5013 14.8605 30.9742 8.33341 22.918 8.33341C14.8617 8.33341 8.33463 14.8605 8.33463 22.9167C8.33463 30.973 14.8617 37.5001 22.918 37.5001C26.7105 37.506 30.3552 36.0295 33.0742 33.3855L33.3867 33.073ZM20.8346 20.8334V14.5834H25.0013V20.8334H31.2513V25.0001H25.0013V31.2501H20.8346V25.0001H14.5846V20.8334H20.8346Z" fill="#f4ca90"/>
+                    </svg>
+                  </button>
+                </div>
+
+                <div class="work__bottom">
+                  <p class="work__description">Описание процесса работы находится прямо здесь</p>
+                  <span class="work__price">1500 руб.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
     <!-- Секция контактов -->
     <section id="contacts" class="contacts">
       <div class="contacts__row">
@@ -614,6 +807,7 @@
     </section>
   </main>
 
+  <!-- Попап, показывающийся при отправке формы -->
   <div class="popup popup-footer-form">
     <div class="popup__content">
       <button class="popup-close" type="button" aria-label="закрыть уведомление об отправке формы">

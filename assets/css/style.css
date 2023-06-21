@@ -2,6 +2,7 @@
 @import "fonts.css";
 @import "utils.css";
 @import "all.css";
+@import "libs/fancybox.min.css";
 
 
 html {
@@ -682,7 +683,7 @@ body {
 }
 
 .services__row {
-  padding-top: 150px;
+  padding-top: 120px;
 }
 
 .services__title {
@@ -1320,13 +1321,216 @@ body {
   fill: #F2C94C;
 }
 
+/* === Секция выполненных работ === */
+.our-works__row {
+  padding-top: 100px;
+}
+
+.our-works__title {
+  text-align: center;
+}
+
+.our-works__content {
+  margin-top: 35px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+/* Line of works */
+.our-works__line {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+/* Work item */
+.work {
+  flex-basis: 25%;
+  height: 300px;
+  position: relative;
+}
+
+.work__image {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Work Info */
+.work__info {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, .9);
+  z-index: 10;
+  padding: 0 15px;
+  padding-top: 50px;
+  padding-bottom: 35px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: center;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity ease .3s;
+}
+
+.work:hover .work__info {
+  opacity: 1;
+}
+
+.work:active .work__info {
+  opacity: .6;
+  transition: opacity ease .1s;
+}
+
+.work:hover .work__zoom::before {
+  animation: pulse infinite 1s forwards linear alternate-reverse;
+}
+
+.work__title {
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 30px;
+  display: block;
+}
+
+.work__title::first-letter {
+  color: var(--color-accent-2);
+}
+
+.work__bottom {
+  font-weight: 300;
+}
+
+.work__description {
+  font-size: 16px;
+  line-height: 20px;
+  margin-bottom: 10px;
+  /* cursor: text; */
+}
+
+.work__price {
+  font-size: 16px;
+  line-height: 20px;
+  /* cursor: text; */
+}
+
+.work__zoom {
+  background: none;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  transition: opacity ease .3s;
+}
+
+.work__zoom path {
+  transition: fill ease .2s;
+  fill: var(--color-accent-2);
+}
+
+.work__zoom::before {
+  content: "";
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, .4);
+  position: absolute;
+  z-index: -1;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.work__zoom:hover {
+  opacity: .6;
+}
+
+@keyframes pulse {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  100% {
+    transform: translate(-50%, -50%) scale(1.7);
+  }
+}
+
+@media (max-width: 1050px) {
+  .work {
+    flex-basis: 33.333%;
+  }
+
+  .work:nth-last-child(2),
+  .work:nth-last-child(1) {
+    display: none;
+  }
+}
+
+@media (max-width: 770px) {
+  .work__title {
+    font-size: 18px;
+    line-height: 24px;
+  }
+
+  .work__description {
+    font-size: 13px;
+    line-height: 18px;
+  }
+
+  .work__zoom svg {
+    width: 45px;
+    height: 45px;
+  }
+
+  .work__zoom::before {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .work__price {
+    font-size: 13px;
+    line-height: 18px;
+  }
+}
+
+@media (max-width: 610px) {
+  .our-works__row {
+    padding-top: 60px;
+  }
+
+  .work {
+    flex-basis: 50%;
+  }
+
+  .work__info {
+    padding-top: 25px;
+    padding-bottom: 15px;
+  }
+}
+
+@media (max-width: 360px) {
+  .our-works__content {
+    justify-content: center;
+  }
+
+  .work {
+    flex-basis: 80%;
+    height: 225px;
+  }
+
+  .work:nth-child(n+5) {
+    display: none;
+  }
+}
+
 /* === Секция контактов === */
 .contacts {
   overflow: hidden;
 }
 
 .contacts__row {
-  padding-top: 75px;
+  padding-top: 100px;
 }
 
 .contacts__title {
@@ -1739,8 +1943,7 @@ a.info-block__item:active {
   top: 70px;
   left: 50%;
   transform: translate(-50%, 0);
-  z-index: 10000000;
-
+  z-index: 9999;
   transform: translate(-50%, -999px);
   opacity: 0;
   visibility: hidden;
