@@ -8,6 +8,7 @@ setCorrectSmoothScrollToAnchors();
 setCorrectContactForm();
 setCorrectPopupTriggers();
 setCorrectImagesZoom();
+setCorrectAccordeon();
 
 // По скроллу - скрываем верхнюю часть шапки
 function setCorrectHeaderByScroll() {
@@ -188,8 +189,11 @@ function setCorrectPopupTriggers() {
         
         // Попапы могут вызвать кнопки submit у форм
         if (form) {
+          if (Cookies.get('formSended')) return;
+          
           const isFormValid = form.reportValidity();
 
+          console.log(isFormValid);
           if (isFormValid) {
             popup.classList.add('active');
           }
@@ -240,3 +244,45 @@ function setCorrectImagesZoom() {
 
   });
 }
+
+// Аккордеон в ответах на вопросы
+function setCorrectAccordeon() {
+  const questionsList = document.querySelector('.questions-list');
+  const questions = questionsList.querySelectorAll('.question');
+
+  const showQuestion = (question, answer) => {
+    question.setAttribute('aria-expanded', true);
+    answer.setAttribute('aria-hidden', false);
+    answer.style.maxHeight = answer.scrollHeight + 'px';
+  };
+  const hideQuestion = (question, answer) => {
+    question.classList.remove('active');
+    question.setAttribute('aria-expanded', false);
+    answer.setAttribute('aria-hidden', true);
+    answer.style.maxHeight = null;
+  };
+
+  questionsList.addEventListener('click', (event) => {
+    const questionInner = event.target.closest('.question__inner');
+    if (!questionInner) return; // Клик должен быть по кнопке, чтобы не закрывался при выделении текста
+
+    const question = event.target.closest('.question');
+    const answer = question.querySelector('.question__answer');
+    
+    questions.forEach((anotherQuestion) => {
+      if (anotherQuestion === question) return;
+
+      const answer = anotherQuestion.querySelector('.question__answer');
+      hideQuestion(anotherQuestion, answer);
+    });
+
+    question.classList.toggle('active');
+
+    if (question.classList.contains('active')) {
+      showQuestion(question, answer);
+    } else {
+      hideQuestion(question, answer);
+    }
+  });
+}
+

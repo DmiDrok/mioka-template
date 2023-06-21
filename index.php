@@ -204,6 +204,8 @@
     <section id="team" class="team">
       <div class="team__row">
         <div class="container team__container">
+          <img class="decor-image team__decor-image team__decor-image_1" src="<?php bloginfo('template_url') ?>/assets/images/decor-team-1.png" alt="" aria-hidden="true">
+
           <h2 class="section-title team__title">Наша команда <b class="marker">профессионалов</b></h2>
 
           <div class="team__line">
@@ -518,11 +520,12 @@
     <section id="our-works" class="our-works">
       <div class="our-works__row">
         <div class="container our-works__container">
+          <img class="decor-image our-works__decor-image our-works__decor-image_1" src="<?php bloginfo('template_url') ?>/assets/images/decor-flower-1.png" alt="" aria-hidden="true">
+          <img class="decor-image our-works__decor-image our-works__decor-image_2" src="<?php bloginfo('template_url') ?>/assets/images/decor-flower-2.png" alt="" aria-hidden="true">
 
           <h2 class="section-title our-works__title">
             Наши <b class="marker">выполненные работы</b>
           </h2>
-
 
           <div class="our-works__content">
             <div class="work" data-caption="Название работы можно поместить сюда" data-fancybox="our-works-photos" data-src="<?php bloginfo('template_url') ?>/assets/images/work-1.jpg">
@@ -703,6 +706,98 @@
             </div>
           </div>
 
+        </div>
+      </div>
+    </section>
+
+    <!-- Секция ответов на вопросы -->
+    <section id="questions" class="questions">
+      <div class="questions__row">
+        <div class="container">
+          <h2 class="section-title questions__title">Ответы на <b class="marker">частые вопросы</b></h2>
+
+          <div class="questions__content">
+            <ul class="questions-list">
+              <li class="question">
+                <button class="question__inner" type="button" aria-expanded="false" aria-controls="question__answer">
+                  <span class="question__title">Какую страну считают родиной розы?</span>
+
+                  <img class="question__icon" src="<?php bloginfo('template_url') ?>/assets/images/icons/question-circle.svg" alt="" aria-hidden="true">
+                </button>
+
+                <div class="question__answer" aria-hidden="true">
+                  <p class="question__answer-text">
+                    Далеко-далеко за словесными горами в стране гласных и согласных живут рыбные тексты. Семантика города безопасную вскоре безорфографичный большого пунктуация деревни по всей заголовок возвращайся раз, продолжил парадигматическая своего они, запятой не? Эта, языкового.
+                  </p>
+                </div>
+              </li>
+              <li class="question">
+                <button class="question__inner" type="button" aria-expanded="false" aria-controls="question__answer">
+                  <span class="question__title">Салон какого односекционного вагона отличается наибольшей вместимостью?</span>
+
+                  <img class="question__icon" src="<?php bloginfo('template_url') ?>/assets/images/icons/question-circle.svg" alt="" aria-hidden="true">
+                </button>
+
+                <div class="question__answer" aria-hidden="true">
+                  <p class="question__answer-text">
+                    Далеко-далеко за словесными горами в стране гласных, и согласных живут рыбные тексты. Маленькая ведущими вскоре он? Они текстов коварный образ коварных сбить ipsum эта жизни первую. Повстречался ipsum реторический всеми которое дороге предупредила заглавных, это за, там деревни, алфавит ведущими текстами языкового рыбными переписывается взгляд букв диких.
+                  </p>
+                </div>
+              </li>
+              <li class="question">
+                <button class="question__inner" type="button" aria-expanded="false" aria-controls="question__answer">
+                  <span class="question__title">Какой остров Японского архипелага самый большой?</span>
+
+                  <img class="question__icon" src="<?php bloginfo('template_url') ?>/assets/images/icons/question-circle.svg" alt="" aria-hidden="true">
+                </button>
+
+                <div class="question__answer" aria-hidden="true">
+                  <p class="question__answer-text">
+                    Далеко-далеко за словесными горами в стране гласных и согласных живут рыбные тексты. Лучше lorem текст ее, маленькая ipsum океана большой силуэт вдали по всей, речью вопрос великий рукописи бросил! Всеми путь дал заманивший коварный алфавит большого взобравшись! Текста власти единственное эта необходимыми большой букв, заголовок залетают, свой рыбными ipsum дороге коварный за решила.
+                  </p>
+                </div>
+              </li>
+              <li class="question">
+                <button class="question__inner" type="button" aria-expanded="false" aria-controls="question__answer">
+                  <span class="question__title">В ведении какого монашеского ордена находилась инквизиция?</span>
+
+                  <img class="question__icon" src="<?php bloginfo('template_url') ?>/assets/images/icons/question-circle.svg" alt="" aria-hidden="true">
+                </button>
+
+                <div class="question__answer" aria-hidden="true">
+                  <p class="question__answer-text">
+                    Далеко-далеко за, словесными горами в стране гласных и согласных живут рыбные тексты. Свой проектах вдали своих последний путь то дал силуэт рыбного ее. Продолжил буквенных, дал возвращайся пор лучше свою живет свой рекламных первую которой над снова.
+                  </p>
+                </div>
+              </li>
+              <li class="question">
+                <button class="question__inner" type="button" aria-expanded="false" aria-controls="question__answer">
+                  <span class="question__title">Какого цвета полотнище Олимпийского флага?</span>
+
+                  <img class="question__icon" src="<?php bloginfo('template_url') ?>/assets/images/icons/question-circle.svg" alt="" aria-hidden="true">
+                </button>
+
+                <div class="question__answer" aria-hidden="true">
+                  <p class="question__answer-text">
+                    Далеко-далеко за словесными горами в стране гласных и согласных живут рыбные тексты. Возвращайся, сбить курсивных обеспечивает единственное жаренные ты гор сих, не рукопись взгляд ее послушавшись правилами даль меня страна, безопасную дорогу встретил. Вдали буквоград даль большого, свое океана выйти маленькая, ручеек, однажды текст осталось страна вершину.
+                  </p>
+                </div>
+              </li>
+              <li class="question">
+                <button class="question__inner" type="button" aria-expanded="false" aria-controls="question__answer">
+                  <span class="question__title">Как называлось самое крупное воинское подразделение армии Древнего Рима?</span>
+
+                  <img class="question__icon" src="<?php bloginfo('template_url') ?>/assets/images/icons/question-circle.svg" alt="" aria-hidden="true">
+                </button>
+
+                <div class="question__answer" aria-hidden="true">
+                  <p class="question__answer-text">
+                    Далеко-далеко за словесными горами в стране гласных и согласных живут рыбные тексты. Использовало заглавных грамматики предложения речью страна выйти она о от всех решила по всей составитель журчит домах это, он единственное, свой, своего последний строчка мир жизни безорфографичный города свою назад. Запятых переписывается деревни это одна снова единственное. Страну дал до агентство страна скатился, имеет одна раз ты рот текстами семь, рекламных то!
+                  </p>
+                </div>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </section>

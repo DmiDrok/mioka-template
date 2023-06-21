@@ -119,16 +119,7 @@
 
                 <ul class="dropdown__list">
                   <li class="nav__item dropdown__item">
-                    <a class="nav__link dropdown__link" href="#">Пункт меню №1</a>
-                  </li>
-                  <li class="nav__item dropdown__item">
-                    <a class="nav__link dropdown__link" href="#">Пункт меню №2</a>
-                  </li>
-                  <li class="nav__item dropdown__item">
-                    <a class="nav__link dropdown__link" href="#">Пункт меню №3</a>
-                  </li>
-                  <li class="nav__item dropdown__item">
-                    <a class="nav__link dropdown__link" href="#">Пункт меню №4</a>
+                    <a class="nav__link dropdown__link" href="#questions">Ответы на вопросы</a>
                   </li>
                 </ul>
               </li>

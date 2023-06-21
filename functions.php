@@ -45,7 +45,8 @@ function my_handler() {
   }
 
   // Начало настройки сообщения
-  $bot_token = get_option('token_bot');
+  $bot_token = get_option('bot_token');
+  $bot_chat_id = get_option('bot_chat_id');
   $bot_msg_template = get_option('bot_message');
 
   $bot_msg_template = str_replace('{username}', $username, $bot_msg_template);
@@ -54,7 +55,7 @@ function my_handler() {
   $bot_msg_template = urlencode($bot_msg_template);
 
   $response = file_get_contents(
-    "https://api.telegram.org/bot$bot_token/sendMessage?&chat_id=-687292955&parse_mode=Markdown&text=$bot_msg_template"
+    "https://api.telegram.org/bot$bot_token/sendMessage?&chat_id=$bot_chat_id&parse_mode=Markdown&text=$bot_msg_template"
   );
 
   // Перенаправляем на страницу, с которой пришел запрос
@@ -68,127 +69,3 @@ function my_handler() {
 add_action('wp_ajax_contact', 'my_handler');
 add_action('wp_ajax_nopriv_contact', 'my_handler');
 
-
-
-// Свой пункт меню
-function my_menu_page() {
-  add_menu_page(
-    'Настройка Telegram-сообщений',
-    'Настройки TG',
-    'manage_options',
-    'mioka_tg-opts',
-    'get_tg_opts_layout',
-    'dashicons-format-aside',
-    20,
-  );
-}
-
-// Разметка к пункту меню
-function get_tg_opts_layout() {
-  echo '<div class="wrap">
-    <h1>' . get_admin_page_title() . '</h1>
-    <form method="post" action="options.php">';
-  
-      settings_fields( 'tg_opts_settings' );
-      do_settings_sections( 'tg_opts' );
-      submit_button();
-  
-    echo '</form></div>';
-}
-
-// Регистрация полей для страницы настроек
-function tg_opts_fields() {
-  // Для ввода токена
-  register_setting(
-    'tg_opts_settings',
-    'bot_token',
-    '',
-  );
-
-  // Для ввода шаблона сообщений
-  register_setting(
-    'tg_opts_settings',
-    'bot_message',
-    '',
-  );
-
-  add_settings_section(
-    'tg_opts_section_id',
-    'Настройка отправки сообщений',
-    '',
-    'tg_opts'
-  );
-
-  add_settings_field(
-    'bot_token',
-    'Токен бота:',
-    'tg_bot_token_field', // функция для вывода,
-    'tg_opts',
-    'tg_opts_section_id',
-    array(
-      'label_for' => 'tg_opts',
-      'class' => 'tg-class',
-      'name' => 'bot_token',
-    )
-  );
-
-  add_settings_field(
-    'bot_message',
-    'Шаблон сообщения бота:',
-    'tg_bot_message_field', // функция для вывода,
-    'tg_opts',
-    'tg_opts_section_id',
-    array(
-      'label_for' => 'tg_opts',
-      'class' => 'tg-class',
-      'name' => 'bot_message',
-    )
-  );
-}
-
-// Вывод поля для ввода токена
-function tg_bot_token_field($args) {
-  $value = get_option($args['name']);
-
-  printf(
-		'<input type="text" id="%s" name="%s" value="%s" />',
-		esc_attr( $args[ 'name' ] ),
-		esc_attr( $args[ 'name' ] ),
-		$value
-	);
-}
-
-// Вывод поля для ввода шаблона сообщения
-function tg_bot_message_field($args) {
-  $value = get_option($args['name']);
-
-  printf(
-    'Используйте:<br>
-    <b>{username}</b> - для подстановки <u>имени</u> пользователя,<br>
-    <b>{usertel}</b> - для подстановки <u>телефона</u> пользователя,<br>
-    <b>{usermsg}</b> - для подстановки <u>сообщения</u> пользователя
-    <hr>
-    <textarea name="%s" id="%s" cols="55" rows="13">%s</textarea>',
-    esc_attr( $args[ 'name' ] ),
-		esc_attr( $args[ 'name' ] ),
-    esc_attr( $value )
-  );
-}
-
-// Кастомное уведомление
-function true_custom_notice() {
- 
-	if(
-		isset( $_GET[ 'page' ] )
-		&& 'mioka_tg-opts' == $_GET[ 'page' ]
-		&& isset( $_GET[ 'settings-updated' ] )
-		&& true == $_GET[ 'settings-updated' ]
-	) {
-		echo '<div class="notice notice-success is-dismissible"><p>Настройки сообщений сохранены</p></div>';
-	}
-}
-
-// Свой пункт меню на сайдбаре
-add_action('admin_menu', 'my_menu_page');
-add_action('admin_init', 'tg_opts_fields');
-add_action( 'admin_notices', 'true_custom_notice' );
