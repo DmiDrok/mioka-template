@@ -31,11 +31,19 @@ add_filter('wpcf7_form_elements', function($content) {
   return $content;
 });
 
+// Обработчик формы обратной связи
 function my_handler() {
+  error_log('success');
+
   $username = $_POST['username'];
   $usertel = $_POST['usertel'];
   $usermsg = $_POST['usermsg'];
 
+  if (empty($username) || empty($usertel) || empty($usermsg)) {
+    return;
+  }
+
+  // Начало настройки сообщения
   $bot_token = get_option('token_bot');
   $bot_msg_template = get_option('bot_message');
 
@@ -53,8 +61,11 @@ function my_handler() {
   header("Location: $referer_url");
 }
 
-add_action('admin_post_contact', 'my_handler');
-add_action('admin_post_nopriv_contact', 'my_handler');
+// add_action('admin_post_contact', 'my_handler');
+// add_action('admin_post_nopriv_contact', 'my_handler');
+// Ajax-отправка
+add_action('wp_ajax_contact', 'my_handler');
+add_action('wp_ajax_nopriv_contact', 'my_handler');
 
 
 

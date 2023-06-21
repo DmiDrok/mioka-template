@@ -1702,6 +1702,11 @@ a.info-block__item:active {
   padding: 5px 10px;
 }
 
+.contact-form input.error,
+.contact-form textarea.error {
+  outline: 1px solid coral;
+}
+
 .contact-form input[type="submit"] {
   justify-self: end;
   grid-column: 2/2;

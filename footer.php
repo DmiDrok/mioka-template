@@ -49,7 +49,7 @@
             <article class="footer-block footer-form">
               <h3 class="footer-block__title footer-form__title">Возникли вопросы? Свяжитесь с нами</h3>
     
-              <form action="<?= admin_url('admin-post.php'); ?>" method="POST" name="contact-form" class="contact-form">
+              <form action="<?= admin_url('admin-ajax.php'); ?>" method="POST" name="contact-form" class="contact-form">
                 <input type="hidden" name="action" value="contact">
                 <!-- <label>
                   Ваше имя

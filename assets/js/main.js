@@ -4,6 +4,9 @@ setCorrectBurger();
 setCorrectServiceCards();
 setCorrectSmoothScrollToAnchors();
 
+// setCorrectVisibilityForm();
+setCorrectContactForm();
+
 
 // По скроллу - скрываем верхнюю часть шапки
 function setCorrectHeaderByScroll() {
@@ -93,5 +96,73 @@ function setCorrectSmoothScrollToAnchors() {
   });
 }
 
+// Отображать форму в подвале или нет
+function setCorrectVisibilityForm() {
+  const contactForm = document.forms['contact-form'];
 
+  if (Cookies.get('formSended')) {
+    contactForm.remove();
+  }
+}
 
+// Отправка формы в подвале
+function setCorrectContactForm() {
+  const contactForm = document.forms['contact-form'];
+  const contactFormAction = contactForm.getAttribute('action');
+
+  const needValues = ['username', 'usertel', 'usermsg'];
+  const errorsInputs = new Set();
+  
+  contactForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    console.log(errorsInputs);
+
+    // if (contactForm['username'].value.length < 2) {
+    //   contactForm['username'].classList.add('error');
+    //   contactForm['username'].title = 'Введите корректное имя!';
+
+    //   errorsInputs.add(contactForm['username']);
+    // } else if (contactForm['username'].classList.contains('error')) {
+    //   contactForm['username'].classList.remove('error');
+    // }
+
+    // if (contactForm['usertel'].value.replace(/[+_-]/g, '').length !== 11) {
+    //   contactForm['usertel'].classList.add('error');
+    //   contactForm['usertel'].title = 'Введите корректный номер телефона!';
+
+    //   errorsInputs.add(contactForm['username']);
+    // } else if (contactForm['usertel'].classList.contains('error')) {
+    //   contactForm['usertel'].classList.remove('error');
+    // }
+    
+    // if (contactForm['usermsg'].value.length < 10) {
+    //   contactForm['usermsg'].classList.add('error');
+    //   contactForm['usermsg'].title = 'минимум 10 символов';
+
+    //   errorsInputs.add(contactForm['username']);
+    // } else if (contactForm['usermsg'].classList.contains('error')) {
+    //   contactForm['usermsg'].classList.remove('error');
+    // }
+
+    // if (errorsInputs.size !== 0) {
+    //   errorsInputs.clear();
+    //   return;
+    // } else {
+    //   errorsInputs.forEach(errInp => errInp.classList.remove('error'));
+    // }
+
+    const formData = new FormData(contactForm);
+    fetch(contactFormAction, {
+      method: 'POST',
+      body: formData,
+    });
+    Cookies.set('formSended', true, { expires: 1 });
+
+    contactForm.reset();
+  });
+}
+
+document.querySelectorAll('.wpcf7-form-control').forEach((el) => {
+  el.setAttribute('required', true)
+})
