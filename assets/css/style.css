@@ -430,27 +430,6 @@ body {
   display: inline-block;
   margin-top: 33px;
   text-transform: uppercase;
-  font-weight: 700;
-  font-size: 18px;
-  text-decoration: none;
-  cursor: pointer;
-  color: #fff;
-}
-
-.hero__button-inner {
-  background: linear-gradient(90deg, #faeea8, var(--color-accent-2));
-  border: none;
-  border-radius: 10px;
-  padding: 13px 60px;
-  transition: opacity ease .2s, transform ease .1s;
-}
-
-.hero__button:hover .hero__button-inner {
-  opacity: .7;
-}
-
-.hero__button:active .hero__button-inner {
-  transform: scale(.95);
 }
 
 @media (max-width: 690px) {
@@ -1753,3 +1732,129 @@ a.info-block__item:active {
   padding: 22px 0;
   border-top: 1px solid var(--color-accent-2);
 }
+
+/* === Стилизация попапа === */
+.popup {
+  position: fixed;
+  top: 70px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  z-index: 10000000;
+
+  transform: translate(-50%, -999px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity ease .5s .25s, visibility ease .5s .25s, transform ease .5s;
+}
+
+.popup.active {
+  transform: translate(-50%, 0);
+  opacity: 1;
+  visibility: visible;
+}
+
+.popup__content {
+  padding: 40px 20px 30px 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0px 8px 31px -9px rgba(0, 0, 0, 0.25);
+  position: relative;
+}
+
+.popup-close {
+  position: absolute;
+  background: none;
+  border: none;
+  right: 10px;
+  top: 10px;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 10px;
+}
+
+.popup-close__icon path {
+  transition: fill ease .2s, opacity ease .2s;
+}
+
+.popup-close:hover .popup-close__icon path {
+  fill: var(--color-accent-2);
+  opacity: .9;
+}
+
+.popup-close:active .popup-close__icon path {
+  opacity: .3;
+  transition: opacity ease .1s;
+}
+
+.popup__title {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.popup__descr {
+  font-size: 18px;
+  line-height: 24px;
+  margin-bottom: 15px;
+  max-width: 500px;
+}
+
+.popup__accept {
+  align-self: flex-end;
+}
+
+.popup__accept .popup__accept-inner {
+  padding: 10px 40px;
+}
+
+@media (max-width: 770px) {
+  .popup {
+    width: 450px;
+  }
+
+  .popup__title {
+    font-size: 20px;
+  }
+
+  .popup__descr {
+    font-size: 16px;
+    line-height: 22px;
+  }
+  
+  .popup__accept {
+    font-size: 16px;
+  }
+
+  .popup__accept .popup__accept-inner {
+    padding: 9px 40px;
+  }
+}
+
+@media (max-width: 520px) {
+  .popup {
+    width: 360px;
+  }
+
+  .popup__title {
+    font-size: 16px;
+  }
+
+  .popup__descr {
+    font-size: 14px;
+    line-height: 20px;
+    margin-bottom: 20px;
+  }
+
+  .popup__accept {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 400px) {
+  .popup {
+    width: 100%;
+    padding: 0 10px;
+  }
+}
+

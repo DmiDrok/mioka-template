@@ -95,3 +95,31 @@
     display: none;
   }
 }
+
+/* Оранжевая градиентная кнопка */
+.orange-gradient-btn {
+  font-weight: 700;
+  font-size: 18px;
+  text-decoration: none;
+  cursor: pointer;
+  color: #fff;
+  background: none;
+  border: none;
+}
+
+.orange-gradient-btn__inner {
+  background: linear-gradient(90deg, #faeea8, var(--color-accent-2));
+  border: none;
+  border-radius: 10px;
+  padding: 13px 60px;
+  transition: opacity ease .2s;
+}
+
+.orange-gradient-btn:hover .orange-gradient-btn__inner {
+  opacity: .7;
+}
+
+.orange-gradient-btn:active .orange-gradient-btn__inner {
+  opacity: .4;
+  transition: opacity ease .01s;
+}

@@ -6,6 +6,7 @@ setCorrectSmoothScrollToAnchors();
 
 // setCorrectVisibilityForm();
 setCorrectContactForm();
+setCorrectPopupTriggers();
 
 
 // По скроллу - скрываем верхнюю часть шапки
@@ -108,61 +109,115 @@ function setCorrectVisibilityForm() {
 // Отправка формы в подвале
 function setCorrectContactForm() {
   const contactForm = document.forms['contact-form'];
-  const contactFormAction = contactForm.getAttribute('action');
+  if (!contactForm) return;
 
-  const needValues = ['username', 'usertel', 'usermsg'];
+  const contactFormFields = contactForm.querySelectorAll('.wpcf7-form-control')
+  const contactFormSubmit = contactForm.querySelector('input[type="submit"]');
+  contactFormFields.forEach((el) => {
+    el.setAttribute('required', true)
+  });
+  contactFormSubmit.classList.add('trigger');
+  contactFormSubmit.dataset.popupSelector = '.popup-footer-form';
+  contactFormSubmit.dataset.formSelector = '[name="contact-form"]';
+
+  const contactFormAction = contactForm.getAttribute('action');
   const errorsInputs = new Set();
   
   contactForm.addEventListener('submit', (event) => {
     event.preventDefault();
 
-    console.log(errorsInputs);
+    // Валидация поля телефона, т.к. используется маска
+    if (contactForm['usertel']) {
+      if (contactForm['usertel'].value.replace(/[+_-]/g, '').length !== 11) {
+        contactForm['usertel'].classList.add('error');
+        contactForm['usertel'].title = 'Введите корректный номер телефона!';
 
-    // if (contactForm['username'].value.length < 2) {
-    //   contactForm['username'].classList.add('error');
-    //   contactForm['username'].title = 'Введите корректное имя!';
+        errorsInputs.add(contactForm['username']);
+      } else if (contactForm['usertel'].classList.contains('error')) {
+        contactForm['usertel'].classList.remove('error');
+      }
 
-    //   errorsInputs.add(contactForm['username']);
-    // } else if (contactForm['username'].classList.contains('error')) {
-    //   contactForm['username'].classList.remove('error');
-    // }
+      if (errorsInputs.size !== 0) {
+        errorsInputs.clear();
+        return;
+      } else {
+        errorsInputs.forEach(errInp => errInp.classList.remove('error'));
+      }
+    }
 
-    // if (contactForm['usertel'].value.replace(/[+_-]/g, '').length !== 11) {
-    //   contactForm['usertel'].classList.add('error');
-    //   contactForm['usertel'].title = 'Введите корректный номер телефона!';
-
-    //   errorsInputs.add(contactForm['username']);
-    // } else if (contactForm['usertel'].classList.contains('error')) {
-    //   contactForm['usertel'].classList.remove('error');
-    // }
-    
-    // if (contactForm['usermsg'].value.length < 10) {
-    //   contactForm['usermsg'].classList.add('error');
-    //   contactForm['usermsg'].title = 'минимум 10 символов';
-
-    //   errorsInputs.add(contactForm['username']);
-    // } else if (contactForm['usermsg'].classList.contains('error')) {
-    //   contactForm['usermsg'].classList.remove('error');
-    // }
-
-    // if (errorsInputs.size !== 0) {
-    //   errorsInputs.clear();
-    //   return;
-    // } else {
-    //   errorsInputs.forEach(errInp => errInp.classList.remove('error'));
-    // }
-
-    const formData = new FormData(contactForm);
-    fetch(contactFormAction, {
-      method: 'POST',
-      body: formData,
-    });
-    Cookies.set('formSended', true, { expires: 1 });
+    // Для предотвращения спама - отправляем если не отправляли ранее
+    if (!Cookies.get('formSended')) {
+      const formData = new FormData(contactForm);
+      fetch(contactFormAction, {
+        method: 'POST',
+        body: formData,
+      });
+      const halfDay = 0.5;
+      Cookies.set('formSended', true, { expires: halfDay });
+    } else {
+      // alert('Форма уже была отправлена. Следующая отправка возможна только через 12 часов.');
+    }
 
     contactForm.reset();
   });
 }
 
-document.querySelectorAll('.wpcf7-form-control').forEach((el) => {
-  el.setAttribute('required', true)
-})
+// Триггер попапов
+function setCorrectPopupTriggers() {
+  const triggers = document.getElementsByClassName('trigger');
+  const popups = document.querySelectorAll('.popup');
+  
+  // Т. к. некоторые триггеры появляются в процессе выполнения JS
+  // Для надёжности поместил в макротаску
+  // Логику открытия попапов
+  setTimeout(() => {
+    for (const trigger of triggers) {
+      trigger.addEventListener('click', () => {
+        const popupSelector = trigger.dataset.popupSelector;
+        const formSelector = trigger.dataset.formSelector;
+        const popup = document.querySelector(popupSelector);
+        const form = document.querySelector(formSelector);
+        
+        if (form.reportValidity()) {
+          popup.classList.add('active');
+        }
+
+        setTimeout(() => {
+          popup.classList.remove('active');
+        }, 3000);
+      });
+    }
+  }, 100);
+
+  // Логика работы попапов
+  popups.forEach((popup) => {
+    const closePopupGlobal = (event) => {
+      if (event.target.closest('.popup') !== popup) {
+        popup.classList.remove('active');
+      }
+    };
+    const observer = new MutationObserver((mutations) => {
+      for (let mutation of mutations) {
+        if (mutation.type === 'attributes') {
+          if (popup.classList.contains('active')) {
+            document.addEventListener('click', closePopupGlobal);
+          } else {          
+            document.removeEventListener('click', closePopupGlobal);
+          }
+        }
+      }
+    });
+    observer.observe(popup, { attributes: true });
+
+    const closePopup = popup.querySelector('.popup-close');
+    const acceptPopup = popup.querySelector('.popup__accept');
+    const closePopupFunc = (event) => {
+      event.stopPropagation();
+      popup.classList.remove('active')
+    };
+
+    closePopup.addEventListener('click', closePopupFunc);
+    acceptPopup.addEventListener('click', closePopupFunc); 
+  });
+}
+

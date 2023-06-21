@@ -16,8 +16,8 @@
               <span class="hero-title__bottom">Егорьевск</span>
             </h2>
 
-            <a class="hero__button" href="#services">
-              <span class="hero__button-inner">
+            <a class="orange-gradient-btn hero__button" href="#services">
+              <span class="orange-gradient-btn__inner hero__button-inner">
                 Услуги
               </span>
             </a>
@@ -613,5 +613,28 @@
       </div>
     </section>
   </main>
+
+  <div class="popup popup-footer-form">
+    <div class="popup__content">
+      <button class="popup-close" type="button" aria-label="закрыть уведомление об отправке формы">
+        <span class="popup-close__inner">
+          <svg class="popup-close__icon" aria-hidden="true" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2.93179 17.07C1.97669 16.1475 1.21486 15.044 0.690774 13.824C0.166684 12.604 -0.109178 11.2918 -0.120716 9.96397C-0.132254 8.63618 0.120763 7.31938 0.623572 6.09042C1.12638 4.86145 1.86891 3.74493 2.80784 2.80601C3.74677 1.86708 4.86328 1.12455 6.09225 0.62174C7.32121 0.118932 8.63801 -0.134085 9.9658 -0.122547C11.2936 -0.111009 12.6058 0.164853 13.8258 0.688943C15.0459 1.21303 16.1493 1.97486 17.0718 2.92996C18.8934 4.81598 19.9013 7.342 19.8785 9.96397C19.8557 12.5859 18.8041 15.0941 16.95 16.9481C15.0959 18.8022 12.5878 19.8539 9.9658 19.8767C7.34383 19.8995 4.81781 18.8915 2.93179 17.07ZM11.4018 9.99996L14.2318 7.16996L12.8218 5.75996L10.0018 8.58996L7.17179 5.75996L5.76179 7.16996L8.59179 9.99996L5.76179 12.83L7.17179 14.24L10.0018 11.41L12.8318 14.24L14.2418 12.83L11.4118 9.99996H11.4018Z" fill="black"/>
+          </svg>
+        </span>
+      </button>
+      <h3 class="popup__title">
+        Форма успешно отправлена!
+      </h3>
+      <p class="popup__descr">
+        Следующая отправка формы будет доступна через 12 часов.
+      </p>
+      <button class="orange-gradient-btn popup__accept" type="button">
+        <span class="orange-gradient-btn__inner popup__accept-inner">
+          Понятно
+        </span>
+      </button>
+    </div>
+  </div>
 
 <?php get_footer(); ?>
