@@ -30,6 +30,12 @@
               <li class="menu-nav__item">
                 <a class="menu-nav__link" href="#reviews">Отзывы</a>
               </li>
+              <li class="menu-nav__item">
+                <a class="menu-nav__link" href="#our-works">Наши работы</a>
+              </li>
+              <li class="menu-nav__item">
+                <a class="menu-nav__link" href="#contacts">Контакты</a>
+              </li>
               <li class="menu-nav__item dropdown">
                 <a class="menu-nav__link dropdown__title">Информация для клиента</a>
 

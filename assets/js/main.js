@@ -83,10 +83,17 @@ function setCorrectServiceCards() {
 // Плавный скролл к якорям
 function setCorrectSmoothScrollToAnchors() {
   const anchorLinks = document.querySelectorAll('a[href^="#"]');
+  const burger = document.querySelector('.burger');
 
   anchorLinks.forEach((anchorLink) => {
     anchorLink.addEventListener('click', (event) => {
       event.preventDefault();
+
+      // Чтобы на мобильных при клике закрывалось меню
+      if (event.target.closest('.mobile-menu')) {
+        event.target.closest('.mobile-menu').classList.remove('active');
+        burger.classList.remove('active');
+      }
 
       const anchorNode = document.querySelector(anchorLink.getAttribute('href'));
       anchorNode.scrollIntoView({
@@ -167,24 +174,30 @@ function setCorrectPopupTriggers() {
   const triggers = document.getElementsByClassName('trigger');
   const popups = document.querySelectorAll('.popup');
   
+  // Логика открытия попапов.
   // Т. к. некоторые триггеры появляются в процессе выполнения JS
   // Для надёжности поместил в макротаску
-  // Логику открытия попапов
   setTimeout(() => {
     for (const trigger of triggers) {
-      trigger.addEventListener('click', () => {
+      trigger.addEventListener('click', (event) => {
+        event.stopPropagation();
         const popupSelector = trigger.dataset.popupSelector;
         const formSelector = trigger.dataset.formSelector;
         const popup = document.querySelector(popupSelector);
         const form = document.querySelector(formSelector);
         
-        if (form.reportValidity()) {
-          popup.classList.add('active');
+        // Попапы могут вызвать кнопки submit у форм
+        if (form) {
+          const isFormValid = form.reportValidity();
+
+          if (isFormValid) {
+            popup.classList.add('active');
+          }
         }
 
         setTimeout(() => {
           popup.classList.remove('active');
-        }, 3000);
+        }, 5000);
       });
     }
   }, 100);

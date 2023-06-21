@@ -540,6 +540,7 @@ body {
   padding: 0 5px;
   opacity: 0;
   transition: opacity ease .2s;
+  pointer-events: none;
 }
 
 .mobile-menu .dropdown:hover .dropdown__list {
@@ -1519,8 +1520,13 @@ body {
     height: 225px;
   }
 
-  .work:nth-child(n+5) {
+  /* .work:nth-child(n+5) {
     display: none;
+  } */
+
+  .work:nth-last-child(2),
+  .work:nth-last-child(1) {
+    display: block;
   }
 }
 
