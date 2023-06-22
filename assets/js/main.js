@@ -4,11 +4,13 @@ setCorrectBurger();
 setCorrectServiceCards();
 setCorrectSmoothScrollToAnchors();
 
-// setCorrectVisibilityForm();
+setCorrectVisibilityForm();
 setCorrectContactForm();
 setCorrectPopupTriggers();
 setCorrectImagesZoom();
-setCorrectAccordeon();
+setCorrectAccordion();
+setCorrectSliders();
+
 
 // По скроллу - скрываем верхнюю часть шапки
 function setCorrectHeaderByScroll() {
@@ -110,7 +112,12 @@ function setCorrectVisibilityForm() {
   const contactForm = document.forms['contact-form'];
 
   if (Cookies.get('formSended')) {
-    contactForm.remove();
+    contactForm.classList.add('disabled');
+    contactForm.title = 'Вы уже отправляли форму.';
+
+    Array.from(contactForm.elements).forEach((child) => {
+      child.disabled = true;
+    });
   }
 }
 
@@ -121,9 +128,12 @@ function setCorrectContactForm() {
 
   const contactFormFields = contactForm.querySelectorAll('.wpcf7-form-control')
   const contactFormSubmit = contactForm.querySelector('input[type="submit"]');
+  const contactFormTel = contactForm.querySelector('input[type="tel"]');
   contactFormFields.forEach((el) => {
-    el.setAttribute('required', true)
+    el.setAttribute('required', true);
   });
+  contactFormTel.pattern = '\\+\\d-\\d{3}-\\d{3}-\\d{2}-\\d{2}';
+
   contactFormSubmit.classList.add('trigger');
   contactFormSubmit.dataset.popupSelector = '.popup-footer-form';
   contactFormSubmit.dataset.formSelector = '[name="contact-form"]';
@@ -188,7 +198,9 @@ function setCorrectPopupTriggers() {
         const form = document.querySelector(formSelector);
         
         // Попапы могут вызвать кнопки submit у форм
+        console.log(1);
         if (form) {
+          console.log(2);
           if (Cookies.get('formSended')) return;
           
           const isFormValid = form.reportValidity();
@@ -246,7 +258,7 @@ function setCorrectImagesZoom() {
 }
 
 // Аккордеон в ответах на вопросы
-function setCorrectAccordeon() {
+function setCorrectAccordion() {
   const questionsList = document.querySelector('.questions-list');
   const questions = questionsList.querySelectorAll('.question');
 
@@ -282,6 +294,28 @@ function setCorrectAccordeon() {
       showQuestion(question, answer);
     } else {
       hideQuestion(question, answer);
+    }
+  });
+}
+
+// Слайдеры
+function setCorrectSliders() {
+  const documentsSlider = document.querySelector('.documents-slider .swiper');
+  const documentsSwiper = new Swiper(documentsSlider, {
+    slidesPerView: 1,
+    grabCursor: true,
+    navigation: {
+      nextEl: '.documents-slider__nav-btn_next',
+      prevEl: '.documents-slider__nav-btn_prev',
+    },
+    breakpoints: {
+      651: {
+        slidesPerView: 3,
+      },
+
+      381: {
+        slidesPerView: 2,
+      }
     }
   });
 }

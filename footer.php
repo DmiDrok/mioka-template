@@ -40,7 +40,7 @@
                     <a class="footer-nav__link" href="#questions">Вопросы и ответы</a>
                   </li>
                   <li class="footer-nav__item">
-                    <a class="footer-nav__link" href="#">Документы, сертификаты</a>
+                    <a class="footer-nav__link" href="#documents">Документы, сертификаты</a>
                   </li>
                 </ul>
               </nav>

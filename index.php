@@ -802,12 +802,61 @@
       </div>
     </section>
 
+    <!-- Секция документов и сертификатов -->
+    <section id="documents" class="documents">
+      <div class="documents__row">
+        <div class="container">
+          <h2 class="section-title documents__title">
+            Необходимые <b class="marker">документы и сертификаты</b>
+          </h2>
+          <p class="section-subtitle documents__subtitle">Далеко-далеко, за словесными горами в стране гласных и согласных живут рыбные тексты. Текстов ipsum, всемогущая свой силуэт рукопись диких семантика переулка переписывается то большого даже безорфографичный он?</p>
+
+          <div class="documents__content">
+            <div class="documents-slider">
+              <div class="swiper documents-slider__inner">
+                <div class="swiper-wrapper documents-slider__wrapper">
+                  <div class="swiper-slide documents-slider__slide">
+                    <img class="documents-slider__slide-image" data-fancybox="documents-photos" data-src="<?php bloginfo('template_url') ?>/assets/images/document-1.jpg" src="<?php bloginfo('template_url') ?>/assets/images/document-1.jpg" alt="документ">
+                  </div>
+                  <div class="swiper-slide documents-slider__slide">
+                    <img class="documents-slider__slide-image" data-fancybox="documents-photos" data-src="<?php bloginfo('template_url') ?>/assets/images/document-1.jpg" src="<?php bloginfo('template_url') ?>/assets/images/document-1.jpg" alt="документ">
+                  </div>
+                  <div class="swiper-slide documents-slider__slide">
+                    <img class="documents-slider__slide-image" data-fancybox="documents-photos" data-src="<?php bloginfo('template_url') ?>/assets/images/document-1.jpg" src="<?php bloginfo('template_url') ?>/assets/images/document-1.jpg" alt="документ">
+                  </div>
+                  <div class="swiper-slide documents-slider__slide">
+                    <img class="documents-slider__slide-image" data-fancybox="documents-photos" data-src="<?php bloginfo('template_url') ?>/assets/images/document-1.jpg" src="<?php bloginfo('template_url') ?>/assets/images/document-1.jpg" alt="документ">
+                  </div>
+                  <div class="swiper-slide documents-slider__slide">
+                    <img class="documents-slider__slide-image" data-fancybox="documents-photos" data-src="<?php bloginfo('template_url') ?>/assets/images/document-1.jpg" src="<?php bloginfo('template_url') ?>/assets/images/document-1.jpg" alt="документ">
+                  </div>
+                  <div class="swiper-slide documents-slider__slide">
+                    <img class="documents-slider__slide-image" data-fancybox="documents-photos" data-src="<?php bloginfo('template_url') ?>/assets/images/document-1.jpg" src="<?php bloginfo('template_url') ?>/assets/images/document-1.jpg" alt="документ">
+                  </div>
+                </div>
+              </div>
+
+              <div class="documents-slider__nav">
+                <button class="documents-slider__nav-btn documents-slider__nav-btn_prev" type="button">
+                  <img class="documents-slider__nav-btn-image" src="<?php bloginfo('template_url') ?>/assets/images/icons/arrow-prev.svg" alt="" aria-hidden="true">
+                </button>
+                
+                <button class="documents-slider__nav-btn documents-slider__nav-btn_next" type="button">
+                  <img class="documents-slider__nav-btn-image" src="<?php bloginfo('template_url') ?>/assets/images/icons/arrow-next.svg" alt="" aria-hidden="true">
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Секция контактов -->
     <section id="contacts" class="contacts">
       <div class="contacts__row">
         <div class="container">
           <h2 class="section-title contacts__title">Наши <b class="marker">контактные данные</b></h2>
-          <p class="contacts__subtitle">Далеко-далеко, за словесными горами в стране гласных и согласных живут рыбные тексты. Текстов ipsum, всемогущая свой силуэт рукопись диких семантика переулка переписывается то большого даже безорфографичный он?</p>
+          <p class="section-subtitle contacts__subtitle">Далеко-далеко, за словесными горами в стране гласных и согласных живут рыбные тексты. Текстов ipsum, всемогущая свой силуэт рукопись диких семантика переулка переписывается то большого даже безорфографичный он?</p>
 
           <div class="contacts__content">
             <div class="contacts__map-wrapper">

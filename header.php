@@ -121,6 +121,9 @@
                   <li class="nav__item dropdown__item">
                     <a class="nav__link dropdown__link" href="#questions">Ответы на вопросы</a>
                   </li>
+                  <li class="nav__item dropdown__item">
+                    <a class="nav__link dropdown__link" href="#documents">Документы и сертификаты</a>
+                  </li>
                 </ul>
               </li>
 
