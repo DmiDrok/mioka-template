@@ -4,6 +4,7 @@
 //=require fancybox.umd.js
 //=require swiper.min.js
 //=require fix-wp.js
+//=require lazyload.min.js
 
 
 setCorrectHeaderByScroll();
@@ -18,6 +19,7 @@ setCorrectPopupTriggers();
 setCorrectImagesZoom();
 setCorrectAccordion();
 setCorrectSliders();
+setCorrectLazyLoad();
 
 
 // По скроллу - скрываем верхнюю часть шапки
@@ -144,6 +146,8 @@ function setCorrectSmoothScrollToAnchors() {
   // Пользователь мог сразу ввести hash страницы - переводим его на нужную секцию
   if (location.hash) {
     const el = document.querySelector(location.hash);
+    if (!el) return;
+
     el.scrollIntoView(true);
   }
 
@@ -310,7 +314,14 @@ function setCorrectPopupTriggers() {
 // Приближение фотографий
 function setCorrectImagesZoom() {
   Fancybox.bind("[data-fancybox]", {
-
+    Thumbs: {
+      type: "classic",
+    },
+    Images: {
+      Panzoom: {
+        maxScale: 2,
+      },
+    },
   });
 }
 
@@ -374,5 +385,12 @@ function setCorrectSliders() {
         slidesPerView: 2,
       }
     }
+  });
+}
+
+// Инициализация библиотеки ленивой загрузки
+function setCorrectLazyLoad() {
+  new LazyLoad({
+    thresholds: '300px 100%'
   });
 }

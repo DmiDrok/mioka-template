@@ -89,7 +89,7 @@
                   <li class="tild-card service">
                     <article class="service__inner">
                       <div class="service__image-block">
-                        <img class="service__image" src="<?php bloginfo('template_url') ?>/assets/images/service-1.jpg" alt="услуга">
+                        <img class="service__image lazy" src="#" data-src="<?php bloginfo('template_url') ?>/assets/images/service-1.jpg" alt="услуга">
                       </div>
 
                       <div class="service__content-block">
@@ -114,7 +114,7 @@
                   <li class="tild-card service">
                     <article class="service__inner">
                       <div class="service__image-block">
-                        <img class="service__image" src="<?php bloginfo('template_url') ?>/assets/images/service-2.jpg" alt="услуга">
+                        <img class="service__image lazy" src="#" data-src="<?php bloginfo('template_url') ?>/assets/images/service-2.jpg" alt="услуга">
                       </div>
 
                       <div class="service__content-block">
@@ -137,7 +137,7 @@
                   <li class="tild-card service">
                     <article class="service__inner">
                       <div class="service__image-block">
-                        <img class="service__image" src="<?php bloginfo('template_url') ?>/assets/images/service-3.jpg" alt="услуга">
+                        <img class="service__image lazy" src="#" data-src="<?php bloginfo('template_url') ?>/assets/images/service-3.jpg" alt="услуга">
                       </div>
 
                       <div class="service__content-block">
@@ -171,7 +171,7 @@
                   <li class="tild-card service">
                     <article class="service__inner">
                       <div class="service__image-block">
-                        <img class="service__image" src="<?php bloginfo('template_url') ?>/assets/images/service-4.jpg" alt="услуга">
+                        <img class="service__image lazy" src="#" data-src="<?php bloginfo('template_url') ?>/assets/images/service-4.jpg" alt="услуга">
                       </div>
 
                       <div class="service__content-block">
@@ -204,7 +204,7 @@
     <section id="team" class="team">
       <div class="team__row">
         <div class="container team__container">
-          <img class="decor-image team__decor-image team__decor-image_1" src="<?php bloginfo('template_url') ?>/assets/images/decor-team-1.png" alt="" aria-hidden="true">
+          <img class="decor-image team__decor-image team__decor-image_1 lazy" src="#" data-src="<?php bloginfo('template_url') ?>/assets/images/decor-team-1.png" alt="" aria-hidden="true">
 
           <h2 class="section-title team__title">Наша команда <b class="marker">профессионалов</b></h2>
 
@@ -213,7 +213,7 @@
               <li class="tild-card team-member">
                 <div class="team-member__inner">
                   <div class="team-member__photo-block">
-                    <img class="team-member__photo" src="<?php bloginfo('template_url') ?>/assets/images/team-member-1.jpg" alt="сотрудник студии">
+                    <img class="team-member__photo lazy" src="#" data-src="<?php bloginfo('template_url') ?>/assets/images/team-member-1.jpg" alt="сотрудник студии">
                   </div>
 
                   <div class="team-member__info">
@@ -258,7 +258,7 @@
               <li class="tild-card team-member">
                 <div class="team-member__inner">
                   <div class="team-member__photo-block">
-                    <img class="team-member__photo" src="<?php bloginfo('template_url') ?>/assets/images/service-4.jpg" alt="сотрудник студии">
+                    <img class="team-member__photo lazy" src="#" data-src="<?php bloginfo('template_url') ?>/assets/images/service-4.jpg" alt="сотрудник студии">
                   </div>
 
                   <div class="team-member__info">
@@ -290,7 +290,7 @@
               <li class="tild-card team-member">
                 <div class="team-member__inner">
                   <div class="team-member__photo-block">
-                    <img class="team-member__photo" src="<?php bloginfo('template_url') ?>/assets/images/service-4.jpg" alt="сотрудник студии">
+                    <img class="team-member__photo lazy" src="#" data-src="<?php bloginfo('template_url') ?>/assets/images/service-4.jpg" alt="сотрудник студии">
                   </div>
 
                   <div class="team-member__info">
@@ -345,16 +345,16 @@
 
               <div class="reviews-photos__grid">
                 <div class="reviews-photos__block">
-                  <img class="reviews-photos__photo" src="<?php bloginfo('template_url') ?>/assets/images/review-photo-1.jpg" alt="фотоотзыв">
+                  <img class="reviews-photos__photo lazy" src="#" data-src="<?php bloginfo('template_url') ?>/assets/images/review-photo-1.jpg" alt="фотоотзыв">
                 </div>
                 <div class="reviews-photos__block">
-                  <img class="reviews-photos__photo" src="<?php bloginfo('template_url') ?>/assets/images/review-photo-1.jpg" alt="фотоотзыв">
+                  <img class="reviews-photos__photo lazy" src="#" data-src="<?php bloginfo('template_url') ?>/assets/images/review-photo-1.jpg" alt="фотоотзыв">
                 </div>
                 <div class="reviews-photos__block">
-                  <img class="reviews-photos__photo" src="<?php bloginfo('template_url') ?>/assets/images/review-photo-1.jpg" alt="фотоотзыв">
+                  <img class="reviews-photos__photo lazy" src="#" data-src="<?php bloginfo('template_url') ?>/assets/images/review-photo-1.jpg" alt="фотоотзыв">
                 </div>
                 <div class="reviews-photos__block">
-                  <img class="reviews-photos__photo" src="<?php bloginfo('template_url') ?>/assets/images/review-photo-1.jpg" alt="фотоотзыв">
+                  <img class="reviews-photos__photo lazy" src="#" data-src="<?php bloginfo('template_url') ?>/assets/images/review-photo-1.jpg" alt="фотоотзыв">
                 </div>
               </div>
             </div>
@@ -529,7 +529,7 @@
 
           <div class="our-works__content">
             <div class="work" data-caption="Название работы можно поместить сюда" data-fancybox="our-works-photos" data-src="<?php bloginfo('template_url') ?>/assets/images/work-1.jpg">
-              <img class="work__image" src="<?php bloginfo('template_url') ?>/assets/images/work-1.jpg" alt="наша работа">              
+              <img class="work__image lazy" src="#" data-src="<?php bloginfo('template_url') ?>/assets/images/work-1.jpg" alt="наша работа">              
 
               <div class="work__info">
                 <div class="work__head">
@@ -551,7 +551,7 @@
               </div>
             </div>
             <div class="work" data-caption="Название работы можно поместить сюда" data-fancybox="our-works-photos" data-src="<?php bloginfo('template_url') ?>/assets/images/work-2.jpg">
-              <img class="work__image" src="<?php bloginfo('template_url') ?>/assets/images/work-2.jpg" alt="наша работа">              
+              <img class="work__image lazy" src="#" data-src="<?php bloginfo('template_url') ?>/assets/images/work-2.jpg" alt="наша работа">              
 
               <div class="work__info">
                 <div class="work__head">
@@ -573,7 +573,7 @@
               </div>
             </div>
             <div class="work" data-caption="Название работы можно поместить сюда" data-fancybox="our-works-photos" data-src="<?php bloginfo('template_url') ?>/assets/images/work-3.jpg">
-              <img class="work__image" src="<?php bloginfo('template_url') ?>/assets/images/work-3.jpg" alt="наша работа">              
+              <img class="work__image lazy" src="#" data-src="<?php bloginfo('template_url') ?>/assets/images/work-3.jpg" alt="наша работа">              
 
               <div class="work__info">
                 <div class="work__head">
@@ -595,7 +595,7 @@
               </div>
             </div>
             <div class="work" data-caption="Название работы можно поместить сюда" data-fancybox="our-works-photos" data-src="<?php bloginfo('template_url') ?>/assets/images/work-1.jpg">
-              <img class="work__image" src="<?php bloginfo('template_url') ?>/assets/images/work-1.jpg" alt="наша работа">              
+              <img class="work__image lazy" src="#" data-src="<?php bloginfo('template_url') ?>/assets/images/work-1.jpg" alt="наша работа">              
 
               <div class="work__info">
                 <div class="work__head">
@@ -617,7 +617,7 @@
               </div>
             </div>
             <div class="work" data-caption="Название работы можно поместить сюда" data-fancybox="our-works-photos" data-src="<?php bloginfo('template_url') ?>/assets/images/work-3.jpg">
-              <img class="work__image" src="<?php bloginfo('template_url') ?>/assets/images/work-3.jpg" alt="наша работа">              
+              <img class="work__image lazy" src="#" data-src="<?php bloginfo('template_url') ?>/assets/images/work-3.jpg" alt="наша работа">              
 
               <div class="work__info">
                 <div class="work__head">
@@ -639,7 +639,7 @@
               </div>
             </div>
             <div class="work" data-caption="Название работы можно поместить сюда" data-fancybox="our-works-photos" data-src="<?php bloginfo('template_url') ?>/assets/images/work-1.jpg">
-              <img class="work__image" src="<?php bloginfo('template_url') ?>/assets/images/work-1.jpg" alt="наша работа">              
+              <img class="work__image lazy" src="#" data-src="<?php bloginfo('template_url') ?>/assets/images/work-1.jpg" alt="наша работа">              
 
               <div class="work__info">
                 <div class="work__head">
@@ -661,7 +661,7 @@
               </div>
             </div>
             <div class="work" data-caption="Название работы можно поместить сюда" data-fancybox="our-works-photos" data-src="<?php bloginfo('template_url') ?>/assets/images/work-2.jpg">
-              <img class="work__image" src="<?php bloginfo('template_url') ?>/assets/images/work-2.jpg" alt="наша работа">              
+              <img class="work__image lazy" src="#" data-src="<?php bloginfo('template_url') ?>/assets/images/work-2.jpg" alt="наша работа">              
 
               <div class="work__info">
                 <div class="work__head">
@@ -683,7 +683,7 @@
               </div>
             </div>
             <div class="work" data-caption="Название работы можно поместить сюда" data-fancybox="our-works-photos" data-src="<?php bloginfo('template_url') ?>/assets/images/work-3.jpg">
-              <img class="work__image" src="<?php bloginfo('template_url') ?>/assets/images/work-3.jpg" alt="наша работа">              
+              <img class="work__image lazy" src="#" data-src="<?php bloginfo('template_url') ?>/assets/images/work-3.jpg" alt="наша работа">              
 
               <div class="work__info">
                 <div class="work__head">
@@ -816,23 +816,23 @@
               <div class="swiper documents-slider__inner">
                 <div class="swiper-wrapper documents-slider__wrapper">
                   <div class="swiper-slide documents-slider__slide">
-                    <img class="documents-slider__slide-image" data-fancybox="documents-photos" data-src="<?php bloginfo('template_url') ?>/assets/images/document-1.jpg" src="<?php bloginfo('template_url') ?>/assets/images/document-1.jpg" alt="документ">
-                  </div>
+                    <img class="documents-slider__slide-image lazy" data-fancybox="documents-photos" data-src="<?php bloginfo('template_url') ?>/assets/images/document-1.jpg" href="<?php bloginfo('template_url') ?>/assets/images/document-1.jpg" alt="документ">
+                  </div>                  
                   <div class="swiper-slide documents-slider__slide">
-                    <img class="documents-slider__slide-image" data-fancybox="documents-photos" data-src="<?php bloginfo('template_url') ?>/assets/images/document-1.jpg" src="<?php bloginfo('template_url') ?>/assets/images/document-1.jpg" alt="документ">
-                  </div>
+                    <img class="documents-slider__slide-image lazy" data-fancybox="documents-photos" data-src="<?php bloginfo('template_url') ?>/assets/images/document-1.jpg" href="<?php bloginfo('template_url') ?>/assets/images/document-1.jpg" alt="документ">
+                  </div>                  
                   <div class="swiper-slide documents-slider__slide">
-                    <img class="documents-slider__slide-image" data-fancybox="documents-photos" data-src="<?php bloginfo('template_url') ?>/assets/images/document-1.jpg" src="<?php bloginfo('template_url') ?>/assets/images/document-1.jpg" alt="документ">
-                  </div>
+                    <img class="documents-slider__slide-image lazy" data-fancybox="documents-photos" data-src="<?php bloginfo('template_url') ?>/assets/images/document-1.jpg" href="<?php bloginfo('template_url') ?>/assets/images/document-1.jpg" alt="документ">
+                  </div>                  
                   <div class="swiper-slide documents-slider__slide">
-                    <img class="documents-slider__slide-image" data-fancybox="documents-photos" data-src="<?php bloginfo('template_url') ?>/assets/images/document-1.jpg" src="<?php bloginfo('template_url') ?>/assets/images/document-1.jpg" alt="документ">
-                  </div>
+                    <img class="documents-slider__slide-image lazy" data-fancybox="documents-photos" data-src="<?php bloginfo('template_url') ?>/assets/images/document-1.jpg" href="<?php bloginfo('template_url') ?>/assets/images/document-1.jpg" alt="документ">
+                  </div>                  
                   <div class="swiper-slide documents-slider__slide">
-                    <img class="documents-slider__slide-image" data-fancybox="documents-photos" data-src="<?php bloginfo('template_url') ?>/assets/images/document-1.jpg" src="<?php bloginfo('template_url') ?>/assets/images/document-1.jpg" alt="документ">
-                  </div>
+                    <img class="documents-slider__slide-image lazy" data-fancybox="documents-photos" data-src="<?php bloginfo('template_url') ?>/assets/images/document-1.jpg" href="<?php bloginfo('template_url') ?>/assets/images/document-1.jpg" alt="документ">
+                  </div>                  
                   <div class="swiper-slide documents-slider__slide">
-                    <img class="documents-slider__slide-image" data-fancybox="documents-photos" data-src="<?php bloginfo('template_url') ?>/assets/images/document-1.jpg" src="<?php bloginfo('template_url') ?>/assets/images/document-1.jpg" alt="документ">
-                  </div>
+                    <img class="documents-slider__slide-image lazy" data-fancybox="documents-photos" data-src="<?php bloginfo('template_url') ?>/assets/images/document-1.jpg" href="<?php bloginfo('template_url') ?>/assets/images/document-1.jpg" alt="документ">
+                  </div>                  
                 </div>
               </div>
 
@@ -860,8 +860,8 @@
 
           <div class="contacts__content">
             <div class="contacts__map-wrapper">
-              <img class="decor-image contacts__map-decor-image contacts__map-decor-image_1" src="<?php bloginfo('template_url') ?>/assets/images/map-decor-1.png" alt="" aria-hidden="true">
-              <img class="decor-image contacts__map-decor-image contacts__map-decor-image_2" src="<?php bloginfo('template_url') ?>/assets/images/map-decor-1.png" alt="" aria-hidden="true">
+              <img class="decor-image contacts__map-decor-image contacts__map-decor-image_1 lazy" src="#" data-src="<?php bloginfo('template_url') ?>/assets/images/map-decor-1.png" alt="" aria-hidden="true">
+              <img class="decor-image contacts__map-decor-image contacts__map-decor-image_2 lazy" src="#" data-src="<?php bloginfo('template_url') ?>/assets/images/map-decor-1.png" alt="" aria-hidden="true">
 
               <div id="map"></div>
 
