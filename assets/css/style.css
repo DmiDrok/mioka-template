@@ -69,6 +69,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  column-gap: 20px;
 }
 
 /* Header contacts */
@@ -109,9 +110,9 @@ body {
 }
 
 .contact-block__telephone {
-  line-height: 21.5px;
-  font-weight: 700;
   font-size: 16px;
+  font-weight: 700;
+  line-height: 21.5px;
 }
 
 .contact-block__inner {
@@ -122,6 +123,7 @@ body {
 @media (max-width: 880px) {
   .contact-block__value {
     font-size: 12px;
+    line-height: 16px;
   }
 }
 
@@ -330,6 +332,7 @@ body {
 
 .dropdown:hover > .dropdown__list {
   transform: translate(-50%, 100%) rotateX(0);
+  pointer-events: all;
 }
 
 .dropdown__item:not(:last-child) {
@@ -482,6 +485,10 @@ body {
   background-color: #fff;
   z-index: 999;
   display: none;
+}
+
+.mobile-menu .dropdown__list {
+  max-width: none;
 }
 
 @media (max-width: 670px) {
@@ -681,10 +688,16 @@ body {
   }
 }
 
+@media (max-width: 310px) {
+  .benefits__line {
+    padding: 30px 15px;
+  }
+}
+
 
 /* === Секция услуг === */
 .services {
-  /* scroll-margin-top: -50px; */
+  scroll-margin-top: 50px;
 }
 
 .services__row {
@@ -927,6 +940,7 @@ body {
 /* === Секция команды (сотрудники) === */
 .team {
   overflow: hidden;
+  scroll-margin-top: 50px;
 }
 
 .team__container {
@@ -1144,6 +1158,7 @@ body {
 .reviews {
   background-color: var(--color-accent-3);
   margin-top: 40px;
+  scroll-margin-top: 50px;
 }
 
 .reviews__row {
@@ -1337,6 +1352,10 @@ body {
 }
 
 /* === Секция выполненных работ === */
+.our-works {
+  scroll-margin-top: 50px;
+}
+
 .our-works__row {
   padding-top: 100px;
   position: relative;
@@ -1423,7 +1442,7 @@ body {
   flex-direction: column;
   justify-content: space-between;
   text-align: center;
-  cursor: pointer;
+  cursor: zoom-in;
   opacity: 0;
   transition: opacity ease .3s;
 }
@@ -1472,7 +1491,7 @@ body {
 .work__zoom {
   background: none;
   border: none;
-  cursor: pointer;
+  cursor: zoom-in;
   position: relative;
   transition: opacity ease .3s;
 }
@@ -1572,10 +1591,6 @@ body {
     height: 225px;
   }
 
-  /* .work:nth-child(n+5) {
-    display: none;
-  } */
-
   .work:nth-last-child(2),
   .work:nth-last-child(1) {
     display: block;
@@ -1583,6 +1598,10 @@ body {
 }
 
 /* === Секция ответов на вопросы === */
+.questions {
+  scroll-margin-top: 50px;
+}
+
 .questions__row {
   padding-top: 100px;
 }
@@ -1723,6 +1742,7 @@ body {
 /* Секция документов и сертификатов */
 .documents {
   margin-top: 100px;
+  scroll-margin-top: 50px;
 }
 
 .documents__row {
@@ -1832,11 +1852,20 @@ body {
     max-width: 210px;
     max-height: 291px;
   }
+
+  .documents-slider__nav-btn {
+    padding: 20px 10px;
+  }
+
+  .documents-slider__nav-btn-image  {
+    width: 100px;
+  }
 }
 
 /* === Секция контактов === */
 .contacts {
   overflow: hidden;
+  scroll-margin-top: 50px;
 }
 
 .contacts__row {

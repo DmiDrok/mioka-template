@@ -17,27 +17,50 @@ function setCorrectHeaderByScroll() {
   const header = document.querySelector('#header');
   const headerTop = document.querySelector('.header-top');
   const headerBottom = document.querySelector('.header-bottom');
+  const safetyPixels = 5; // Чтобы не было никаких зазоров
 
-  const scrollState = () => {
-    const safetyPixels = 5; // Чтобы не было никаких зазоров
-    headerTop.classList.add('hidden');
-    headerBottom.classList.add('active');
-    header.style.transform = `translateY(${-(headerTop.clientHeight + safetyPixels) + 'px'})`;
+  const scrollState = () => {    
+    if (!header.classList.contains('hidden')) {
+      headerTop.classList.add('hidden');
+    }
+    if (!header.classList.contains('active')) {
+      headerBottom.classList.add('active');
+    }
+    if (!header.style.transform) {
+      header.style.transform = `translateY(${-(headerTop.clientHeight + safetyPixels) + 'px'})`;
+    }
   };
-
+  
   const topState = () => {
-    headerTop.classList.remove('hidden');
-    headerBottom.classList.remove('active');
-    header.style.transform = null;
+    if (headerTop.classList.contains('hidden')) {
+      headerTop.classList.remove('hidden');
+    }
+    if (header.style.transform) {
+      header.style.transform = null;
+    }
+    if (window.scrollY <= 0) {
+      headerBottom.classList.remove('active');
+    }
   };
 
   const checkScrollPosition = () => {
-    if (window.scrollY > 0) {
+    if (scrollPositions.at(-1)) {
+      if (window.scrollY > scrollPositions.at(-1)) {
+        scrollState();
+      } else {
+        topState();
+      }
+    } else if (window.scrollY > 0 && !headerBottom.classList.contains('active')) {
       scrollState();
-    } else {
-      topState();
+    }
+
+    scrollPositions.push(window.scrollY);
+    if (scrollPositions.length > 2) {
+      scrollPositions.splice(0, scrollPositions.length - 2);
     }
   };
+
+  const scrollPositions = [];
   checkScrollPosition();
 
   window.addEventListener('scroll', () => {

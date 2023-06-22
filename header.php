@@ -41,16 +41,10 @@
 
                 <ul class="dropdown__list">
                   <li class="menu-nav__item dropdown__item">
-                    <a class="menu-nav__link dropdown__link" href="#">Пункт меню №1</a>
+                    <a class="menu-nav__link dropdown__link" href="#questions">Ответы на вопросы</a>
                   </li>
                   <li class="menu-nav__item dropdown__item">
-                    <a class="menu-nav__link dropdown__link" href="#">Пункт меню №2</a>
-                  </li>
-                  <li class="menu-nav__item dropdown__item">
-                    <a class="menu-nav__link dropdown__link" href="#">Пункт меню №3</a>
-                  </li>
-                  <li class="menu-nav__item dropdown__item">
-                    <a class="menu-nav__link dropdown__link" href="#">Пункт меню №4</a>
+                    <a class="menu-nav__link dropdown__link" href="#documents">Документы и сертификаты</a>
                   </li>
                 </ul>
               </li>
