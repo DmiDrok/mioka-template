@@ -1,3 +1,11 @@
+//=require inputmask.js
+//=require tilt.min.js
+//=require js-cookie.min.js
+//=require fancybox.umd.js
+//=require swiper.min.js
+//=require fix-wp.js
+
+
 setCorrectHeaderByScroll();
 setCorrectTelInputs();
 setCorrectBurger();
