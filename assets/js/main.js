@@ -110,6 +110,34 @@ function setCorrectServiceCards() {
 function setCorrectSmoothScrollToAnchors() {
   const anchorLinks = document.querySelectorAll('a[href^="#"]');
   const burger = document.querySelector('.burger');
+  const header = document.querySelector('.header');
+
+  const scrollTo = (node, hash) => {
+    if (!node) {
+      node = document.querySelector(hash);
+    }
+
+    history.pushState({}, '', hash); // Не location.hash, т.к. при нём будет дергаться страничка
+
+    let customOffset = (window.matchMedia('(max-width: 640px)').matches) ? 50 : 20;
+    const nodeTop = node.getBoundingClientRect().top
+
+    if (nodeTop < 0) {
+      customOffset += header.clientHeight / 2.5;
+    }
+
+    const scrollCoordY = nodeTop + window.scrollY;
+    window.scrollTo({
+      top: scrollCoordY - customOffset,
+      behavior: 'smooth',
+    });
+  };
+
+  // Пользователь мог сразу ввести hash страницы - переводим его на нужную секцию
+  if (location.hash) {
+    const el = document.querySelector(location.hash);
+    el.scrollIntoView(true);
+  }
 
   anchorLinks.forEach((anchorLink) => {
     anchorLink.addEventListener('click', (event) => {
@@ -121,11 +149,9 @@ function setCorrectSmoothScrollToAnchors() {
         burger.classList.remove('active');
       }
 
-      const anchorNode = document.querySelector(anchorLink.getAttribute('href'));
-      anchorNode.scrollIntoView({
-        block: 'start',
-        behavior: 'smooth',
-      });
+      const hash = anchorLink.getAttribute('href');
+      const anchorNode = document.querySelector(hash);
+      scrollTo(anchorNode, hash);
     });
   });
 }
@@ -342,4 +368,3 @@ function setCorrectSliders() {
     }
   });
 }
-

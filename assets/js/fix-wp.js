@@ -22,12 +22,3 @@ function wpSetCorrectTopPanelOffset() {
   })
   header.style.marginTop = adminBar.clientHeight + 'px';
 }
-
-const wpCfFields = document.querySelectorAll('.wpcf7-form-control');
-const attrsNeedRemove = ['size', 'rows', 'cols'];
-
-// wpCfFields.forEach((field) => {
-//   attrsNeedRemove.forEach((attr) => {
-//     field.removeAttribute(field.removeAttribute(attr));
-//   });
-// });

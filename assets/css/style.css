@@ -697,7 +697,7 @@ body {
 
 /* === Секция услуг === */
 .services {
-  scroll-margin-top: 50px;
+  
 }
 
 .services__row {
@@ -940,7 +940,7 @@ body {
 /* === Секция команды (сотрудники) === */
 .team {
   overflow: hidden;
-  scroll-margin-top: 50px;
+  
 }
 
 .team__container {
@@ -1001,6 +1001,12 @@ body {
 
   .team-member {
     width: 340px;
+  }
+}
+
+@media (max-width: 440px) {
+  .team__row {
+    padding-top: 50px;
   }
 }
 
@@ -1158,7 +1164,7 @@ body {
 .reviews {
   background-color: var(--color-accent-3);
   margin-top: 40px;
-  scroll-margin-top: 50px;
+  
 }
 
 .reviews__row {
@@ -1353,7 +1359,7 @@ body {
 
 /* === Секция выполненных работ === */
 .our-works {
-  scroll-margin-top: 50px;
+  
 }
 
 .our-works__row {
@@ -1599,7 +1605,7 @@ body {
 
 /* === Секция ответов на вопросы === */
 .questions {
-  scroll-margin-top: 50px;
+  
 }
 
 .questions__row {
@@ -1742,7 +1748,7 @@ body {
 /* Секция документов и сертификатов */
 .documents {
   margin-top: 100px;
-  scroll-margin-top: 50px;
+  
 }
 
 .documents__row {
@@ -1865,7 +1871,7 @@ body {
 /* === Секция контактов === */
 .contacts {
   overflow: hidden;
-  scroll-margin-top: 50px;
+  
 }
 
 .contacts__row {
