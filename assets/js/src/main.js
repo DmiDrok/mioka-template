@@ -233,6 +233,7 @@ function setCorrectContactForm() {
       });
       const halfDay = 0.5;
       Cookies.set('formSended', true, { expires: halfDay });
+      setCorrectVisibilityForm();
     } else {
       // alert('Форма уже была отправлена. Следующая отправка возможна только через 12 часов.');
     }

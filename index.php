@@ -12,13 +12,13 @@
         <div class="container hero__container">
           <div class="hero__content">
             <h2 class="hero-title">
-              <span class="hero-title__top"><b class="marker">Студия</b> красоты в городе</span>
-              <span class="hero-title__bottom">Егорьевск</span>
+              <span class="hero-title__top"><b class="marker"><?php the_field('hero_text_top_bold') ?></b> <?php the_field('hero_text_top_default') ?></span>
+              <span class="hero-title__bottom"><?php the_field('hero_text_bottom_bold') ?></span>
             </h2>
 
             <a class="orange-gradient-btn hero__button" href="#services">
               <span class="orange-gradient-btn__inner hero__button-inner">
-                Услуги
+                <?php the_field('hero_action_btn_text') ?>
               </span>
             </a>
           </div>
@@ -35,36 +35,36 @@
               <li class="benefit">
                 <div class="benefit__header">
                   <img class="benefit__icon" src="<?php bloginfo('template_url') ?>/assets/images/icons/benefit-1.svg" alt="" aria-hidden="true">
-                  <span class="benefit__title">Заголовок преимущества</span>
+                  <span class="benefit__title"><?php the_field('first_benefit_title') ?></span>
                 </div>
 
                 <div class="benefit__content">
                   <p class="benefit__text">
-                    Мы даем официальную гарантию на свою продукцию. Все наши материалы сертифицированы и имеют сертификаты качества. 
+                    <?php the_field('first_benefit_description') ?>
                   </p>
                 </div>
               </li>
               <li class="benefit">
                 <div class="benefit__header">
                   <img class="benefit__icon" src="<?php bloginfo('template_url') ?>/assets/images/icons/benefit-2.svg" alt="" aria-hidden="true">
-                  <span class="benefit__title">Заголовок преимущества</span>
+                  <span class="benefit__title"><?php the_field('second_benefit_title') ?></span>
                 </div>
 
                 <div class="benefit__content">
                   <p class="benefit__text">
-                    Мы даем официальную гарантию на свою продукцию. Все наши материалы сертифицированы и имеют сертификаты качества. 
+                  <?php the_field('second_benefit_description') ?>
                   </p>
                 </div>
               </li>
               <li class="benefit">
                 <div class="benefit__header">
                   <img class="benefit__icon" src="<?php bloginfo('template_url') ?>/assets/images/icons/benefit-3.svg" alt="" aria-hidden="true">
-                  <span class="benefit__title">Заголовок преимущества</span>
+                  <span class="benefit__title"><?php the_field('third_benefit_title') ?></span>
                 </div>
 
                 <div class="benefit__content">
                   <p class="benefit__text">
-                    Мы даем официальную гарантию на свою продукцию. Все наши материалы сертифицированы и имеют сертификаты качества. 
+                  <?php the_field('third_benefit_description') ?>
                   </p>
                 </div>
               </li>
@@ -78,123 +78,61 @@
     <section id="services" class="services">
       <div class="services__row">
         <div class="container">
-          <h2 class="section-title services__title">Предоставляемые <b class="marker">услуги</b></h2>
+          <h2 class="section-title services__title"><?php the_field('service_default_title') ?> <b class="marker"><?php the_field('service_bold_title') ?></b></h2>
 
           <div class="services__content">
-            <div class="services-block">
-              <span class="services-block__title">Брови</span>
+            <?php 
+              $parent_id = 4;
+              $sub_cats = get_categories( array(
+                'child_of' => $parent_id,
+                'hide_empty' => 0
+              ) );
 
-              <div class="services-block__grid">
-                <ul class="services-block-list">
-                  <li class="tild-card service">
-                    <article class="service__inner">
-                      <div class="service__image-block">
-                        <img class="service__image lazy" src="#" data-src="<?php bloginfo('template_url') ?>/assets/images/service-1.jpg" alt="услуга">
-                      </div>
+              if ($sub_cats):
+                foreach ($sub_cats as $cat):
+              ?>
+                <div class="services-block">
+                  <span class="services-block__title"><?php echo $cat->name; ?></span>
 
-                      <div class="service__content-block">
-                        <h3 class="service__title">Окрашивание | коррекция</h3>
-                        <ul class="service__points-list">
-                          <li class="service__point">Этап работы номер 1</li>
-                          <li class="service__point">Этап работы номер 2</li>
-                          <li class="service__point">Этап работы номер 3</li>
-                          <li class="service__point">Этап работы номер 4</li>
-                          <li class="service__point">Этап работы номер 5</li>
-                        </ul>
+                  <div class="services-block__grid">
+                    <ul class="services-block-list">
+                      <?php
+                        global $post;
 
-                        <div class="service__bottom">
-                          <span class="service__price">1100 руб.</span>
+                        $myposts = get_posts([ 
+                          'numberposts' => -1,
+                          'category' => $cat->cat_ID,
+                          'order' => 'DESC',
+                        ]);
 
-                          <button class="btn-blue service__action" type="button">Записаться</button>
-                        </div>
-                      </div>
-                    </article>
-                  </li>
+                      if( $myposts ):
+                        foreach( $myposts as $post ):
+                          setup_postdata( $post );
+                          ?>
+                          <li class="tild-card service">
+                            <article class="service__inner">
+                              <div class="service__image-block">
+                                <img class="service__image lazy" src="#" data-src="<?php the_post_thumbnail_url() ?>" alt="<?php the_title() ?>">
+                              </div>      
+                              <div class="service__content-block">
+                                <h3 class="service__title"><?php the_title() ?></h3>
+                                <!-- <ul class="service__points-list"> -->
+                                  <?php the_content() ?>
+                                <!-- </ul> -->
 
-                  <li class="tild-card service">
-                    <article class="service__inner">
-                      <div class="service__image-block">
-                        <img class="service__image lazy" src="#" data-src="<?php bloginfo('template_url') ?>/assets/images/service-2.jpg" alt="услуга">
-                      </div>
+                                <div class="service__bottom">
+                                  <span class="service__price"><?php the_field('service_price') ?> руб.</span>
 
-                      <div class="service__content-block">
-                        <h3 class="service__title">Долговременная укладка без окрашивания</h3>
-                        <ul class="service__points-list">
-                          <li class="service__point">Этап работы номер 1</li>
-                          <li class="service__point">Этап работы номер 2</li>
-                          <li class="service__point">Этап работы номер 3</li>
-                        </ul>
-
-                        <div class="service__bottom">
-                          <span class="service__price">1100 руб.</span>
-
-                          <button class="btn-blue service__action" type="button">Записаться</button>
-                        </div>
-                      </div>
-                    </article>
-                  </li>
-
-                  <li class="tild-card service">
-                    <article class="service__inner">
-                      <div class="service__image-block">
-                        <img class="service__image lazy" src="#" data-src="<?php bloginfo('template_url') ?>/assets/images/service-3.jpg" alt="услуга">
-                      </div>
-
-                      <div class="service__content-block">
-                        <h3 class="service__title">Коррекция бровей</h3>
-                        <ul class="service__points-list">
-                          <li class="service__point">Этап работы номер 1</li>
-                          <li class="service__point">Этап работы номер 2</li>
-                          <li class="service__point">Этап работы номер 3</li>
-                          <li class="service__point">Этап работы номер 4</li>
-                          <li class="service__point">Этап работы номер 5</li>
-                          <li class="service__point">Этап работы номер 6</li>
-                        </ul>
-
-                        <div class="service__bottom">
-                          <span class="service__price">1100 руб.</span>
-
-                          <button class="btn-blue service__action" type="button">Записаться</button>
-                        </div>
-                      </div>
-                    </article>
-                  </li>
-                </ul>
-              </div>
-            </div>
-
-            <div class="services-block">
-              <span class="services-block__title">Ресницы</span>
-
-              <div class="services-block__grid">
-                <ul class="services-block-list">
-                  <li class="tild-card service">
-                    <article class="service__inner">
-                      <div class="service__image-block">
-                        <img class="service__image lazy" src="#" data-src="<?php bloginfo('template_url') ?>/assets/images/service-4.jpg" alt="услуга">
-                      </div>
-
-                      <div class="service__content-block">
-                        <h3 class="service__title">Долговременная укладка без коррекции и окрашивания</h3>
-                        <ul class="service__points-list">
-                          <li class="service__point">Этап работы номер 1</li>
-                          <li class="service__point">Этап работы номер 2</li>
-                          <li class="service__point">Этап работы номер 3</li>
-                          <li class="service__point">Этап работы номер 4</li>
-                          <li class="service__point">Этап работы номер 5</li>
-                        </ul>
-
-                        <div class="service__bottom">
-                          <span class="service__price">1100 руб.</span>
-
-                          <button class="btn-blue service__action" type="button">Записаться</button>
-                        </div>
-                      </div>
-                    </article>
-                  </li>
-                </ul>
-              </div>
-            </div>
+                                  <a class="btn-blue service__action" href="<?php the_field('service_href') ?>" target="_blank">Записаться</a>
+                                </div>
+                              </div>
+                            </article>
+                          </li>
+                        <?php endforeach; wp_reset_postdata(); endif; ?>                   
+                    </ul>
+                  </div>
+                </div>              
+            <?php endforeach; endif; ?>            
           </div>
         </div>
       </div>
@@ -206,122 +144,48 @@
         <div class="container team__container">
           <img class="decor-image team__decor-image team__decor-image_1 lazy" src="#" data-src="<?php bloginfo('template_url') ?>/assets/images/decor-team-1.png" alt="" aria-hidden="true">
 
-          <h2 class="section-title team__title">Наша команда <b class="marker">профессионалов</b></h2>
+          <h2 class="section-title team__title"><?php the_field('team_default_title') ?> <b class="marker"><?php the_field('team_bold_title') ?></b></h2>
 
           <div class="team__line">
             <ul class="team-list">
-              <li class="tild-card team-member">
-                <div class="team-member__inner">
-                  <div class="team-member__photo-block">
-                    <img class="team-member__photo lazy" src="#" data-src="<?php bloginfo('template_url') ?>/assets/images/team-member-1.jpg" alt="сотрудник студии">
-                  </div>
 
-                  <div class="team-member__info">
-                    <div class="team-member__info-top">
-                      <span class="team-member__name">Имя Фамилия</span>
-                      <span class="team-member__position">креативный лидер</span>
+            <?php
+              global $post;
+
+              $myposts = get_posts([ 
+                'numberposts' => -1,
+                'category_name' => 'team_type',
+                'order' => 'ASC'
+              ]);
+
+              if( $myposts ):
+                foreach( $myposts as $post ):
+                  setup_postdata( $post );
+                  ?>                  
+                  <li class="tild-card team-member">
+                    <div class="team-member__inner">
+                      <div class="team-member__photo-block">
+                        <img class="team-member__photo lazy" src="#" data-src="<?php the_post_thumbnail_url() ?>" alt="<?php the_title() ?>">
+                      </div>
+
+                      <div class="team-member__info">
+                        <div class="team-member__info-top">
+                          <span class="team-member__name"><?php the_title() ?></span>
+                          <span class="team-member__position"><?php the_field('team_member_position') ?></span>
+                        </div>
+
+                        <div class="team-member__info-middle">
+                          <?php the_content() ?>
+                        </div>
+
+                        <div class="team-member__info-bottom">
+                          <a class="btn-blue team-member__action" href="<?php the_field('team_member_btn_action_href') ?>" target="_blank">Записаться</a>
+                        </div>
+                      </div>
                     </div>
-
-                    <div class="team-member__info-middle">
-                      <ul class="team-member__skills">
-                        <li class="team-member__skill">
-                          <span class="team-member__skill-text">Умение сотрудника №1</span>
-                        </li>
-                        <li class="team-member__skill">
-                          <span class="team-member__skill-text">Умение сотрудника №2</span>
-                        </li>
-                        <li class="team-member__skill">
-                          <span class="team-member__skill-text">Умение сотрудника №3</span>
-                        </li>
-                        <li class="team-member__skill">
-                          <span class="team-member__skill-text">Умение сотрудника №4</span>
-                        </li>
-                        <li class="team-member__skill">
-                          <span class="team-member__skill-text">Умение сотрудника №5</span>
-                        </li>
-                        <li class="team-member__skill">
-                          <span class="team-member__skill-text">Умение сотрудника №6</span>
-                        </li>
-                        <li class="team-member__skill">
-                          <span class="team-member__skill-text">Умение сотрудника №7</span>
-                        </li>
-                      </ul>
-                    </div>
-
-                    <div class="team-member__info-bottom">
-                      <button class="btn-blue team-member__action" type="button">Записаться</button>
-                    </div>
-                  </div>
-                </div>
-              </li>
-
-              <li class="tild-card team-member">
-                <div class="team-member__inner">
-                  <div class="team-member__photo-block">
-                    <img class="team-member__photo lazy" src="#" data-src="<?php bloginfo('template_url') ?>/assets/images/service-4.jpg" alt="сотрудник студии">
-                  </div>
-
-                  <div class="team-member__info">
-                    <div class="team-member__info-top">
-                      <span class="team-member__name">Имя Фамилия</span>
-                      <span class="team-member__position">креативный лидер</span>
-                    </div>
-
-                    <div class="team-member__info-middle">
-                      <ul class="team-member__skills">
-                        <li class="team-member__skill">
-                          <span class="team-member__skill-text">Умение сотрудника №1</span>
-                        </li>
-                        <li class="team-member__skill">
-                          <span class="team-member__skill-text">Умение сотрудника №2</span>
-                        </li>
-                        <li class="team-member__skill">
-                          <span class="team-member__skill-text">Умение сотрудника №3</span>
-                      </ul>
-                    </div>
-
-                    <div class="team-member__info-bottom">
-                      <button class="btn-blue team-member__action" type="button">Записаться</button>
-                    </div>
-                  </div>
-                </div>
-              </li>
-
-              <li class="tild-card team-member">
-                <div class="team-member__inner">
-                  <div class="team-member__photo-block">
-                    <img class="team-member__photo lazy" src="#" data-src="<?php bloginfo('template_url') ?>/assets/images/service-4.jpg" alt="сотрудник студии">
-                  </div>
-
-                  <div class="team-member__info">
-                    <div class="team-member__info-top">
-                      <span class="team-member__name">Имя Фамилия</span>
-                      <span class="team-member__position">креативный лидер</span>
-                    </div>
-
-                    <div class="team-member__info-middle">
-                      <ul class="team-member__skills">
-                        <li class="team-member__skill">
-                          <span class="team-member__skill-text">Умение сотрудника №1</span>
-                        </li>
-                        <li class="team-member__skill">
-                          <span class="team-member__skill-text">Умение сотрудника №2</span>
-                        </li>
-                        <li class="team-member__skill">
-                          <span class="team-member__skill-text">Умение сотрудника №3</span>
-                        </li>
-                        <li class="team-member__skill">
-                          <span class="team-member__skill-text">Умение сотрудника №4</span>
-                        </li>
-                      </ul>
-                    </div>
-
-                    <div class="team-member__info-bottom">
-                      <button class="btn-blue team-member__action" type="button">Записаться</button>
-                    </div>
-                  </div>
-                </div>
-              </li>
+                  </li>
+                  <?php 
+                endforeach; wp_reset_postdata(); endif;  ?>            
             </ul>
           </div>
         </div>

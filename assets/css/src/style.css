@@ -417,6 +417,7 @@ body {
   display: flex;
   flex-direction: column;
   color: var(--color-text);
+  text-transform: uppercase;
 }
 
 .hero-title .marker {
@@ -599,7 +600,7 @@ body {
 .benefit__header {
   display: flex;
   align-items: center;
-  margin-bottom: 31px;
+  margin-bottom: 17px;
 }
 
 .benefit__icon {
@@ -857,23 +858,31 @@ body {
   margin-top: auto;
 }
 
-.service__points-list {
-  padding-left: 20px;
+.service__content-block ul {
   margin-bottom: 15px;
 }
 
-.service__point {
+/* Для того, чтобы работало и по списку и по параграфам. Смотря что пользователь выбирал в админке */
+.service__content-block p,
+.service__content-block li {
+  padding-left: 20px;
   margin-bottom: 5px;
   font-size: 13px;
   position: relative;
 }
 
-.service__point::before {
-  content: "•";
-  color: var(--color-accent-1);
+.service__content-block p::before,
+.service__content-block li::before {
+  content: "";
+  display: block;
+  width: 3.5px;
+  height: 3.5px;
+  background-color: var(--color-accent-1);
+  border-radius: 50%;
   transition: color ease .2s;
   position: absolute;
-  left: -20px;
+  left: 0px;
+  top: 4px;
 }
 
 .service__bottom {
@@ -901,8 +910,10 @@ body {
     font-size: 11px;
   }
 
-  .service__point::before {
-    font-size: 14px;
+  .service__content-block p::before,
+  .service__content-block li::before {
+    width: 3px;
+    height: 3px;
   }
 
   .service__action {
@@ -971,10 +982,15 @@ body {
 
 /* Team List */
 .team-list {
-  display: grid;
+  /* display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-column-gap: 70px;
-  grid-row-gap: 50px;
+  grid-column-gap: 50px;
+  grid-row-gap: 70px; */
+
+  display: flex;
+  column-gap: 50px;
+  row-gap: 70px;
+  justify-content: center;
 }
 
 @media (max-width: 1160px) {
@@ -1023,6 +1039,7 @@ body {
   flex-direction: column;
   border-radius: 10px;
   box-shadow: 0px 3px 21px -9px rgba(0, 0, 0, 0.25);
+  flex-basis: 33.333%;
 }
 
 .team-member__inner {
@@ -1075,7 +1092,7 @@ body {
   flex-direction: column;
   text-align: center;
   row-gap: 7px;
-  margin-bottom: 40px;
+  margin-bottom: 28px;
 }
 
 .team-member__name {
@@ -1092,10 +1109,8 @@ body {
 }
 
 .team-member__skills {
-  /* padding-left: 20px; */
   display: flex;
   flex-direction: column;
-  row-gap: 12px;
 }
 
 .team-member__skill {
@@ -1107,12 +1122,40 @@ body {
   font-size: 16px;
 }
 
-.team-member__skill-text::before {
-  content: "•";
-  color: var(--color-accent-1);
-  position: absolute;
-  left: -25px;
+.team-member__info-middle,
+.team-member__info-middle ul {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.team-member__info-middle p::before,
+.team-member__info-middle li::before {
+  content: "";
+  display: block;
+  width: 3.5px;
+  height: 3.5px;
+  background-color: var(--color-accent-1);
+  border-radius: 50%;
   transition: color ease .2s;
+  position: absolute;
+  left: 0px;
+  top: 10px;
+  margin-bottom: 12px;
+}
+
+.team-member__info-middle p,
+.team-member__info-middle li {
+  font-size: 16px;
+  position: relative;
+  padding-left: 25px;
+  line-height: 22px;
+  width: 250px;
+}
+
+.team-member__info-middle p:not(:last-child),
+.team-member__info-middle li:not(:last-child) {
+  margin-bottom: 7px;
 }
 
 .team-member__info-middle {
@@ -1130,7 +1173,6 @@ body {
   font-size: 18px;
 }
 
-
 @media (max-width: 790px) {
   .team-member__photo {
     width: 140px;
@@ -1142,9 +1184,6 @@ body {
   .team-member__name {
     font-size: 26px;
     line-height: 30px;
-  }
-
-  .team-member__position {
   }
 
   .team-member__skill-text {

@@ -77,4 +77,5 @@ function my_handler() {
 add_action('wp_ajax_contact', 'my_handler');
 add_action('wp_ajax_nopriv_contact', 'my_handler');
 
-add_theme_support('post_thumbnails');
+// Поддержка дополнительных возможностей
+add_theme_support('post-thumbnails');

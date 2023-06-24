@@ -61,9 +61,7 @@
             <li class="contact-block">
               <div class="contact-block__row">
                 <img class="contact-block__icon" src="<?php bloginfo('template_url') ?>/assets/images/icons/marker.svg" alt="" aria-hidden="true">
-                <address class="contact-block__value contact-block__address">
-                  <span class="marker">г. Егорьевск</span>, 5 мкр., д. 21
-                </address>
+                <address class="contact-block__value contact-block__address"><span class="marker"><?php the_field('header_address_bold') ?></span>, <?php the_field('header_address_default') ?></address>
               </div>
             </li>
           
@@ -71,8 +69,8 @@
               <a class="contact-block__row" href="tel:78083535335">
                 <img class="contact-block__icon" src="<?php bloginfo('template_url') ?>/assets/images/icons/phone.svg" alt="" aria-hidden="true">
                 <p class="contact-block__inner">
-                  <span class="contact-block__title">Whatsapp</span>
-                  <span class="contact-block__value contact-block__telephone">+ 7 808 353 53 35</span>
+                  <span class="contact-block__title"><?php the_field('top_tel_bold') ?></span>
+                  <span class="contact-block__value contact-block__telephone"><?php the_field('tel_number') ?></span>
                 </p>
               </a>
             </li>
