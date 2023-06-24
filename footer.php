@@ -5,26 +5,28 @@
         <div class="container">
           <div class="footer__line">
             <div class="footer-block">
-              <span class="footer-block__title">Контактная информация</span>
+              <span class="footer-block__title">
+                <?php the_field('footer_contacts_title') ?>
+              </span>
     
               <nav class="footer-nav">
                 <ul class="footer-nav__list">
                   <li class="footer-nav__item">
                     <a class="footer-nav__link">
                       <img src="<?php bloginfo('template_url') ?>/assets/images/icons/marker-small.svg" alt="" aria-hidden="true">
-                      г. Егорьевск, 5 мкр., д. 21
+                      <?php the_field('footer_address') ?>
                     </a>
                   </li>
                   <li class="footer-nav__item">
                     <a class="footer-nav__link" href="tel:78083535335">
                       <img src="<?php bloginfo('template_url') ?>/assets/images/icons/phone-small.svg" alt="" aria-hidden="true">
-                      + 7 808 353 53 35
+                      <?php the_field('footer_telephone') ?>
                     </a>
                   </li>
                   <li class="footer-nav__item">
                     <a class="footer-nav__link">
                       <img src="<?php bloginfo('template_url') ?>/assets/images/icons/clock.svg" alt="" aria-hidden="true">
-                      Работаем ежедневно с 10:00 до 20:00 5 мкр, д 21
+                      <?php the_field('footer_schedule') ?>
                     </a>
                   </li>
                 </ul>
@@ -32,7 +34,7 @@
             </div>
     
             <div class="footer-block">
-              <span class="footer-block__title">Для посетителей</span>
+              <span class="footer-block__title"><?php the_field('footer_anchors_title') ?></span>
     
               <nav class="footer-nav">
                 <ul class="footer-nav__list">
@@ -47,7 +49,7 @@
             </div>
     
             <article class="footer-block footer-form">
-              <h3 class="footer-block__title footer-form__title">Возникли вопросы? Свяжитесь с нами</h3>
+              <h3 class="footer-block__title footer-form__title"><?php the_field('footer_form_title') ?></h3>
     
               <form action="<?= admin_url('admin-ajax.php'); ?>" method="POST" name="contact-form" class="contact-form">
                 <input type="hidden" name="action" value="contact">
