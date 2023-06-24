@@ -469,36 +469,43 @@
             <div class="contacts__map-wrapper">
               <img class="decor-image contacts__map-decor-image contacts__map-decor-image_1 lazy" src="#" data-src="<?php bloginfo('template_url') ?>/assets/images/map-decor-1.png" alt="" aria-hidden="true">
               <img class="decor-image contacts__map-decor-image contacts__map-decor-image_2 lazy" src="#" data-src="<?php bloginfo('template_url') ?>/assets/images/map-decor-1.png" alt="" aria-hidden="true">
+              
+              <?php 
+                $map_script = get_field('map_constructor');
+                
+                if ($map_script) {
+                  echo $map_script;
+                } else {
+              ?>
+                <div id="map"></div>
+                <script>
+                  ymaps.ready(init);
+                  function init(){
+                    const mapOpts = {
+                      latitude: <?php the_field('map_latitude') ?>,
+                      longitude: <?php the_field('map_longitude') ?>,
+                      balloonText: '<?php the_field('balloon_text') ?>',
+                      hintText: '<?php the_field('hint_text') ?>',
+                    };
 
-              <div id="map"></div>
-
-              <script>
-                ymaps.ready(init);
-                function init(){
-                  const mapOpts = {
-                    latitude: <?php the_field('map_latitude') ?>,
-                    longitude: <?php the_field('map_longitude') ?>,
-                    balloonText: '<?php the_field('balloon_text') ?>',
-                    hintText: '<?php the_field('hint_text') ?>',
-                  };
-
-                  const myMap = new ymaps.Map("map", {
-                    center: [mapOpts.latitude, mapOpts.longitude],
-                    zoom: 17
-                  });
-                  myMap.geoObjects.add(new ymaps.Placemark([mapOpts.latitude, mapOpts.longitude], {
-                    balloonContent: mapOpts.balloonText,
-                    hintContent: mapOpts.hintText,
-                  }, {
-                    preset: 'islands#dotIcon',
-                    iconColor: '#177BC9'
-                  }));
-                  myMap.controls.remove('zoomControl');
-                  myMap.controls.remove('trafficControl');
-                  myMap.controls.remove('geolocationControl');
-                  myMap.controls.remove('rulerControl');
-                }
-              </script>
+                    const myMap = new ymaps.Map("map", {
+                      center: [mapOpts.latitude, mapOpts.longitude],
+                      zoom: 17
+                    });
+                    myMap.geoObjects.add(new ymaps.Placemark([mapOpts.latitude, mapOpts.longitude], {
+                      balloonContent: mapOpts.balloonText,
+                      hintContent: mapOpts.hintText,
+                    }, {
+                      preset: 'islands#dotIcon',
+                      iconColor: '#177BC9'
+                    }));
+                    myMap.controls.remove('zoomControl');
+                    myMap.controls.remove('trafficControl');
+                    myMap.controls.remove('geolocationControl');
+                    myMap.controls.remove('rulerControl');
+                  }
+                </script>
+              <?php }?>
 
               <!-- <iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3Aaf56307b455b4e6a13baafee6352c48eab909fba6238ae0d14965388882dda1d&amp;source=constructor" width="100%" height="400" frameborder="0"></iframe> -->              
             </div>
