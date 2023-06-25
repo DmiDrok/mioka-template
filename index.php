@@ -146,47 +146,59 @@
 
           <h2 class="section-title team__title"><?php the_field('team_default_title') ?> <b class="marker"><?php the_field('team_bold_title') ?></b></h2>
 
-          <div class="team__line">
-            <ul class="team-list">
-
-            <?php
-              global $post;
-
-              $myposts = get_posts([ 
-                'numberposts' => -1,
-                'category_name' => 'team_type',
-                'order' => 'ASC'
-              ]);
-
-              if( $myposts ):
-                foreach( $myposts as $post ):
-                  setup_postdata( $post );
-                  ?>                  
-                  <li class="tild-card team-member">
-                    <div class="team-member__inner">
-                      <div class="team-member__photo-block">
-                        <img class="team-member__photo lazy" src="#" data-src="<?php the_post_thumbnail_url() ?>" alt="<?php the_title() ?>">
+          <div class="slider team-slider team__content">
+            <div class="swiper team-slider__outer">
+              <ul class="swiper-wrapper team-list">
+  
+              <?php
+                global $post;
+  
+                $myposts = get_posts([ 
+                  'numberposts' => -1,
+                  'category_name' => 'team_type',
+                  'order' => 'ASC'
+                ]);
+  
+                if( $myposts ):
+                  foreach( $myposts as $post ):
+                    setup_postdata( $post );
+                    ?>            
+                    <li class="swiper-slide tild-card team-member">
+                      <div class="team-member__inner">
+                        <div class="team-member__photo-block">
+                          <img class="team-member__photo lazy" src="#" data-src="<?php the_post_thumbnail_url() ?>" alt="<?php the_title() ?>">
+                        </div>
+  
+                        <div class="team-member__info">
+                          <div class="team-member__info-top">
+                            <span class="team-member__name"><?php the_title() ?></span>
+                            <span class="team-member__position"><?php the_field('team_member_position') ?></span>
+                          </div>
+  
+                          <div class="team-member__info-middle">
+                            <?php the_content() ?>
+                          </div>
+  
+                          <div class="team-member__info-bottom">
+                            <a class="btn-blue team-member__action" href="<?php the_field('team_member_btn_action_href') ?>" target="_blank">Записаться</a>
+                          </div>
+                        </div>
                       </div>
+                    </li>
+                    <?php 
+                  endforeach; wp_reset_postdata(); endif;  ?>            
+              </ul>
+            </div>
 
-                      <div class="team-member__info">
-                        <div class="team-member__info-top">
-                          <span class="team-member__name"><?php the_title() ?></span>
-                          <span class="team-member__position"><?php the_field('team_member_position') ?></span>
-                        </div>
+            <div class="slider__nav team-slider__nav">
+              <button class="slider__nav-btn slider__nav-btn_prev team-slider__nav-btn_prev" type="button">
+                <img class="slider__nav-btn-image team-slider__nav-btn-image" src="<?php bloginfo('template_url') ?>/assets/images/icons/arrow-prev.svg" alt="" aria-hidden="true">
+              </button>
 
-                        <div class="team-member__info-middle">
-                          <?php the_content() ?>
-                        </div>
-
-                        <div class="team-member__info-bottom">
-                          <a class="btn-blue team-member__action" href="<?php the_field('team_member_btn_action_href') ?>" target="_blank">Записаться</a>
-                        </div>
-                      </div>
-                    </div>
-                  </li>
-                  <?php 
-                endforeach; wp_reset_postdata(); endif;  ?>            
-            </ul>
+              <button class="slider__nav-btn slider__nav-btn_next team-slider__nav-btn_next" type="button">
+                <img class="slider__nav-btn-image team-slider__nav-btn-image" src="<?php bloginfo('template_url') ?>/assets/images/icons/arrow-next.svg" alt="" aria-hidden="true">
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -415,7 +427,7 @@
           <p class="section-subtitle documents__subtitle">Далеко-далеко, за словесными горами в стране гласных и согласных живут рыбные тексты. Текстов ipsum, всемогущая свой силуэт рукопись диких семантика переулка переписывается то большого даже безорфографичный он?</p>
 
           <div class="documents__content">
-            <div class="documents-slider">
+            <div class="slider documents-slider">
               <div class="swiper documents-slider__inner">
                 <div class="swiper-wrapper documents-slider__wrapper">
                   <?php
@@ -443,13 +455,13 @@
                 </div>
               </div>
 
-              <div class="documents-slider__nav">
-                <button class="documents-slider__nav-btn documents-slider__nav-btn_prev" type="button">
-                  <img class="documents-slider__nav-btn-image" src="<?php bloginfo('template_url') ?>/assets/images/icons/arrow-prev.svg" alt="" aria-hidden="true">
+              <div class="slider__nav documents-slider__nav">
+                <button class="slider__nav-btn slider__nav-btn_prev documents-slider__nav-btn documents-slider__nav-btn_prev" type="button">
+                  <img class="slider__nav-btn-image documents-slider__nav-btn-image" src="<?php bloginfo('template_url') ?>/assets/images/icons/arrow-prev.svg" alt="" aria-hidden="true">
                 </button>
                 
-                <button class="documents-slider__nav-btn documents-slider__nav-btn_next" type="button">
-                  <img class="documents-slider__nav-btn-image" src="<?php bloginfo('template_url') ?>/assets/images/icons/arrow-next.svg" alt="" aria-hidden="true">
+                <button class="slider__nav-btn slider__nav-btn_next documents-slider__nav-btn documents-slider__nav-btn_next" type="button">
+                  <img class="slider__nav-btn-image documents-slider__nav-btn-image" src="<?php bloginfo('template_url') ?>/assets/images/icons/arrow-next.svg" alt="" aria-hidden="true">
                 </button>
               </div>
             </div>

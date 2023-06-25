@@ -260,14 +260,11 @@ function setCorrectPopupTriggers() {
         const form = document.querySelector(formSelector);
         
         // Попапы могут вызвать кнопки submit у форм
-        console.log(1);
         if (form) {
-          console.log(2);
           if (Cookies.get('formSended')) return;
-          
+
           const isFormValid = form.reportValidity();
 
-          console.log(isFormValid);
           if (isFormValid) {
             popup.classList.add('active');
           }
@@ -369,24 +366,51 @@ function setCorrectAccordion() {
 
 // Слайдеры
 function setCorrectSliders() {
-  const documentsSlider = document.querySelector('.documents-slider .swiper');
-  const documentsSwiper = new Swiper(documentsSlider, {
-    slidesPerView: 1,
-    grabCursor: true,
-    navigation: {
-      nextEl: '.documents-slider__nav-btn_next',
-      prevEl: '.documents-slider__nav-btn_prev',
-    },
-    breakpoints: {
-      651: {
-        slidesPerView: 3,
+  const makeDocumentsSlider = () => {
+    const documentsSlider = document.querySelector('.documents-slider .swiper');
+    const documentsSwiper = new Swiper(documentsSlider, {
+      slidesPerView: 1,
+      grabCursor: true,
+      navigation: {
+        nextEl: '.documents-slider__nav-btn_next',
+        prevEl: '.documents-slider__nav-btn_prev',
       },
-
-      381: {
-        slidesPerView: 2,
+      breakpoints: {
+        651: {
+          slidesPerView: 3,
+        },
+  
+        381: {
+          slidesPerView: 2,
+        }
       }
-    }
-  });
+    });
+  };
+  const makeTeamSlider = () => {
+    const teamSlider = document.querySelector('.team-slider__outer');
+    const teamSwiper = new Swiper(teamSlider, {
+      slidesPerView: 1,
+      spaceBetween: 30,
+      grabCursor: true,
+      navigation: {
+        nextEl: '.team-slider__nav-btn_next',
+        prevEl: '.team-slider__nav-btn_prev',
+      },
+      breakpoints: {
+        1031: {
+          spaceBetween: 50,
+          slidesPerView: 3,
+        },
+
+        641: {
+          slidesPerView: 2,
+        }
+      }
+    });
+  }
+
+  makeDocumentsSlider();
+  makeTeamSlider();
 }
 
 // Инициализация библиотеки ленивой загрузки
