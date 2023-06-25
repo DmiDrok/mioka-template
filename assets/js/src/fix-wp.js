@@ -14,6 +14,8 @@ function wpSetCorrectTopPanelOffset() {
   const footer = document.querySelector('.footer');
 
   [header, main, footer].forEach((domNode) => {
+    if (!domNode) return;
+
     const marginNow = parseFloat(getComputedStyle(domNode).marginTop);
 
     if (marginNow) {

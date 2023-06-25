@@ -2,25 +2,25 @@
 
 // Добавление стилей
 function add_styles() {
-  wp_enqueue_style('main', get_template_directory_uri() . '/assets/css/src/style.css', [], null, 'all');
+  // wp_enqueue_style('main', get_template_directory_uri() . '/assets/css/src/style.css', [], null, 'all');
 
   // Build variant
-  // wp_enqueue_style('main', get_template_directory_uri() . '/assets/css/style.bundle.min.css', [], null, 'all');
+  wp_enqueue_style('main', get_template_directory_uri() . '/assets/css/style.bundle.min.css', [], null, 'all');
 }
 
 // Добавление скриптов
 function add_scripts() {
-  wp_enqueue_script('inputmask', get_template_directory_uri() . '/assets/js/src/inputmask.js', [], null, true);
-  wp_enqueue_script('vanilla-tilt', get_template_directory_uri() . '/assets/js/src/tilt.min.js', [], null, true);
-  wp_enqueue_script('js-cookie', get_template_directory_uri() . '/assets/js/src/js-cookie.min.js', [], null, true);
-  wp_enqueue_script('fancybox', get_template_directory_uri() . '/assets/js/src/fancybox.umd.js', [], null, true);
-  wp_enqueue_script('swiper', get_template_directory_uri() . '/assets/js/src/swiper.min.js', [], null, true);
-  wp_enqueue_script('lazyload', get_template_directory_uri() . '/assets/js/src/lazyload.min.js', [], null, true);
-  wp_enqueue_script('fix-wp', get_template_directory_uri() . '/assets/js/src/fix-wp.js', [], null, true);
-  wp_enqueue_script('main', get_template_directory_uri() . '/assets/js/src/main.js', [], null, true);
+  // wp_enqueue_script('inputmask', get_template_directory_uri() . '/assets/js/src/inputmask.js', [], null, true);
+  // wp_enqueue_script('vanilla-tilt', get_template_directory_uri() . '/assets/js/src/tilt.min.js', [], null, true);
+  // wp_enqueue_script('js-cookie', get_template_directory_uri() . '/assets/js/src/js-cookie.min.js', [], null, true);
+  // wp_enqueue_script('fancybox', get_template_directory_uri() . '/assets/js/src/fancybox.umd.js', [], null, true);
+  // wp_enqueue_script('swiper', get_template_directory_uri() . '/assets/js/src/swiper.min.js', [], null, true);
+  // wp_enqueue_script('lazyload', get_template_directory_uri() . '/assets/js/src/lazyload.min.js', [], null, true);
+  // wp_enqueue_script('fix-wp', get_template_directory_uri() . '/assets/js/src/fix-wp.js', [], null, true);
+  // wp_enqueue_script('main', get_template_directory_uri() . '/assets/js/src/main.js', [], null, true);
   
   // Build variant
-  // wp_enqueue_script('main', get_template_directory_uri() . '/assets/js/main.bundle.min.js', [], null, true);
+  wp_enqueue_script('main', get_template_directory_uri() . '/assets/js/main.bundle.min.js', [], null, true);
 }
 
 add_action('wp_enqueue_scripts', 'add_styles');
