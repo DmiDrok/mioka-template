@@ -1333,8 +1333,34 @@ body {
 }
 
 .reviews-photos__block {
+  position: relative;
   border-radius: 10px;
   overflow: hidden;
+  cursor: zoom-in;
+}
+
+.reviews-photos__block .work__zoom {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity ease .2s;
+}
+
+@media (pointer: fine) {
+  .reviews-photos__block .work__zoom::before {
+    width: 60px;
+    height: 60px;
+  }
+
+  .reviews-photos__block:hover .work__zoom {
+    opacity: 1;
+  }
+
+  .reviews-photos__block:hover .work__zoom::before {
+    animation: pulse infinite 1s forwards linear alternate-reverse;
+}
 }
 
 /* Reviews Text */

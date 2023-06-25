@@ -7,19 +7,20 @@
 //=require lazyload.min.js
 
 
-setCorrectHeaderByScroll();
-setCorrectTelInputs();
-setCorrectBurger();
-setCorrectServiceCards();
-setCorrectSmoothScrollToAnchors();
+const funcsToCall = [
+  setCorrectHeaderByScroll, setCorrectTelInputs, setCorrectBurger, setCorrectServiceCards,
+  setCorrectSmoothScrollToAnchors, setCorrectVisibilityForm, setCorrectContactForm,
+  setCorrectPopupTriggers, setCorrectImagesZoom, setCorrectAccordion, setCorrectSliders,
+  setCorrectLazyLoad
+];
 
-setCorrectVisibilityForm();
-setCorrectContactForm();
-setCorrectPopupTriggers();
-setCorrectImagesZoom();
-setCorrectAccordion();
-setCorrectSliders();
-setCorrectLazyLoad();
+funcsToCall.forEach((func) => {
+  try {
+    func.call(this);
+  } catch(err) {
+    console.error(err.message);
+  }
+});
 
 
 // По скроллу - скрываем верхнюю часть шапки
