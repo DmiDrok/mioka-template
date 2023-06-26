@@ -945,6 +945,10 @@ body {
     flex-grow: 1;
     flex-basis: auto;
   }
+
+  .service__bottom {
+    padding-top: 10px;
+  }
 }
 
 /* === Секция команды (сотрудники) === */

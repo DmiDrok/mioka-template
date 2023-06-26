@@ -1,5 +1,6 @@
 <?php get_header(); ?>
 
+
   <!-- Уникальное содержимое -->
   <main id="main" class="main">
     <!-- Секция, встречающая пользователя -->
@@ -109,7 +110,7 @@
                         foreach( $myposts as $post ):
                           setup_postdata( $post );
                           ?>
-                          <li class="tild-card service">
+                          <li class="tilt-card service">
                             <article class="service__inner">
                               <div class="service__image-block">
                                 <img class="service__image lazy" src="#" data-src="<?php the_post_thumbnail_url() ?>" alt="<?php the_title() ?>">
@@ -163,7 +164,7 @@
                   foreach( $myposts as $post ):
                     setup_postdata( $post );
                     ?>            
-                    <li class="swiper-slide tild-card team-member">
+                    <li class="swiper-slide tilt-card team-member">
                       <div class="team-member__inner">
                         <div class="team-member__photo-block">
                           <img class="team-member__photo lazy" src="#" data-src="<?php the_post_thumbnail_url() ?>" alt="<?php the_title() ?>">
@@ -534,7 +535,7 @@
             </div>
 
             <div class="contacts__info">
-              <article class="tild-card  info-block">
+              <article class="tilt-card  info-block">
                 <h3 class="info-block__title">
                   <?php the_field('contacts_fields_title') ?>
                 </h3>
@@ -554,7 +555,7 @@
                 </address>
               </article>
 
-              <article class="tild-card  info-block">
+              <article class="tilt-card  info-block">
                 <h3 class="info-block__title">
                   <?php the_field('contacts_info_title') ?>
                 </h3>

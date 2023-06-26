@@ -6,21 +6,35 @@
 //=require fix-wp.js
 //=require lazyload.min.js
 
-
-const funcsToCall = [
-  setCorrectHeaderByScroll, setCorrectTelInputs, setCorrectBurger, setCorrectServiceCards,
-  setCorrectSmoothScrollToAnchors, setCorrectVisibilityForm, setCorrectContactForm,
-  setCorrectPopupTriggers, setCorrectImagesZoom, setCorrectAccordion, setCorrectSliders,
-  setCorrectLazyLoad
-];
-
-funcsToCall.forEach((func) => {
+const safeCallFunc = (func, ctx) => {
   try {
-    func.call(this);
+    func.call(ctx)
   } catch(err) {
     console.error(err.message);
   }
+};
+
+// Вызываем на любых устройствах
+const funcsToCall = [
+  setCorrectHeaderByScroll, setCorrectTelInputs, setCorrectBurger, setCorrectVisibilityForm,
+  setCorrectContactForm, setCorrectPopupTriggers, setCorrectImagesZoom,
+  setCorrectAccordion, setCorrectSliders, setCorrectLazyLoad
+];
+
+// Вызываем только на компьютерах, т. к. требовательные
+const desktopFuncs = [
+  setCorrectTiltCards, setCorrectSmoothScrollToAnchors
+];
+
+funcsToCall.forEach((func) => {
+  safeCallFunc(func, this);
 });
+
+if (window.matchMedia('(min-width: 760px)').matches) {
+  desktopFuncs.forEach((func) => {
+    safeCallFunc(func, this);
+  });
+}
 
 
 // По скроллу - скрываем верхнюю часть шапки
@@ -101,8 +115,8 @@ function setCorrectBurger() {
 }
 
 // Эффект наклона на карточах услуг
-function setCorrectServiceCards() {
-  const cards = document.querySelectorAll('.tild-card');
+function setCorrectTiltCards() {
+  const cards = document.querySelectorAll('.tilt-card');
   const options = {
     reverse: true,
     max: 5,
@@ -407,6 +421,25 @@ function setCorrectSliders() {
           slidesPerView: 2,
         }
       }
+    });
+    const tiltCards = teamSlider.querySelectorAll('.tilt-card');
+    teamSwiper.on('slideChangeTransitionStart', () => {
+      tiltCards.forEach((el) => {
+        el.vanillaTilt.destroy();
+      });
+    });
+
+    teamSwiper.on('slideChangeTransitionEnd', () => {
+      tiltCards.forEach((el) => {
+        VanillaTilt.init(el, {
+          reverse: true,
+          max: 5,
+          speed: 600,
+          glare: true,
+          'max-glare': .2,
+          gyroscope: false,
+        });
+      });
     });
   }
 
