@@ -1,6 +1,5 @@
 <?php get_header(); ?>
 
-
   <!-- Уникальное содержимое -->
   <main id="main" class="main">
     <!-- Секция, встречающая пользователя -->
@@ -150,9 +149,9 @@
       <div class="team__row">
         <div class="container team__container">
           <picture>
-            <source type="image/avif" srcset="#" data-srcset="<?php bloginfo('template_url') ?>/assets/images/decor-center.avif">
-            <source type="image/webp" srcset="#" data-srcset="<?php bloginfo('template_url') ?>/assets/images/decor-center.webp">
-            <img class="decor-image team__decor-image team__decor-image_1 lazy" src="#" data-src="<?php bloginfo('template_url') ?>/assets/images/decor-center.png" alt="" aria-hidden="true">
+            <source type="image/avif" srcset="<?php bloginfo('template_url') ?>/assets/images/decor-center.avif">
+            <source type="image/webp" srcset="<?php bloginfo('template_url') ?>/assets/images/decor-center.webp">
+            <img class="decor-image team__decor-image team__decor-image_1 lazy" src="<?php bloginfo('template_url') ?>/assets/images/decor-center.png" alt="" aria-hidden="true">
           </picture>
 
           <h2 class="section-title team__title"><?php the_field('team_default_title') ?> <b class="marker"><?php the_field('team_bold_title') ?></b></h2>
@@ -511,13 +510,14 @@
           <div class="contacts__content">
             <div class="contacts__map-wrapper">
               <picture>
-                <source type="image/avif" srcset="#" data-srcset="<?php bloginfo('template_url') ?>/assets/images/decor-center.avif">
-                <source type="image/webp" srcset="#" data-srcset="<?php bloginfo('template_url') ?>/assets/images/decor-center.webp">
-                <img class="decor-image contacts__map-decor-image contacts__map-decor-image_1 lazy" src="#" data-src="<?php bloginfo('template_url') ?>/assets/images/decor-center.png" alt="" aria-hidden="true">
+                <source type="image/avif" srcset="<?php bloginfo('template_url') ?>/assets/images/decor-center.avif">
+                <source type="image/webp" srcset="<?php bloginfo('template_url') ?>/assets/images/decor-center.webp">
+                <img class="decor-image contacts__map-decor-image contacts__map-decor-image_1 lazy" src="<?php bloginfo('template_url') ?>/assets/images/decor-center.png" alt="" aria-hidden="true">
               </picture>
               <picture>
-                <source type="image/webp" srcset="#" data-srcset="<?php bloginfo('template_url') ?>/assets/images/decor-center.webp">
-                <img class="decor-image contacts__map-decor-image contacts__map-decor-image_2 lazy" src="#" data-src="<?php bloginfo('template_url') ?>/assets/images/decor-center.png" alt="" aria-hidden="true">
+                <source type="image/avif" srcset="<?php bloginfo('template_url') ?>/assets/images/decor-center.avif">
+                <source type="image/webp" srcset="<?php bloginfo('template_url') ?>/assets/images/decor-center.webp">
+                <img class="decor-image contacts__map-decor-image contacts__map-decor-image_2 lazy" src="<?php bloginfo('template_url') ?>/assets/images/decor-center.png" alt="" aria-hidden="true">
               </picture>
               
               <?php 
@@ -692,6 +692,17 @@
           Понятно
         </span>
       </button>
+    </div>
+  </div>
+
+  <!-- Модальное окно оформления записи -->
+  <div class="modal">
+    <div class="modal__row">
+      <div class="container modal__container">
+        <div class="modal__content">
+          <span class="modal__title">Оформление <b class="marker">заявки</b></span>
+        </div>
+      </div>
     </div>
   </div>
 

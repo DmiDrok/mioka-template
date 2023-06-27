@@ -42,14 +42,3 @@ add_filter('wpcf7_form_elements', function($content) {
 
 // Поддержка дополнительных возможностей
 add_theme_support('post-thumbnails');
-
-function my_skip_mail() {
-  error_log('test2');
-  $skip_mail = false;
-
-  error_log(json_encode($_POST));
-
-  return $skip_mail;
-}
-
-add_filter('wpcf7_skip_mail', 'my_skip_mail');

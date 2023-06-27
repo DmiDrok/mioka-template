@@ -444,5 +444,7 @@ function setCorrectSliders() {
 // Инициализация библиотеки ленивой загрузки
 function setCorrectLazyLoad() {
   new LazyLoad({
+    thresholds: '300px 100%',
+    use_native: true,
   });
 }

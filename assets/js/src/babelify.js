@@ -169,7 +169,7 @@ function setCorrectSmoothScrollToAnchors() {
 
 // Отображать форму в подвале или нет
 function setCorrectVisibilityForm() {
-  var contactForm = document.forms['contact-form'];
+  var contactForm = document.querySelector('.footer-form form');
   if (Cookies.get('formSended')) {
     contactForm.classList.add('disabled');
     contactForm.title = 'Вы уже отправляли форму.';
@@ -181,8 +181,9 @@ function setCorrectVisibilityForm() {
 
 // Отправка формы в подвале
 function setCorrectContactForm() {
-  var contactForm = document.forms['contact-form'];
+  var contactForm = document.querySelector('.footer-form form');
   if (!contactForm) return;
+  contactForm.removeAttribute('novalidate');
   var contactFormFields = contactForm.querySelectorAll('.wpcf7-form-control');
   var contactFormSubmit = contactForm.querySelector('input[type="submit"]');
   var contactFormTel = contactForm.querySelector('input[type="tel"]');
@@ -192,12 +193,9 @@ function setCorrectContactForm() {
   contactFormTel.pattern = '\\+\\d-\\d{3}-\\d{3}-\\d{2}-\\d{2}';
   contactFormSubmit.classList.add('trigger');
   contactFormSubmit.dataset.popupSelector = '.popup-footer-form';
-  contactFormSubmit.dataset.formSelector = '[name="contact-form"]';
-  var contactFormAction = contactForm.getAttribute('action');
+  contactFormSubmit.dataset.formSelector = "[action=\"".concat(contactForm.getAttribute('action'), "\"]");
   var errorsInputs = new Set();
   contactForm.addEventListener('submit', function (event) {
-    event.preventDefault();
-
     // Валидация поля телефона, т.к. используется маска
     if (contactForm['usertel']) {
       if (contactForm['usertel'].value.replace(/[+_-]/g, '').length !== 11) {
@@ -216,23 +214,16 @@ function setCorrectContactForm() {
         });
       }
     }
-
+  });
+  contactForm.addEventListener('wpcf7mailsent', function () {
     // Для предотвращения спама - отправляем если не отправляли ранее
     if (!Cookies.get('formSended')) {
-      var formData = new FormData(contactForm);
-      fetch(contactFormAction, {
-        method: 'POST',
-        body: formData
-      });
       var halfDay = 0.5;
       Cookies.set('formSended', true, {
         expires: halfDay
       });
       setCorrectVisibilityForm();
-    } else {
-      // alert('Форма уже была отправлена. Следующая отправка возможна только через 12 часов.');
     }
-    contactForm.reset();
   });
 }
 
@@ -240,6 +231,17 @@ function setCorrectContactForm() {
 function setCorrectPopupTriggers() {
   var triggers = document.getElementsByClassName('trigger');
   var popups = document.querySelectorAll('.popup');
+  var showPopup = function showPopup(popup) {
+    popup.classList.add('active');
+    setTimeout(function () {
+      popup.classList.remove('active');
+    }, 5000);
+  };
+  var closePopupGlobal = function closePopupGlobal(event, popup) {
+    if (event.target.closest('.popup') !== popup) {
+      popup.classList.remove('active');
+    }
+  };
 
   // Логика открытия попапов.
   // Т. к. некоторые триггеры появляются в процессе выполнения JS
@@ -250,25 +252,19 @@ function setCorrectPopupTriggers() {
     try {
       var _loop = function _loop() {
         var trigger = _step.value;
-        trigger.addEventListener('click', function (event) {
-          event.stopPropagation();
-          var popupSelector = trigger.dataset.popupSelector;
-          var formSelector = trigger.dataset.formSelector;
-          var popup = document.querySelector(popupSelector);
-          var form = document.querySelector(formSelector);
-
-          // Попапы могут вызвать кнопки submit у форм
-          if (form) {
-            if (Cookies.get('formSended')) return;
-            var isFormValid = form.reportValidity();
-            if (isFormValid) {
-              popup.classList.add('active');
-            }
-          }
-          setTimeout(function () {
-            popup.classList.remove('active');
-          }, 5000);
-        });
+        var formSelector = trigger.dataset.formSelector;
+        var popupSelector = trigger.dataset.popupSelector;
+        var popup = document.querySelector(popupSelector);
+        var form = document.querySelector(formSelector);
+        if (formSelector) {
+          form.addEventListener('wpcf7mailsent', function () {
+            showPopup(popup);
+          });
+        } else {
+          trigger.addEventListener('click', function () {
+            showPopup(popup);
+          });
+        }
       };
       for (_iterator.s(); !(_step = _iterator.n()).done;) {
         _loop();
@@ -279,34 +275,35 @@ function setCorrectPopupTriggers() {
       _iterator.f();
     }
   }, 100);
+  var observer = new MutationObserver(function (mutations) {
+    var _iterator2 = _createForOfIteratorHelper(mutations),
+      _step2;
+    try {
+      var _loop2 = function _loop2() {
+        var mutation = _step2.value;
+        if (mutation.type === 'attributes') {
+          var closePopupFunc = function closePopupFunc(event) {
+            closePopupGlobal(event, mutation.target);
+          };
+          if (mutation.target.classList.contains('active')) {
+            document.addEventListener('click', closePopupFunc);
+          } else {
+            document.removeEventListener('click', closePopupFunc);
+          }
+        }
+      };
+      for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+        _loop2();
+      }
+    } catch (err) {
+      _iterator2.e(err);
+    } finally {
+      _iterator2.f();
+    }
+  });
 
   // Логика работы попапов
   popups.forEach(function (popup) {
-    var closePopupGlobal = function closePopupGlobal(event) {
-      if (event.target.closest('.popup') !== popup) {
-        popup.classList.remove('active');
-      }
-    };
-    var observer = new MutationObserver(function (mutations) {
-      var _iterator2 = _createForOfIteratorHelper(mutations),
-        _step2;
-      try {
-        for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
-          var mutation = _step2.value;
-          if (mutation.type === 'attributes') {
-            if (popup.classList.contains('active')) {
-              document.addEventListener('click', closePopupGlobal);
-            } else {
-              document.removeEventListener('click', closePopupGlobal);
-            }
-          }
-        }
-      } catch (err) {
-        _iterator2.e(err);
-      } finally {
-        _iterator2.f();
-      }
-    });
     observer.observe(popup, {
       attributes: true
     });
@@ -437,6 +434,7 @@ function setCorrectSliders() {
 // Инициализация библиотеки ленивой загрузки
 function setCorrectLazyLoad() {
   new LazyLoad({
-    thresholds: '300px 100%'
+    thresholds: '300px 100%',
+    use_native: true
   });
 }

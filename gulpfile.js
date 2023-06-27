@@ -15,7 +15,7 @@ const appendPrepend = require('gulp-append-prepend');
 
 
 function css() {
-  return src('./assets/css/src/style.css')
+  return src(['./assets/css/src/style.css', '!./assets/css/src/critical.css'])
     // .pipe(sourcemaps.init())
       .pipe(cssimport({}))
       .pipe(autoprefixer({ overrideBrowserslist: ["last 10 version"] }))
