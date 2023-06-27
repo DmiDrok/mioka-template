@@ -6,8 +6,16 @@
     <!-- Секция, встречающая пользователя -->
     <section id="hero" class="hero">
       <!-- Декоративные изображения -->
-      <img class="decor-image hero__decor-image hero__decor-image_1" src="<?php bloginfo('template_url') ?>/assets/images/decor-hero-1.png" alt="" aria-hidden="true">
-      <img class="decor-image hero__decor-image hero__decor-image_2" src="<?php bloginfo('template_url') ?>/assets/images/decor-hero-2.png" alt="" aria-hidden="true">
+      <picture>
+        <source type="image/avif" srcset="<?php bloginfo('template_url') ?>/assets/images/decor-left.avif">
+        <img class="decor-image hero__decor-image hero__decor-image_1" src="<?php bloginfo('template_url') ?>/assets/images/decor-left.png" alt="" aria-hidden="true">
+      </picture>
+
+      <picture>
+        <source type="image/avif" srcset="<?php bloginfo('template_url') ?>/assets/images/decor-right.avif">
+        <source type="image/webp" srcset="<?php bloginfo('template_url') ?>/assets/images/decor-right.webp">
+        <img class="decor-image hero__decor-image hero__decor-image_2" src="<?php bloginfo('template_url') ?>/assets/images/decor-right.png" alt="" aria-hidden="true">
+      </picture>
 
       <div class="hero__row">
         <div class="container hero__container">
@@ -141,7 +149,11 @@
     <section id="team" class="team">
       <div class="team__row">
         <div class="container team__container">
-          <img class="decor-image team__decor-image team__decor-image_1 lazy" src="#" data-src="<?php bloginfo('template_url') ?>/assets/images/decor-team-1.png" alt="" aria-hidden="true">
+          <picture>
+            <source type="image/avif" srcset="#" data-srcset="<?php bloginfo('template_url') ?>/assets/images/decor-center.avif">
+            <source type="image/webp" srcset="#" data-srcset="<?php bloginfo('template_url') ?>/assets/images/decor-center.webp">
+            <img class="decor-image team__decor-image team__decor-image_1 lazy" src="#" data-src="<?php bloginfo('template_url') ?>/assets/images/decor-center.png" alt="" aria-hidden="true">
+          </picture>
 
           <h2 class="section-title team__title"><?php the_field('team_default_title') ?> <b class="marker"><?php the_field('team_bold_title') ?></b></h2>
 
@@ -329,8 +341,17 @@
     <section id="our-works" class="our-works">
       <div class="our-works__row">
         <div class="container our-works__container">
-          <img class="decor-image our-works__decor-image our-works__decor-image_1" src="<?php bloginfo('template_url') ?>/assets/images/decor-flower-1.png" alt="" aria-hidden="true">
-          <img class="decor-image our-works__decor-image our-works__decor-image_2" src="<?php bloginfo('template_url') ?>/assets/images/decor-flower-2.png" alt="" aria-hidden="true">
+          <picture>
+            <source type="image/avif" srcset="#" data-srcset="<?php bloginfo('template_url') ?>/assets/images/decor-flower-1.avif">
+            <source type="image/webp" srcset="#" data-srcset="<?php bloginfo('template_url') ?>/assets/images/decor-flower-1.webp">
+            <img class="lazy decor-image our-works__decor-image our-works__decor-image_1" src="#" data-src="<?php bloginfo('template_url') ?>/assets/images/decor-flower-1.png" alt="" aria-hidden="true">
+          </picture>
+
+          <picture>
+            <source type="image/avif" srcset="#" data-srcset="<?php bloginfo('template_url') ?>/assets/images/decor-flower-2.avif">
+            <source type="image/webp" srcset="#" data-srcset="<?php bloginfo('template_url') ?>/assets/images/decor-flower-2.webp">
+            <img class="lazy decor-image our-works__decor-image our-works__decor-image_2" src="#" data-src="<?php bloginfo('template_url') ?>/assets/images/decor-flower-2.png" alt="" aria-hidden="true">
+          </picture>
 
           <h2 class="section-title our-works__title">
             <?php the_field('works_default_title') ?> <b class="marker"><?php the_field('works_bold_title') ?></b>
@@ -489,8 +510,15 @@
 
           <div class="contacts__content">
             <div class="contacts__map-wrapper">
-              <img class="decor-image contacts__map-decor-image contacts__map-decor-image_1 lazy" src="#" data-src="<?php bloginfo('template_url') ?>/assets/images/map-decor-1.png" alt="" aria-hidden="true">
-              <img class="decor-image contacts__map-decor-image contacts__map-decor-image_2 lazy" src="#" data-src="<?php bloginfo('template_url') ?>/assets/images/map-decor-1.png" alt="" aria-hidden="true">
+              <picture>
+                <source type="image/avif" srcset="#" data-srcset="<?php bloginfo('template_url') ?>/assets/images/decor-center.avif">
+                <source type="image/webp" srcset="#" data-srcset="<?php bloginfo('template_url') ?>/assets/images/decor-center.webp">
+                <img class="decor-image contacts__map-decor-image contacts__map-decor-image_1 lazy" src="#" data-src="<?php bloginfo('template_url') ?>/assets/images/decor-center.png" alt="" aria-hidden="true">
+              </picture>
+              <picture>
+                <source type="image/webp" srcset="#" data-srcset="<?php bloginfo('template_url') ?>/assets/images/decor-center.webp">
+                <img class="decor-image contacts__map-decor-image contacts__map-decor-image_2 lazy" src="#" data-src="<?php bloginfo('template_url') ?>/assets/images/decor-center.png" alt="" aria-hidden="true">
+              </picture>
               
               <?php 
                 $map_script = get_field('map_constructor');

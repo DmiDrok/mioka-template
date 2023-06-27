@@ -185,16 +185,16 @@ function setCorrectSmoothScrollToAnchors() {
 
 // Отображать форму в подвале или нет
 function setCorrectVisibilityForm() {
-  // const contactForm = document.querySelector('.footer-form form');
+  const contactForm = document.querySelector('.footer-form form');
 
-  // if (Cookies.get('formSended')) {
-  //   contactForm.classList.add('disabled');
-  //   contactForm.title = 'Вы уже отправляли форму.';
+  if (Cookies.get('formSended')) {
+    contactForm.classList.add('disabled');
+    contactForm.title = 'Вы уже отправляли форму.';
 
-  //   Array.from(contactForm.elements).forEach((child) => {
-  //     child.disabled = true;
-  //   });
-  // }
+    Array.from(contactForm.elements).forEach((child) => {
+      child.disabled = true;
+    });
+  }
 }
 
 // Отправка формы в подвале

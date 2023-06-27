@@ -808,8 +808,9 @@ body {
   background-color: var(--color-accent-2);
 }
 
-.service:hover .service__point::before {
-  color: var(--color-accent-2);
+.service:hover .service__content-block p::before,
+.service:hover .service__content-block li::before {
+  background-color: var(--color-accent-2);
 }
 
 .service:hover .service__title {
@@ -882,6 +883,7 @@ body {
   position: absolute;
   left: 0px;
   top: 4px;
+  transition: background-color ease .2s;
 }
 
 .service__bottom {
@@ -1091,8 +1093,9 @@ body {
   background-color: var(--color-accent-2);
 }
 
-.team-member:hover .team-member__skill-text::before {
-  color: var(--color-accent-2);
+.team-member:hover .team-member__info-middle p::before, 
+.team-member:hover .team-member__info-middle li::before {
+  background-color: var(--color-accent-2);
 }
 
 .team-member:hover .team-member__position {
@@ -1160,6 +1163,7 @@ body {
   left: 0px;
   top: 10px;
   margin-bottom: 12px;
+  transition: background-color ease .2s;
 }
 
 .team-member__info-middle p,
@@ -2311,6 +2315,19 @@ a.info-block__item:active {
   top: 50%;
   transform: translate(-50%, -50%);
   opacity: .4;
+}
+
+.grecaptcha-badge {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  border: 0;
+  padding: 0;
+  white-space: nowrap;
+  clip-path: inset(100%);
+  clip: rect(0 0 0 0);
+  overflow: hidden;
 }
 
 @media (max-width: 410px) {
