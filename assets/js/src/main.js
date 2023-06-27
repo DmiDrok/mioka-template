@@ -185,22 +185,23 @@ function setCorrectSmoothScrollToAnchors() {
 
 // Отображать форму в подвале или нет
 function setCorrectVisibilityForm() {
-  const contactForm = document.forms['contact-form'];
+  // const contactForm = document.querySelector('.footer-form form');
 
-  if (Cookies.get('formSended')) {
-    contactForm.classList.add('disabled');
-    contactForm.title = 'Вы уже отправляли форму.';
+  // if (Cookies.get('formSended')) {
+  //   contactForm.classList.add('disabled');
+  //   contactForm.title = 'Вы уже отправляли форму.';
 
-    Array.from(contactForm.elements).forEach((child) => {
-      child.disabled = true;
-    });
-  }
+  //   Array.from(contactForm.elements).forEach((child) => {
+  //     child.disabled = true;
+  //   });
+  // }
 }
 
 // Отправка формы в подвале
 function setCorrectContactForm() {
-  const contactForm = document.forms['contact-form'];
+  const contactForm = document.querySelector('.footer-form form');
   if (!contactForm) return;
+  contactForm.removeAttribute('novalidate');
 
   const contactFormFields = contactForm.querySelectorAll('.wpcf7-form-control')
   const contactFormSubmit = contactForm.querySelector('input[type="submit"]');
@@ -212,14 +213,11 @@ function setCorrectContactForm() {
 
   contactFormSubmit.classList.add('trigger');
   contactFormSubmit.dataset.popupSelector = '.popup-footer-form';
-  contactFormSubmit.dataset.formSelector = '[name="contact-form"]';
+  contactFormSubmit.dataset.formSelector = `[action="${contactForm.getAttribute('action')}"]`;
 
-  const contactFormAction = contactForm.getAttribute('action');
   const errorsInputs = new Set();
   
   contactForm.addEventListener('submit', (event) => {
-    event.preventDefault();
-
     // Валидация поля телефона, т.к. используется маска
     if (contactForm['usertel']) {
       if (contactForm['usertel'].value.replace(/[+_-]/g, '').length !== 11) {
@@ -238,22 +236,15 @@ function setCorrectContactForm() {
         errorsInputs.forEach(errInp => errInp.classList.remove('error'));
       }
     }
+  });
 
+  contactForm.addEventListener('wpcf7mailsent', () => {
     // Для предотвращения спама - отправляем если не отправляли ранее
     if (!Cookies.get('formSended')) {
-      const formData = new FormData(contactForm);
-      fetch(contactFormAction, {
-        method: 'POST',
-        body: formData,
-      });
       const halfDay = 0.5;
       Cookies.set('formSended', true, { expires: halfDay });
       setCorrectVisibilityForm();
-    } else {
-      // alert('Форма уже была отправлена. Следующая отправка возможна только через 12 часов.');
     }
-
-    contactForm.reset();
   });
 }
 
@@ -261,55 +252,58 @@ function setCorrectContactForm() {
 function setCorrectPopupTriggers() {
   const triggers = document.getElementsByClassName('trigger');
   const popups = document.querySelectorAll('.popup');
+  const showPopup = (popup) => {
+    popup.classList.add('active');
+
+    setTimeout(() => {
+      popup.classList.remove('active');
+    }, 5000);
+  };
+  const closePopupGlobal = (event, popup) => {
+    if (event.target.closest('.popup') !== popup) {
+      popup.classList.remove('active');
+    }
+  };
   
   // Логика открытия попапов.
   // Т. к. некоторые триггеры появляются в процессе выполнения JS
   // Для надёжности поместил в макротаску
   setTimeout(() => {
     for (const trigger of triggers) {
-      trigger.addEventListener('click', (event) => {
-        event.stopPropagation();
-        const popupSelector = trigger.dataset.popupSelector;
-        const formSelector = trigger.dataset.formSelector;
-        const popup = document.querySelector(popupSelector);
-        const form = document.querySelector(formSelector);
-        
-        // Попапы могут вызвать кнопки submit у форм
-        if (form) {
-          if (Cookies.get('formSended')) return;
+      const formSelector = trigger.dataset.formSelector;
+      const popupSelector = trigger.dataset.popupSelector;
+      const popup = document.querySelector(popupSelector);
+      const form = document.querySelector(formSelector);
 
-          const isFormValid = form.reportValidity();
-
-          if (isFormValid) {
-            popup.classList.add('active');
-          }
-        }
-
-        setTimeout(() => {
-          popup.classList.remove('active');
-        }, 5000);
-      });
+      if (formSelector) {
+        form.addEventListener('wpcf7mailsent', () => {
+          showPopup(popup);
+        });
+      } else {
+        trigger.addEventListener('click', () => {
+          showPopup(popup);
+        });
+      }
     }
   }, 100);
+  
+  const observer = new MutationObserver((mutations) => {
+    for (let mutation of mutations) {
+      if (mutation.type === 'attributes') {
+        const closePopupFunc = (event) => {
+          closePopupGlobal(event, mutation.target);
+        };
+        if (mutation.target.classList.contains('active')) {
+          document.addEventListener('click', closePopupFunc);
+        } else {          
+          document.removeEventListener('click', closePopupFunc);
+        }
+      }
+    }
+  });
 
   // Логика работы попапов
   popups.forEach((popup) => {
-    const closePopupGlobal = (event) => {
-      if (event.target.closest('.popup') !== popup) {
-        popup.classList.remove('active');
-      }
-    };
-    const observer = new MutationObserver((mutations) => {
-      for (let mutation of mutations) {
-        if (mutation.type === 'attributes') {
-          if (popup.classList.contains('active')) {
-            document.addEventListener('click', closePopupGlobal);
-          } else {          
-            document.removeEventListener('click', closePopupGlobal);
-          }
-        }
-      }
-    });
     observer.observe(popup, { attributes: true });
 
     const closePopup = popup.querySelector('.popup-close');
@@ -450,6 +444,5 @@ function setCorrectSliders() {
 // Инициализация библиотеки ленивой загрузки
 function setCorrectLazyLoad() {
   new LazyLoad({
-    thresholds: '300px 100%'
   });
 }

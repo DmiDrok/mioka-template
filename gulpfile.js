@@ -16,13 +16,13 @@ const appendPrepend = require('gulp-append-prepend');
 
 function css() {
   return src('./assets/css/src/style.css')
-    .pipe(sourcemaps.init())
+    // .pipe(sourcemaps.init())
       .pipe(cssimport({}))
       .pipe(autoprefixer({ overrideBrowserslist: ["last 10 version"] }))
       .pipe(uglifycss())
       .pipe(replace('../../fonts/', '../fonts/'))
       .pipe(rename('style.bundle.min.css'))
-    .pipe(sourcemaps.write('./'))
+    // .pipe(sourcemaps.write('./'))
     .pipe(dest('./assets/css'))
 }
 
@@ -37,11 +37,11 @@ function babelify() {
 
 function js() {
   return src(['./assets/js/src/**/*.js', '!./assets/js/src/main.js', '!./assets/js/src/babelify.js'])
-    .pipe(sourcemaps.init())
+    // .pipe(sourcemaps.init())
       .pipe(concat('main.bundle.min.js'))
       .pipe(appendPrepend.appendFile('./assets/js/src/babelify.js'))
       .pipe(uglifyjs())
-    .pipe(sourcemaps.write('.'))
+    // .pipe(sourcemaps.write('.'))
     .pipe(dest('./assets/js'))
 }
 

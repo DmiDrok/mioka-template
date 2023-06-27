@@ -50,25 +50,7 @@
     
             <article class="footer-block footer-form">
               <h3 class="footer-block__title footer-form__title"><?php the_field('footer_form_title') ?></h3>
-    
-              <form action="<?= admin_url('admin-ajax.php'); ?>" method="POST" name="contact-form" class="contact-form">
-                <input type="hidden" name="action" value="contact">
-                <!-- <label>
-                  Ваше имя
-                  <input type="text" name="username" required>
-                </label>
-    
-                <label>
-                  Моб. номер
-                  <input type="tel" name="usertel" required>
-                </label>
-    
-                <textarea title="Введите ваше сообщение" name="usermsg"></textarea>
-    
-                <input type="submit" value="Отправить"> -->
-
-                <?php echo do_shortcode('[contact-form-7 id="21" title="Контактная форма 1"]') ?>
-              </form>
+              <?php echo do_shortcode('[contact-form-7 id="21" title="Контактная форма 1"]') ?>
             </article>
           </div>
         </div>

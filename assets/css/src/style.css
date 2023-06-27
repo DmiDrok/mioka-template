@@ -1343,26 +1343,27 @@ body {
   cursor: zoom-in;
 }
 
-.reviews-photos__block .work__zoom {
+.reviews-photos__block .media-zoom {
   position: absolute;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
   opacity: 0;
   transition: opacity ease .2s;
+  pointer-events: none;
 }
 
 @media (pointer: fine) {
-  .reviews-photos__block .work__zoom::before {
+  .reviews-photos__block .media-zoom::before {
     width: 60px;
     height: 60px;
   }
 
-  .reviews-photos__block:hover .work__zoom {
+  .reviews-photos__block:hover .media-zoom {
     opacity: 1;
   }
 
-  .reviews-photos__block:hover .work__zoom::before {
+  .reviews-photos__block:hover .media-zoom::before {
     animation: pulse infinite 1s forwards linear alternate-reverse;
 }
 }
@@ -1548,7 +1549,7 @@ body {
   transition: opacity ease .1s;
 }
 
-.work:hover .work__zoom::before {
+.work:hover .media-zoom::before {
   animation: pulse infinite 1s forwards linear alternate-reverse;
 }
 
@@ -1580,7 +1581,7 @@ body {
   /* cursor: text; */
 }
 
-.work__zoom {
+.media-zoom {
   background: none;
   border: none;
   cursor: zoom-in;
@@ -1588,12 +1589,12 @@ body {
   transition: opacity ease .3s;
 }
 
-.work__zoom path {
+.media-zoom path {
   transition: fill ease .2s;
   fill: var(--color-accent-2);
 }
 
-.work__zoom::before {
+.media-zoom::before {
   content: "";
   width: 70px;
   height: 70px;
@@ -1606,7 +1607,7 @@ body {
   transform: translate(-50%, -50%);
 }
 
-.work__zoom:hover {
+.media-zoom:hover {
   opacity: .6;
 }
 
@@ -1642,12 +1643,12 @@ body {
     line-height: 18px;
   }
 
-  .work__zoom svg {
+  .media-zoom svg {
     width: 45px;
     height: 45px;
   }
 
-  .work__zoom::before {
+  .media-zoom::before {
     width: 60px;
     height: 60px;
   }
@@ -1764,12 +1765,17 @@ body {
 .question__answer {
   padding: 20px 30px;
   padding-top: 15px;
-
   padding: 0 30px;
   max-height: 0;
   will-change: max-height;
   transition: max-height ease .5s, padding ease .5s;
   box-sizing: content-box;
+}
+
+@media (max-width: 759px) {
+  .question__answer {
+    transition: none;
+  }
 }
 
 .question.active .question__answer {
@@ -2228,32 +2234,33 @@ a.info-block__item:active {
 }
 
 /* Footer Form */
-.contact-form.disabled {
+.footer-form form.disabled {
   opacity: .5;
 }
 
-.wpcf7 {
+.footer-form form {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-gap: 10px;
+  position: relative;
 }
 
-.contact-form label {
+.footer-form form label {
   display: flex;
   flex-direction: column;
   font-size: 14px;
   line-height: 18px;
 }
 
-.contact-form textarea {
+.footer-form form textarea {
   grid-column: span 2;
   min-height: 75px;
   resize: vertical;
   border: none;
 }
 
-.contact-form input,
-.contact-form textarea {
+.footer-form form input,
+.footer-form form textarea {
   border-radius: 2px;
   border: none;
   margin-top: 5px;
@@ -2261,12 +2268,12 @@ a.info-block__item:active {
   font-size: 16px;
 }
 
-.contact-form input.error,
-.contact-form textarea.error {
+.footer-form form input.error,
+.footer-form form textarea.error {
   outline: 1px solid coral;
 }
 
-.contact-form input[type="submit"] {
+.footer-form form input[type="submit"] {
   justify-self: end;
   grid-column: 2/2;
 
@@ -2282,35 +2289,47 @@ a.info-block__item:active {
   transition: opacity ease .2s, transform ease .1s;
 }
 
-.contact-form input[type="submit"]:not(:disabled):hover {
+.footer-form form input[type="submit"]:not(:disabled):hover {
   opacity: .7;
 }
 
-.contact-form input[type="submit"]:not(:disabled):active {
+.footer-form form input[type="submit"]:not(:disabled):active {
   transform: scale(.95);
 }
 
-.contact-form input[type="submit"]:disabled {
+.footer-form form input[type="submit"]:disabled {
   opacity: .5;
+}
+
+.wpcf7-response-output {
+  display: none;
+}
+
+.wpcf7-spinner {
+  position: absolute;
+  left: 44%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  opacity: .4;
 }
 
 @media (max-width: 410px) {
   /* .contact-form, */
-  .wpcf7 {
+  .footer-form form {
     grid-template-columns: 1fr;
   }
 
-  .contact-form textarea,
-  .contact-form input[type="submit"] {
+  .footer-form form textarea,
+  .footer-form form input[type="submit"] {
     grid-column: 1;
   }
 
-  .contact-form input[type="submit"] {
+  .footer-form form input[type="submit"] {
     width: 100%;
   }
 
-  .contact-form input,
-  .contact-form textarea {
+  .footer-form form input,
+  .footer-form form textarea {
     font-size: 13px;
   }
 }

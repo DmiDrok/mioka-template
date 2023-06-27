@@ -40,42 +40,11 @@ add_filter('wpcf7_form_elements', function($content) {
   return $content;
 });
 
-// Обработчик формы обратной связи
-function my_handler() {
-  error_log('success');
-
-  $username = $_POST['username'];
-  $usertel = $_POST['usertel'];
-  $usermsg = $_POST['usermsg'];
-
-  if (empty($username) || empty($usertel) || empty($usermsg)) {
-    return;
-  }
-
-  // Начало настройки сообщения
-  $bot_token = get_option('bot_token');
-  $bot_chat_id = get_option('bot_chat_id');
-  $bot_msg_template = get_option('bot_message');
-
-  $bot_msg_template = str_replace('{username}', $username, $bot_msg_template);
-  $bot_msg_template = str_replace('{usertel}', $usertel, $bot_msg_template);
-  $bot_msg_template = str_replace('{usermsg}', $usermsg, $bot_msg_template);
-  $bot_msg_template = urlencode($bot_msg_template);
-
-  $response = file_get_contents(
-    "https://api.telegram.org/bot$bot_token/sendMessage?&chat_id=$bot_chat_id&parse_mode=Markdown&text=$bot_msg_template"
-  );
-
-  // Перенаправляем на страницу, с которой пришел запрос
-  $referer_url = $_SERVER['HTTP_REFERER'];
-  header("Location: $referer_url");
-}
-
-// add_action('admin_post_contact', 'my_handler');
-// add_action('admin_post_nopriv_contact', 'my_handler');
-// Ajax-отправка
-add_action('wp_ajax_contact', 'my_handler');
-add_action('wp_ajax_nopriv_contact', 'my_handler');
-
 // Поддержка дополнительных возможностей
 add_theme_support('post-thumbnails');
+
+
+// function my_handler() {
+// }
+
+// add_action('wpcf7_submit', 'my_handler');

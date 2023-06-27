@@ -12,14 +12,27 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 //=require fix-wp.js
 //=require lazyload.min.js
 
-var funcsToCall = [setCorrectHeaderByScroll, setCorrectTelInputs, setCorrectBurger, setCorrectServiceCards, setCorrectSmoothScrollToAnchors, setCorrectVisibilityForm, setCorrectContactForm, setCorrectPopupTriggers, setCorrectImagesZoom, setCorrectAccordion, setCorrectSliders, setCorrectLazyLoad];
-funcsToCall.forEach(function (func) {
+var safeCallFunc = function safeCallFunc(func, ctx) {
   try {
-    func.call(_this);
+    func.call(ctx);
   } catch (err) {
     console.error(err.message);
   }
+};
+
+// Вызываем на любых устройствах
+var funcsToCall = [setCorrectHeaderByScroll, setCorrectTelInputs, setCorrectBurger, setCorrectVisibilityForm, setCorrectContactForm, setCorrectPopupTriggers, setCorrectImagesZoom, setCorrectAccordion, setCorrectSliders, setCorrectLazyLoad];
+
+// Вызываем только на компьютерах, т. к. требовательные
+var desktopFuncs = [setCorrectTiltCards, setCorrectSmoothScrollToAnchors];
+funcsToCall.forEach(function (func) {
+  safeCallFunc(func, _this);
 });
+if (window.matchMedia('(min-width: 760px)').matches) {
+  desktopFuncs.forEach(function (func) {
+    safeCallFunc(func, _this);
+  });
+}
 
 // По скроллу - скрываем верхнюю часть шапки
 function setCorrectHeaderByScroll() {
@@ -94,8 +107,8 @@ function setCorrectBurger() {
 }
 
 // Эффект наклона на карточах услуг
-function setCorrectServiceCards() {
-  var cards = document.querySelectorAll('.tild-card');
+function setCorrectTiltCards() {
+  var cards = document.querySelectorAll('.tilt-card');
   var options = {
     reverse: true,
     max: 5,
@@ -397,6 +410,24 @@ function setCorrectSliders() {
           slidesPerView: 2
         }
       }
+    });
+    var tiltCards = teamSlider.querySelectorAll('.tilt-card');
+    teamSwiper.on('slideChangeTransitionStart', function () {
+      tiltCards.forEach(function (el) {
+        el.vanillaTilt.destroy();
+      });
+    });
+    teamSwiper.on('slideChangeTransitionEnd', function () {
+      tiltCards.forEach(function (el) {
+        VanillaTilt.init(el, {
+          reverse: true,
+          max: 5,
+          speed: 600,
+          glare: true,
+          'max-glare': .2,
+          gyroscope: false
+        });
+      });
     });
   };
   makeDocumentsSlider();
