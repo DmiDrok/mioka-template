@@ -216,7 +216,7 @@ function setCorrectContactForm() {
   contactFormTel.pattern = '\\+\\d-\\d{3}-\\d{3}-\\d{2}-\\d{2}';
 
   contactFormSubmit.classList.add('trigger');
-  contactFormSubmit.dataset.popupSelector = '.popup-footer-form';
+  contactFormSubmit.dataset.triggerResultSelector = '.popup-footer-form';
   contactFormSubmit.dataset.formSelector = `[action="${contactForm.getAttribute('action')}"]`;
 
   const errorsInputs = new Set();
@@ -246,7 +246,7 @@ function setCorrectContactForm() {
     // Для предотвращения спама - отправляем если не отправляли ранее
     if (!Cookies.get('formSended')) {
       const halfDay = 0.5;
-      Cookies.set('formSended', true, { expires: halfDay });
+      // Cookies.set('formSended', true, { expires: halfDay });
       setCorrectVisibilityForm();
     }
   });
@@ -255,16 +255,20 @@ function setCorrectContactForm() {
 // Триггер попапов
 function setCorrectPopupTriggers() {
   const triggers = document.getElementsByClassName('trigger');
-  const popups = document.querySelectorAll('.popup');
-  const showPopup = (popup) => {
+  const triggerResults = document.querySelectorAll('.trigger-result');
+  const showPopup = (popup, { timeout }) => {
     popup.classList.add('active');
 
-    setTimeout(() => {
-      popup.classList.remove('active');
-    }, 5000);
+    if (timeout) {
+      setTimeout(() => {
+        popup.classList.remove('active');
+      }, timeout);
+    }
   };
   const closePopupGlobal = (event, popup) => {
-    if (event.target.closest('.popup') !== popup) {
+    const popupContent = popup.querySelector('.trigger-result__content');
+
+    if (event.target.closest('.trigger-result__content') !== popupContent) {
       popup.classList.remove('active');
     }
   };
@@ -275,17 +279,18 @@ function setCorrectPopupTriggers() {
   setTimeout(() => {
     for (const trigger of triggers) {
       const formSelector = trigger.dataset.formSelector;
-      const popupSelector = trigger.dataset.popupSelector;
+      const popupSelector = trigger.dataset.triggerResultSelector;
       const popup = document.querySelector(popupSelector);
       const form = document.querySelector(formSelector);
       
       if (formSelector) {
         form.addEventListener('wpcf7mailsent', () => {
-          showPopup(popup);
+          showPopup(popup, { timeout: 5000 });
         });
       } else {
-        trigger.addEventListener('click', () => {
-          showPopup(popup);
+        trigger.addEventListener('click', (event) => {
+          event.stopPropagation();
+          showPopup(popup, { timeout: null });
         });
       }
     }
@@ -307,18 +312,23 @@ function setCorrectPopupTriggers() {
   });
 
   // Логика работы попапов
-  popups.forEach((popup) => {
+  triggerResults.forEach((popup) => {
     observer.observe(popup, { attributes: true });
 
-    const closePopup = popup.querySelector('.popup-close');
-    const acceptPopup = popup.querySelector('.popup__accept');
+    const closePopup = popup.querySelector('.close');
+    const acceptPopup = popup.querySelector('.accept');
     const closePopupFunc = (event) => {
       event.stopPropagation();
       popup.classList.remove('active')
     };
 
-    closePopup.addEventListener('click', closePopupFunc);
-    acceptPopup.addEventListener('click', closePopupFunc); 
+    if (closePopup) {
+      closePopup.addEventListener('click', closePopupFunc);
+    }
+
+    if (acceptPopup) {
+      acceptPopup.addEventListener('click', closePopupFunc); 
+    }
   });
 }
 
@@ -501,13 +511,13 @@ function setCorrectDropdowns() {
 function setCorrectDateInputs() {
   const dateInputs = document.querySelectorAll('.datetime-select__input');
   if (!dateInputs.length) return;
-
+  
   const minDate = new Date();
   const maxDate = new Date(minDate)
-                      .setFullYear(minDate.getFullYear() + 1);
-
+  .setFullYear(minDate.getFullYear() + 1);
+  
   let isMobile = window.matchMedia('(max-width: 725px)').matches;
-                      
+  
   dateInputs.forEach((dateInput) => {
     new AirDatepicker(dateInput, {
       minHours: 10,
@@ -519,24 +529,33 @@ function setCorrectDateInputs() {
       isMobile: isMobile,
     });
   });
+
+  // Контейнер для календаря появляется после его инициализации
+  // Поэтому - выполняем через setTimeout
+  setTimeout(() => {
+    const airDatepickerContainer = document.querySelector('.air-datepicker-global-container');
+    airDatepickerContainer.addEventListener('click', (event) => {
+      event.stopPropagation();
+    });
+  }, 100);
 }
 
 // Модальное окно оформления заявки
 function setCorrectOrderModal() {
-  const modalTriggers = document.querySelectorAll('[data-modal-order]');
+  // const modalTriggers = document.querySelectorAll('[data-modal-order]');
 
-  modalTriggers.forEach((modalTrigger) => {
-    modalTrigger.addEventListener('click', () => {
-      const modalSelector = modalTrigger.dataset.modalSelector;
-      if (!modalSelector) return;
-      const modal = document.querySelector(modalSelector);
-      const modalClose = modal.querySelector('.modal-close');
+  // modalTriggers.forEach((modalTrigger) => {
+  //   modalTrigger.addEventListener('click', () => {
+  //     const modalSelector = modalTrigger.dataset.modalSelector;
+  //     if (!modalSelector) return;
+  //     const modal = document.querySelector(modalSelector);
+  //     const modalClose = modal.querySelector('.modal-close');
 
-      modal.classList.add('active');
+  //     modal.classList.add('active');
 
-      modalClose.addEventListener('click', () => {
-        modal.classList.remove('active');
-      });
-    });
-  });  
+  //     modalClose.addEventListener('click', () => {
+  //       modal.classList.remove('active');
+  //     });
+  //   });
+  // });  
 }
