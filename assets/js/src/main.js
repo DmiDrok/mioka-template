@@ -5,20 +5,23 @@
 //=require swiper.min.js
 //=require fix-wp.js
 //=require lazyload.min.js
+//=require choices.min.js
+//=require air-datepicker.js
+
 
 const safeCallFunc = (func, ctx) => {
-  try {
+  // try {
     func.call(ctx)
-  } catch(err) {
-    console.error(err.message);
-  }
+  // } catch(err) {
+  //   console.error(err.message);
+  // }
 };
 
 // Вызываем на любых устройствах
 const funcsToCall = [
   setCorrectHeaderByScroll, setCorrectTelInputs, setCorrectBurger, setCorrectVisibilityForm,
-  setCorrectContactForm, setCorrectPopupTriggers, setCorrectImagesZoom,
-  setCorrectAccordion, setCorrectSliders, setCorrectLazyLoad
+  setCorrectContactForm, setCorrectPopupTriggers, setCorrectImagesZoom, setCorrectDropdowns,
+  setCorrectAccordion, setCorrectSliders, setCorrectLazyLoad, setCorrectDateInputs,
 ];
 
 // Вызываем только на компьютерах, т. к. требовательные
@@ -435,10 +438,25 @@ function setCorrectSliders() {
         });
       });
     });
-  }
+  };
+  const makeSpecialistSlider = () => {
+    const specialistSlider = document.querySelector('.choice-slider-specialist__inner');
+    const specialistSwiper = new Swiper(specialistSlider, {
+      slidesPerView: 4,
+      slidesPerGroup: 4,
+      spaceBetween: 15,
+      grabCursor: false,
+      simulateTouch: false,
+      navigation: {
+        prevEl: '.modal-slider-nav-specialists__nav-btn_prev',
+        nextEl: '.modal-slider-nav-specialists__nav-btn_next',
+      },
+    });
+  };
 
   makeDocumentsSlider();
   makeTeamSlider();
+  makeSpecialistSlider();
 }
 
 // Инициализация библиотеки ленивой загрузки
@@ -446,5 +464,37 @@ function setCorrectLazyLoad() {
   new LazyLoad({
     thresholds: '300px 100%',
     use_native: true,
+  });
+}
+
+// Выпадающие списки
+function setCorrectDropdowns() {
+  const dropdowns = document.querySelectorAll('.dropdown__select');
+
+  dropdowns.forEach((dropdown) => {
+    const choices = new Choices(dropdown, {
+      searchEnabled: false,
+      shouldSort: false,
+      itemSelectText: '',
+    });
+  });
+}
+
+// Выбор даты
+function setCorrectDateInputs() {
+  const dateInputs = document.querySelectorAll('.datetime-select__input');
+  if (!dateInputs.length) return;
+
+  dateInputs.forEach((dateInput) => {
+    new AirDatepicker(dateInput, {
+      minDate: new Date(),
+      selectedDates: [new Date()],
+      timepicker: true,
+      minHours: 10,
+      maxHours: 23,
+      minutesStep: 5,
+      position: 'right center',
+      buttons: ['clear', 'today'],
+    });
   });
 }
