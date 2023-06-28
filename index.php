@@ -2,7 +2,7 @@
 
 
 <!-- Уникальное содержимое -->
-<main id="main" class="main">
+  <main id="main" class="main">
     <!-- Секция, встречающая пользователя -->
     <section id="hero" class="hero">
       <!-- Декоративные изображения -->
@@ -130,7 +130,7 @@
                                 <div class="service__bottom">
                                   <span class="service__price"><?php the_field('service_price') ?> руб.</span>
 
-                                  <a class="btn-blue service__action" href="<?php the_field('service_href') ?>" target="_blank">Записаться</a>
+                                  <button class="btn-blue service__action" type="button" data-modal-order data-modal-selector=".order-modal">Записаться</button>
                                 </div>
                               </div>
                             </article>
@@ -191,7 +191,7 @@
                           </div>
   
                           <div class="team-member__info-bottom">
-                            <a class="btn-blue team-member__action" href="<?php the_field('team_member_btn_action_href') ?>" target="_blank">Записаться</a>
+                            <button class="btn-blue team-member__action trigger" type="button" data-modal-order data-modal-selector=".order-modal">Записаться</button>
                           </div>
                         </div>
                       </div>
@@ -697,7 +697,7 @@
   </div>
 
   <!-- Модальное окно оформления записи -->
-  <div class="modal">
+  <div class="modal order-modal">
     <div class="modal__row">
       <div class="container modal__container">
         <div class="modal__content">

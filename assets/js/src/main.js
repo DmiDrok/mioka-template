@@ -22,6 +22,7 @@ const funcsToCall = [
   setCorrectHeaderByScroll, setCorrectTelInputs, setCorrectBurger, setCorrectVisibilityForm,
   setCorrectContactForm, setCorrectPopupTriggers, setCorrectImagesZoom, setCorrectDropdowns,
   setCorrectAccordion, setCorrectSliders, setCorrectLazyLoad, setCorrectDateInputs,
+  setCorrectOrderModal,
 ];
 
 // Вызываем только на компьютерах, т. к. требовательные
@@ -277,7 +278,7 @@ function setCorrectPopupTriggers() {
       const popupSelector = trigger.dataset.popupSelector;
       const popup = document.querySelector(popupSelector);
       const form = document.querySelector(formSelector);
-
+      
       if (formSelector) {
         form.addEventListener('wpcf7mailsent', () => {
           showPopup(popup);
@@ -442,8 +443,8 @@ function setCorrectSliders() {
   const makeSpecialistSlider = () => {
     const specialistSlider = document.querySelector('.choice-slider-specialist__inner');
     const specialistSwiper = new Swiper(specialistSlider, {
-      slidesPerView: 4,
-      slidesPerGroup: 4,
+      slidesPerView: 1,
+      slidesPerGroup: 1,
       spaceBetween: 15,
       grabCursor: false,
       simulateTouch: false,
@@ -451,6 +452,22 @@ function setCorrectSliders() {
         prevEl: '.modal-slider-nav-specialists__nav-btn_prev',
         nextEl: '.modal-slider-nav-specialists__nav-btn_next',
       },
+      breakpoints: {
+        800: {
+          slidesPerView: 4,
+          slidesPerGroup: 4,
+        },
+
+        520: {
+          slidesPerView: 3,
+          slidesPerGroup: 3,
+        },
+
+        375: {
+          slidesPerView: 2,
+          slidesPerGroup: 2,
+        }
+      }
     });
   };
 
@@ -485,16 +502,41 @@ function setCorrectDateInputs() {
   const dateInputs = document.querySelectorAll('.datetime-select__input');
   if (!dateInputs.length) return;
 
+  const minDate = new Date();
+  const maxDate = new Date(minDate)
+                      .setFullYear(minDate.getFullYear() + 1);
+
+  let isMobile = window.matchMedia('(max-width: 725px)').matches;
+                      
   dateInputs.forEach((dateInput) => {
     new AirDatepicker(dateInput, {
-      minDate: new Date(),
-      selectedDates: [new Date()],
-      timepicker: true,
       minHours: 10,
-      maxHours: 23,
-      minutesStep: 5,
-      position: 'right center',
-      buttons: ['clear', 'today'],
+      minDate: minDate,
+      maxDate: maxDate,
+      timepicker: true,
+      position: 'right bottom',
+      buttons: ['clear'],
+      isMobile: isMobile,
     });
   });
+}
+
+// Модальное окно оформления заявки
+function setCorrectOrderModal() {
+  const modalTriggers = document.querySelectorAll('[data-modal-order]');
+
+  modalTriggers.forEach((modalTrigger) => {
+    modalTrigger.addEventListener('click', () => {
+      const modalSelector = modalTrigger.dataset.modalSelector;
+      if (!modalSelector) return;
+      const modal = document.querySelector(modalSelector);
+      const modalClose = modal.querySelector('.modal-close');
+
+      modal.classList.add('active');
+
+      modalClose.addEventListener('click', () => {
+        modal.classList.remove('active');
+      });
+    });
+  });  
 }
