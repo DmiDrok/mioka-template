@@ -20,7 +20,7 @@ const safeCallFunc = (func, ctx) => {
 // Вызываем на любых устройствах
 const funcsToCall = [
   setCorrectHeaderByScroll, setCorrectTelInputs, setCorrectBurger, setCorrectVisibilityForm,
-  setCorrectContactForm, setCorrectPopupTriggers, setCorrectImagesZoom, setCorrectDropdowns,
+  setCorrectContactForm, setCorrectTriggers, setCorrectImagesZoom, setCorrectDropdowns,
   setCorrectAccordion, setCorrectSliders, setCorrectLazyLoad, setCorrectDateInputs,
   setCorrectOrderModal,
 ];
@@ -246,30 +246,37 @@ function setCorrectContactForm() {
     // Для предотвращения спама - отправляем если не отправляли ранее
     if (!Cookies.get('formSended')) {
       const halfDay = 0.5;
-      // Cookies.set('formSended', true, { expires: halfDay });
+      Cookies.set('formSended', true, { expires: halfDay });
       setCorrectVisibilityForm();
     }
   });
 }
 
-// Триггер попапов
-function setCorrectPopupTriggers() {
+// Настройка триггеров попапов, модальных окон
+function setCorrectTriggers() {
   const triggers = document.getElementsByClassName('trigger');
   const triggerResults = document.querySelectorAll('.trigger-result');
-  const showPopup = (popup, { timeout }) => {
-    popup.classList.add('active');
+  // Inert - чтобы пользователь не мог вылезти за пределы попапа / модального окна
+  // Поддержка у последних браузеров
+  const needInert = [
+    document.querySelector('.header'), 
+    document.querySelector('.main'), 
+    document.querySelector('.footer'),
+  ];
+  const showTriggerResult = (triggerResult, { timeout }) => {
+    triggerResult.classList.add('active');
 
     if (timeout) {
       setTimeout(() => {
-        popup.classList.remove('active');
+        triggerResult.classList.remove('active');
       }, timeout);
     }
   };
-  const closePopupGlobal = (event, popup) => {
-    const popupContent = popup.querySelector('.trigger-result__content');
+  const closeTriggerResultGlobal = (event, triggerResult) => {
+    const triggerResultContent = triggerResult.querySelector('.trigger-result__content');
 
-    if (event.target.closest('.trigger-result__content') !== popupContent) {
-      popup.classList.remove('active');
+    if (event.target.closest('.trigger-result__content') !== triggerResultContent) {
+      triggerResult.classList.remove('active');
     }
   };
   
@@ -279,18 +286,18 @@ function setCorrectPopupTriggers() {
   setTimeout(() => {
     for (const trigger of triggers) {
       const formSelector = trigger.dataset.formSelector;
-      const popupSelector = trigger.dataset.triggerResultSelector;
-      const popup = document.querySelector(popupSelector);
+      const triggerResultSelector = trigger.dataset.triggerResultSelector;
+      const triggerResult = document.querySelector(triggerResultSelector);
       const form = document.querySelector(formSelector);
       
       if (formSelector) {
         form.addEventListener('wpcf7mailsent', () => {
-          showPopup(popup, { timeout: 5000 });
+          showTriggerResult(triggerResult, { timeout: 5000 });
         });
       } else {
         trigger.addEventListener('click', (event) => {
           event.stopPropagation();
-          showPopup(popup, { timeout: null });
+          showTriggerResult(triggerResult, { timeout: null });
         });
       }
     }
@@ -299,35 +306,37 @@ function setCorrectPopupTriggers() {
   const observer = new MutationObserver((mutations) => {
     for (let mutation of mutations) {
       if (mutation.type === 'attributes') {
-        const closePopupFunc = (event) => {
-          closePopupGlobal(event, mutation.target);
+        const closeTriggerResultFunc = (event) => {
+          closeTriggerResultGlobal(event, mutation.target);
         };
         if (mutation.target.classList.contains('active')) {
-          document.addEventListener('click', closePopupFunc);
+          needInert.forEach((node) => node.inert = true);
+          document.addEventListener('click', closeTriggerResultFunc);
         } else {          
-          document.removeEventListener('click', closePopupFunc);
+          needInert.forEach((node) => node.inert = false);
+          document.removeEventListener('click', closeTriggerResultFunc);
         }
       }
     }
   });
 
   // Логика работы попапов
-  triggerResults.forEach((popup) => {
-    observer.observe(popup, { attributes: true });
+  triggerResults.forEach((triggerResult) => {
+    observer.observe(triggerResult, { attributes: true });
 
-    const closePopup = popup.querySelector('.close');
-    const acceptPopup = popup.querySelector('.accept');
-    const closePopupFunc = (event) => {
+    const closeTriggerResult = triggerResult.querySelector('.close');
+    const acceptTriggerResult = triggerResult.querySelector('.accept');
+    const closeTriggerResultFunc = (event) => {
       event.stopPropagation();
-      popup.classList.remove('active')
+      triggerResult.classList.remove('active')
     };
 
-    if (closePopup) {
-      closePopup.addEventListener('click', closePopupFunc);
+    if (closeTriggerResult) {
+      closeTriggerResult.addEventListener('click', closeTriggerResultFunc);
     }
 
-    if (acceptPopup) {
-      acceptPopup.addEventListener('click', closePopupFunc); 
+    if (acceptTriggerResult) {
+      acceptTriggerResult.addEventListener('click', closeTriggerResultFunc); 
     }
   });
 }
