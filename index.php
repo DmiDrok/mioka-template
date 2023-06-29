@@ -697,7 +697,7 @@
   </div>
 
   <!-- Модальное окно оформления записи -->
-  <div class="modal trigger-result order-modal">
+  <div class="active modal trigger-result order-modal">
     <div class="modal__row">
       <div class="container modal__container">
         <div class="trigger-result__content modal__content">
@@ -710,7 +710,7 @@
           </button>
 
           <div class="modal__header">
-            <span class="modal__title">Оформление <b class="marker">заявки</b></span>
+            <span class="modal__title"><?php the_field('order_default_title', 322) ?> <b class="marker"><?php the_field('order_bold_title', 322) ?></b></span>
           </div>
 
           <div action="#" method="POST" class="modal-form">
@@ -734,78 +734,36 @@
                 <div class="choice-slider choice-slider-specialist modal-form__slider-choice">
                   <div class="swiper choice-slider__inner choice-slider-specialist__inner">
                     <div class="swiper-wrapper choice-slider__wrapper">
-                      <article class="swiper-slide choice-slider__variation variation">
-                        <div class="variation__inner">
-                          <div class="variation__photo">
-                            <img src="<?php bloginfo('template_url') ?>/assets/images/team-member-1.jpg" alt="Мастер № 1">
-                          </div>
-  
-                          <div class="variation__text">
-                            <h3 class="variation__name">Полина Каурова</h3>
-                            <span class="variation__position">Мастер бровист</span>
-                          </div>
-                        </div>
-                      </article>
-                      <article class="swiper-slide choice-slider__variation variation">
-                        <div class="variation__inner">
-                          <div class="variation__photo">
-                            <img src="<?php bloginfo('template_url') ?>/assets/images/team-member-1.jpg" alt="Мастер № 1">
-                          </div>
-  
-                          <div class="variation__text">
-                            <h3 class="variation__name">Полина Каурова</h3>
-                            <span class="variation__position">Мастер бровист</span>
-                          </div>
-                        </div>
-                      </article>
-                      <article class="swiper-slide choice-slider__variation variation">
-                        <div class="variation__inner">
-                          <div class="variation__photo">
-                            <img src="<?php bloginfo('template_url') ?>/assets/images/team-member-1.jpg" alt="Мастер № 1">
-                          </div>
-  
-                          <div class="variation__text">
-                            <h3 class="variation__name">Полина Каурова</h3>
-                            <span class="variation__position">Мастер бровист</span>
-                          </div>
-                        </div>
-                      </article>
-                      <article class="swiper-slide choice-slider__variation variation">
-                        <div class="variation__inner">
-                          <div class="variation__photo">
-                            <img src="<?php bloginfo('template_url') ?>/assets/images/team-member-1.jpg" alt="Мастер № 1">
-                          </div>
-  
-                          <div class="variation__text">
-                            <h3 class="variation__name">Полина Каурова</h3>
-                            <span class="variation__position">Мастер бровист</span>
-                          </div>
-                        </div>
-                      </article>
-                      <article class="swiper-slide choice-slider__variation variation">
-                        <div class="variation__inner">
-                          <div class="variation__photo">
-                            <img src="<?php bloginfo('template_url') ?>/assets/images/team-member-1.jpg" alt="Мастер № 1">
-                          </div>
-  
-                          <div class="variation__text">
-                            <h3 class="variation__name">Полина Каурова</h3>
-                            <span class="variation__position">Мастер бровист</span>
-                          </div>
-                        </div>
-                      </article>
-                      <article class="swiper-slide choice-slider__variation variation">
-                        <div class="variation__inner">
-                          <div class="variation__photo">
-                            <img src="<?php bloginfo('template_url') ?>/assets/images/team-member-1.jpg" alt="Мастер № 1">
-                          </div>
-  
-                          <div class="variation__text">
-                            <h3 class="variation__name">Полина Каурова</h3>
-                            <span class="variation__position">Мастер бровист</span>
-                          </div>
-                        </div>
-                      </article>
+                      <?php 
+                        global $post;
+                        
+                        $myposts = get_posts([ 
+                          'numberposts' => -1,
+                          'category_name' => 'team_type',
+                          'order' => 'ASC',
+                        ]);
+                        
+                        if( $myposts ):
+                          foreach( $myposts as $post ):
+                            setup_postdata( $post );
+                            ?>
+                              <article class="swiper-slide choice-slider__variation variation">
+                                <button class="variation__inner" type="button">
+                                  <div class="variation__photo">
+                                    <img src="<?php the_post_thumbnail_url() ?>" alt="<?php the_title() ?>">
+                                  </div>
+          
+                                  <div class="variation__text">
+                                    <h3 class="variation__name"><?php the_title() ?></h3>
+                                    <span class="variation__position"><?php the_field('team_member_position') ?></span>
+                                  </div>
+                                </button>
+                              </article>
+                        <?php 
+                          endforeach;
+                          wp_reset_postdata();
+                          endif;
+                        ?> 
                     </div>
                   </div>                  
                 </div>
@@ -846,7 +804,7 @@
               <div class="modal-form-field submit-field">
                 <button class="modal-form__submit orange-gradient-btn" type="submit">
                   <span class="orange-gradient-btn__inner">
-                    Оформить
+                    <?php the_field('order_submit_text', 322) ?>
                   </span>
                 </button>
               </div>

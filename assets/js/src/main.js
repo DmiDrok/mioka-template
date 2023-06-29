@@ -263,7 +263,17 @@ function setCorrectTriggers() {
     document.querySelector('.main'), 
     document.querySelector('.footer'),
   ];
-  const showTriggerResult = (triggerResult, { timeout }) => {
+  const makeBodyUnscroll = () => {
+    if (!document.body.classList.contains('unscroll')) {
+      document.body.classList.add('unscroll');
+    }
+  };
+  const makeBodyScroll = () => {
+    if (document.body.classList.contains('unscroll')) {
+      document.body.classList.remove('unscroll');
+    }
+  };
+  const showTriggerResult = (triggerResult, { timeout, blockScroll }) => {
     triggerResult.classList.add('active');
 
     if (timeout) {
@@ -271,12 +281,17 @@ function setCorrectTriggers() {
         triggerResult.classList.remove('active');
       }, timeout);
     }
+
+    if (blockScroll) {
+      makeBodyUnscroll();
+    }
   };
   const closeTriggerResultGlobal = (event, triggerResult) => {
     const triggerResultContent = triggerResult.querySelector('.trigger-result__content');
 
     if (event.target.closest('.trigger-result__content') !== triggerResultContent) {
       triggerResult.classList.remove('active');
+      makeBodyScroll();
     }
   };
   
@@ -297,7 +312,7 @@ function setCorrectTriggers() {
       } else {
         trigger.addEventListener('click', (event) => {
           event.stopPropagation();
-          showTriggerResult(triggerResult, { timeout: null });
+          showTriggerResult(triggerResult, { timeout: null, blockScroll: true });
         });
       }
     }
@@ -328,7 +343,8 @@ function setCorrectTriggers() {
     const acceptTriggerResult = triggerResult.querySelector('.accept');
     const closeTriggerResultFunc = (event) => {
       event.stopPropagation();
-      triggerResult.classList.remove('active')
+      triggerResult.classList.remove('active');
+      makeBodyScroll();
     };
 
     if (closeTriggerResult) {

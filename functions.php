@@ -18,6 +18,7 @@ function add_scripts() {
   wp_enqueue_script('lazyload', get_template_directory_uri() . '/assets/js/src/lazyload.min.js', [], null, true);
   wp_enqueue_script('choices', get_template_directory_uri() . '/assets/js/src/choices.min.js', [], null, true);
   wp_enqueue_script('air-datepicker', get_template_directory_uri() . '/assets/js/src/air-datepicker.js', [], null, true);
+  wp_enqueue_script('vue', 'https://unpkg.com/vue@3/dist/vue.global.js', [], null, true);
   wp_enqueue_script('fix-wp', get_template_directory_uri() . '/assets/js/src/fix-wp.js', [], null, true);
   wp_enqueue_script('main', get_template_directory_uri() . '/assets/js/src/main.js', [], null, true);
   
