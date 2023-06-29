@@ -91,16 +91,18 @@
 
           <div class="services__content">
             <?php 
-              $parent_id = 4;
               $sub_cats = get_categories( array(
-                'child_of' => $parent_id,
+                'taxonomy' => 'services_types',
                 'hide_empty' => 0
               ) );
 
               if ($sub_cats):
-                foreach ($sub_cats as $cat):
+                foreach ($sub_cats as $cat):                  
               ?>
                 <div class="services-block">
+                  <?php
+                  
+                  ?>
                   <span class="services-block__title"><?php echo $cat->name; ?></span>
 
                   <div class="services-block__grid">
@@ -108,10 +110,10 @@
                       <?php
                         global $post;
 
-                        $myposts = get_posts([ 
-                          'numberposts' => -1,
-                          'category' => $cat->cat_ID,
-                          'order' => 'DESC',
+                        $myposts = get_posts([
+                          'post_type' => 'services',
+                          'services_types' => $cat->slug,
+                          'numberposts' => -1
                         ]);
 
                       if( $myposts ):
@@ -165,14 +167,16 @@
                 global $post;
   
                 $myposts = get_posts([ 
-                  'numberposts' => -1,
-                  'category_name' => 'team_type',
-                  'order' => 'ASC'
+                  'post_type' => 'employees',
+                  'order' => 'ASC',
+                  'numberposts' => -1
                 ]);
   
                 if( $myposts ):
                   foreach( $myposts as $post ):
                     setup_postdata( $post );
+
+                    $positions = wp_get_post_terms($post->ID, 'employees_types'); // Должности
                     ?>            
                     <li class="swiper-slide tilt-card team-member">
                       <div class="team-member__inner">
@@ -183,7 +187,17 @@
                         <div class="team-member__info">
                           <div class="team-member__info-top">
                             <span class="team-member__name"><?php the_title() ?></span>
-                            <span class="team-member__position"><?php the_field('team_member_position') ?></span>
+                            <span class="team-member__position">
+                              <?php 
+                                if (count($positions) > 1) {
+                                  foreach($positions as $position) {
+                                    echo $position->name . '<br>';
+                                  }
+                                } else {
+                                  echo $positions[0]->name;
+                                }
+                              ?>
+                            </span>
                           </div>
   
                           <div class="team-member__info-middle">
@@ -697,7 +711,7 @@
   </div>
 
   <!-- Модальное окно оформления записи -->
-  <div class="active modal trigger-result order-modal">
+  <div class="modal trigger-result order-modal">
     <div class="modal__row">
       <div class="container modal__container">
         <div class="trigger-result__content modal__content">
@@ -713,7 +727,26 @@
             <span class="modal__title"><?php the_field('order_default_title', 322) ?> <b class="marker"><?php the_field('order_bold_title', 322) ?></b></span>
           </div>
 
-          <div action="#" method="POST" class="modal-form">
+          <?php 
+            global $post;
+                        
+            $myposts = get_posts([ 
+              'numberposts' => -1,
+              'category_name' => 'team_type',
+              'order' => 'ASC',
+            ]);
+
+            $json_data = json_encode($myposts, JSON_UNESCAPED_UNICODE);
+            $json_data = str_replace(array("'", '"'), array("\'", '\"'), $json_data);
+            
+          ?>
+
+          <form 
+            action="#" 
+            method="POST" 
+            id="modal-form" 
+            class="modal-form"
+          >
             <div class="modal-form__inner">
               <!-- Выбор специалиста -->
               <div class="modal-form-field">
@@ -735,19 +768,15 @@
                   <div class="swiper choice-slider__inner choice-slider-specialist__inner">
                     <div class="swiper-wrapper choice-slider__wrapper">
                       <?php 
-                        global $post;
                         
-                        $myposts = get_posts([ 
-                          'numberposts' => -1,
-                          'category_name' => 'team_type',
-                          'order' => 'ASC',
-                        ]);
                         
                         if( $myposts ):
                           foreach( $myposts as $post ):
                             setup_postdata( $post );
                             ?>
-                              <article class="swiper-slide choice-slider__variation variation">
+                              <article
+                                class="swiper-slide choice-slider__variation variation"
+                              >
                                 <button class="variation__inner" type="button">
                                   <div class="variation__photo">
                                     <img src="<?php the_post_thumbnail_url() ?>" alt="<?php the_title() ?>">
@@ -809,7 +838,7 @@
                 </button>
               </div>
             </div>
-          </div>
+          </form>
         </div>
       </div>
     </div>

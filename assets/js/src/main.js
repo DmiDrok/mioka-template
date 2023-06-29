@@ -584,3 +584,10 @@ function setCorrectOrderModal() {
   //   });
   // });  
 }
+
+// Логика формы оформления записи
+function setCorrectOrderForm() {
+  
+}
+
+setCorrectOrderForm();
