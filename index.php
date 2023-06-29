@@ -8,6 +8,7 @@
       <!-- Декоративные изображения -->
       <picture>
         <source type="image/avif" srcset="<?php bloginfo('template_url') ?>/assets/images/decor-left.avif">
+        <source type="image/webp" srcset="<?php bloginfo('template_url') ?>/assets/images/decor-left.webp">
         <img class="decor-image hero__decor-image hero__decor-image_1" src="<?php bloginfo('template_url') ?>/assets/images/decor-left.png" alt="" aria-hidden="true">
       </picture>
 
