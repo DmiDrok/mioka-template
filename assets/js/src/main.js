@@ -10,11 +10,11 @@
 
 
 const safeCallFunc = (func, ctx) => {
-  // try {
+  try {
     func.call(ctx)
-  // } catch(err) {
-  //   console.error(err.message);
-  // }
+  } catch(err) {
+    console.error(err.message);
+  }
 };
 
 // Вызываем на любых устройствах

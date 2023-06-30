@@ -250,28 +250,35 @@
                   global $post;
 
                   $myposts = get_posts([ 
+                    'post_type' => 'reviews',
+                    'reviews_types' => 'photoreviews',
                     'numberposts' => 4,
-                    'category_name'    => 'photoreviews'
+                    'order' => 'DESC'
                   ]);
                   
                   if( $myposts ):
                     foreach( $myposts as $post ):
                       setup_postdata( $post );
                       ?>
-                        <div class="reviews-photos__block">
+                        <button 
+                          data-caption="<?php echo the_content(); ?>"
+                          data-fancybox="photoreviews"  
+                          data-src="<?php the_post_thumbnail_url() ?>"
+                          type="button"
+                          class="reviews-photos__block"
+                        >
                           <img 
                             class="reviews-photos__photo lazy" 
-                            src="#" 
-                            data-src="<?php the_post_thumbnail_url() ?>" 
+                            src="#"             
+                            data-src="<?php the_post_thumbnail_url() ?>"
                             alt="<?php the_title() ?>"
-                            data-fancybox="photoreviews"
                           >
-                          <button class="media-zoom" type="button" title="Рассмотреть подробнее">
+                          <span class="media-zoom">
                             <svg aria-hidden="true" width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
                               <path d="M37.5659 34.6188L46.4888 43.5397L43.5409 46.4876L34.62 37.5647C31.3008 40.2255 27.1721 41.6728 22.918 41.6667C12.568 41.6667 4.16797 33.2667 4.16797 22.9167C4.16797 12.5667 12.568 4.16675 22.918 4.16675C33.268 4.16675 41.668 12.5667 41.668 22.9167C41.674 27.1709 40.2268 31.2995 37.5659 34.6188ZM33.3867 33.073C36.0307 30.354 37.5073 26.7093 37.5013 22.9167C37.5013 14.8605 30.9742 8.33341 22.918 8.33341C14.8617 8.33341 8.33463 14.8605 8.33463 22.9167C8.33463 30.973 14.8617 37.5001 22.918 37.5001C26.7105 37.506 30.3552 36.0295 33.0742 33.3855L33.3867 33.073ZM20.8346 20.8334V14.5834H25.0013V20.8334H31.2513V25.0001H25.0013V31.2501H20.8346V25.0001H14.5846V20.8334H20.8346Z" fill="#f4ca90"/>
                             </svg>
-                          </button>
-                        </div>
+                          </span>
+                        </button>
                     <?php endforeach; endif; wp_reset_postdata(); ?>
               </div>
             </div>
@@ -290,7 +297,8 @@
 
                   $myposts = get_posts([ 
                     'numberposts' => 3,
-                    'category_name' => 'textreviews',
+                    'post_type' => 'reviews',
+                    'reviews_types' => 'textreviews',
                     'orderby' => 'meta_value_num',
                     'order' => 'DESC',
                     'meta_key' => 'textreview_stars_number',
@@ -308,35 +316,47 @@
                             <div class="review__info">
                               <address class="review__author"><?php the_title() ?></address>
                               <div class="review__about">
-                                <time class="review__time" datetime="2019-08-20 22:32"><?php the_field('textreview_datetime') ?></time>
-                                <span class="review__place"><?php the_field('textreview_place') ?></span>
+                                <span class="review__time"><?php the_field('textreview_datetime') ?></span>
+
+                                <?php 
+                                  $textreview_place = get_field('textreview_place');
+
+                                  if ($textreview_place):
+                                ?>
+                                  <span class="review__place">г. <?php echo $textreview_place ?></span>
+                                <?php endif; ?>
                               </div>
                             </div>
+                            <?php 
+                              $fill_stars_num = intval(get_field('textreview_stars_number'));
 
-                            <ul class="raiting">
-                              <?php
-                                $all_stars_num = 5;
-                                $fill_stars_num = intval(get_field('textreview_stars_number'));
-                                $empty_stars_num = $all_stars_num - $fill_stars_num;
+                              if ($fill_stars_num > 0):
+                            ?>
 
-                                for ($i = 0; $i < $fill_stars_num; $i++):
-                              ?>
-                                <li class="raiting__item">
-                                  <svg class="raiting__star raiting__star_filled" aria-hidden="true" width="16" height="15" viewBox="0 0 16 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M7.20703 1.24219L5.42969 4.87891L1.41016 5.45312C0.699219 5.5625 0.425781 6.4375 0.945312 6.95703L3.81641 9.77344L3.13281 13.7383C3.02344 14.4492 3.78906 14.9961 4.41797 14.668L8 12.7812L11.5547 14.668C12.1836 14.9961 12.9492 14.4492 12.8398 13.7383L12.1562 9.77344L15.0273 6.95703C15.5469 6.4375 15.2734 5.5625 14.5625 5.45312L10.5703 4.87891L8.76562 1.24219C8.46484 0.613281 7.53516 0.585938 7.20703 1.24219Z"/>
-                                  </svg>
-                                </li>
-                              <?php 
-                                endfor;
-                                for ($i = 0; $i < $empty_stars_num; $i++):
-                              ?>
-                                <li class="raiting__item">
-                                  <svg class="raiting__star" aria-hidden="true" width="16" height="15" viewBox="0 0 16 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M7.20703 1.24219L5.42969 4.87891L1.41016 5.45312C0.699219 5.5625 0.425781 6.4375 0.945312 6.95703L3.81641 9.77344L3.13281 13.7383C3.02344 14.4492 3.78906 14.9961 4.41797 14.668L8 12.7812L11.5547 14.668C12.1836 14.9961 12.9492 14.4492 12.8398 13.7383L12.1562 9.77344L15.0273 6.95703C15.5469 6.4375 15.2734 5.5625 14.5625 5.45312L10.5703 4.87891L8.76562 1.24219C8.46484 0.613281 7.53516 0.585938 7.20703 1.24219Z"/>
-                                  </svg>
-                                </li>
-                              <?php endfor; ?>
-                            </ul>
+                              <ul class="raiting">
+                                <?php
+                                  $all_stars_num = 5;
+                                  $empty_stars_num = $all_stars_num - $fill_stars_num;
+
+                                  for ($i = 0; $i < $fill_stars_num; $i++):
+                                ?>
+                                  <li class="raiting__item">
+                                    <svg class="raiting__star raiting__star_filled" aria-hidden="true" width="16" height="15" viewBox="0 0 16 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                      <path d="M7.20703 1.24219L5.42969 4.87891L1.41016 5.45312C0.699219 5.5625 0.425781 6.4375 0.945312 6.95703L3.81641 9.77344L3.13281 13.7383C3.02344 14.4492 3.78906 14.9961 4.41797 14.668L8 12.7812L11.5547 14.668C12.1836 14.9961 12.9492 14.4492 12.8398 13.7383L12.1562 9.77344L15.0273 6.95703C15.5469 6.4375 15.2734 5.5625 14.5625 5.45312L10.5703 4.87891L8.76562 1.24219C8.46484 0.613281 7.53516 0.585938 7.20703 1.24219Z"/>
+                                    </svg>
+                                  </li>
+                                <?php 
+                                  endfor;
+                                  for ($i = 0; $i < $empty_stars_num; $i++):
+                                ?>
+                                  <li class="raiting__item">
+                                    <svg class="raiting__star" aria-hidden="true" width="16" height="15" viewBox="0 0 16 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                      <path d="M7.20703 1.24219L5.42969 4.87891L1.41016 5.45312C0.699219 5.5625 0.425781 6.4375 0.945312 6.95703L3.81641 9.77344L3.13281 13.7383C3.02344 14.4492 3.78906 14.9961 4.41797 14.668L8 12.7812L11.5547 14.668C12.1836 14.9961 12.9492 14.4492 12.8398 13.7383L12.1562 9.77344L15.0273 6.95703C15.5469 6.4375 15.2734 5.5625 14.5625 5.45312L10.5703 4.87891L8.76562 1.24219C8.46484 0.613281 7.53516 0.585938 7.20703 1.24219Z"/>
+                                    </svg>
+                                  </li>
+                                <?php endfor; ?>
+                              </ul>
+                            <?php endif; ?>
                           </header>
 
                           <p class="review__text">
@@ -376,48 +396,48 @@
             <?php
               global $post;
 
-              $myposts = get_posts([ 
+              $myposts = get_posts([
+                'post_type' => 'portfolio_works',
+                'order' => 'ASC',
                 'numberposts' => -1,
-                'category_name'    => 'works_type',
               ]);
               
               if( $myposts ):
                 foreach( $myposts as $post ):
                   setup_postdata( $post );
                   ?>
-                    <div class="work" data-caption="<?php the_title() ?>" data-fancybox="our-works-photos" data-src="<?php the_post_thumbnail_url() ?>">
-                        <img class="work__image lazy" src="#" data-src="<?php the_post_thumbnail_url() ?>" alt="<?php the_title() ?>">              
+                    <button class="work" data-caption="<?php the_title() ?>" data-fancybox="our-works-photos" data-src="<?php the_post_thumbnail_url() ?>">
+                      <img class="work__image lazy" src="#" data-src="<?php the_post_thumbnail_url() ?>" alt="<?php the_title() ?>">              
 
-                        <div class="work__info">
-                          <div class="work__head">
-                            <span class="work__title"><?php the_title() ?></span>
-                          </div>
+                      <div class="work__info">
+                        <div class="work__head">
+                          <span class="work__title"><?php the_title() ?></span>
+                        </div>
 
-                          <div class="work__middle">
-                            <button class="media-zoom" type="button" title="Рассмотреть подробнее">
-                              <svg aria-hidden="true" width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M37.5659 34.6188L46.4888 43.5397L43.5409 46.4876L34.62 37.5647C31.3008 40.2255 27.1721 41.6728 22.918 41.6667C12.568 41.6667 4.16797 33.2667 4.16797 22.9167C4.16797 12.5667 12.568 4.16675 22.918 4.16675C33.268 4.16675 41.668 12.5667 41.668 22.9167C41.674 27.1709 40.2268 31.2995 37.5659 34.6188ZM33.3867 33.073C36.0307 30.354 37.5073 26.7093 37.5013 22.9167C37.5013 14.8605 30.9742 8.33341 22.918 8.33341C14.8617 8.33341 8.33463 14.8605 8.33463 22.9167C8.33463 30.973 14.8617 37.5001 22.918 37.5001C26.7105 37.506 30.3552 36.0295 33.0742 33.3855L33.3867 33.073ZM20.8346 20.8334V14.5834H25.0013V20.8334H31.2513V25.0001H25.0013V31.2501H20.8346V25.0001H14.5846V20.8334H20.8346Z" fill="#f4ca90"/>
-                              </svg>
-                            </button>
-                          </div>
+                        <div class="work__middle">
+                          <span class="media-zoom" title="Рассмотреть">
+                            <svg aria-hidden="true" width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M37.5659 34.6188L46.4888 43.5397L43.5409 46.4876L34.62 37.5647C31.3008 40.2255 27.1721 41.6728 22.918 41.6667C12.568 41.6667 4.16797 33.2667 4.16797 22.9167C4.16797 12.5667 12.568 4.16675 22.918 4.16675C33.268 4.16675 41.668 12.5667 41.668 22.9167C41.674 27.1709 40.2268 31.2995 37.5659 34.6188ZM33.3867 33.073C36.0307 30.354 37.5073 26.7093 37.5013 22.9167C37.5013 14.8605 30.9742 8.33341 22.918 8.33341C14.8617 8.33341 8.33463 14.8605 8.33463 22.9167C8.33463 30.973 14.8617 37.5001 22.918 37.5001C26.7105 37.506 30.3552 36.0295 33.0742 33.3855L33.3867 33.073ZM20.8346 20.8334V14.5834H25.0013V20.8334H31.2513V25.0001H25.0013V31.2501H20.8346V25.0001H14.5846V20.8334H20.8346Z" fill="#f4ca90"/>
+                            </svg>
+                          </span>
+                        </div>
 
-                          <div class="work__bottom">
-                            <div class="work__description"><?php the_content() ?></div>
-                            <span class="work__price">
-                              <?php
-                                 $work_price = get_field('work_item_price');
+                        <div class="work__bottom">
+                          <div class="work__description"><?php the_content() ?></div>
+                          <span class="work__price">
+                            <?php
+                                $work_price = get_field('work_item_price');
 
-                                 if ($work_price) {
-                                  echo "$work_price руб.";
-                                 }
-                              ?>
-                            </span>
-                          </div>
+                                if ($work_price) {
+                                echo "$work_price руб.";
+                                }
+                            ?>
+                          </span>
                         </div>
                       </div>
+                    </button>
                 <?php endforeach; wp_reset_postdata(); endif; ?>
           </div>
-
         </div>
       </div>
     </section>
@@ -434,9 +454,10 @@
               <?php 
                 global $post;
 
-                $myposts = get_posts([ 
+                $myposts = get_posts([
+                  'post_type' => 'questions',
                   'numberposts' => -1,
-                  'category_name' => 'questions_type',
+                  'order' => 'ASC'
                 ]);
                 
                 if( $myposts ):
@@ -479,24 +500,24 @@
                   <?php
                     global $post;
 
-                    $myposts = get_posts([ 
-                      'numberposts' => -1,
-                      'category_name' => 'documents_type',
+                    $myposts = get_posts([
+                      'post_type' => 'documents',
+                      'order' => 'DESC',
+                      'numberposts' => -1
                     ]);
 
                     if ($myposts):
                       foreach($myposts as $post):
                         setup_postdata( $post )
                   ?>
-                    <div class="swiper-slide documents-slider__slide">
+                    <button type="button" data-fancybox="documents-photos" data-src="<?php the_post_thumbnail_url() ?>" data-caption="<?php the_title(); ?>" class="swiper-slide documents-slider__slide">
                       <img
-                        class="documents-slider__slide-image lazy"
-                        data-fancybox="documents-photos"
-                        data-src="<?php the_post_thumbnail_url() ?>"
+                        class="documents-slider__slide-image lazy"                        
+                        data-src="<?php the_post_thumbnail_url() ?>"                        
                         href="<?php the_post_thumbnail_url() ?>"
                         alt="<?php the_title() ?>"
                       >
-                    </div>
+                    </button>
                   <?php endforeach; wp_reset_postdata(); endif; ?>
                 </div>
               </div>
@@ -732,14 +753,10 @@
             global $post;
                         
             $myposts = get_posts([ 
-              'numberposts' => -1,
-              'category_name' => 'team_type',
+              'post_type' => 'employees',
               'order' => 'ASC',
-            ]);
-
-            $json_data = json_encode($myposts, JSON_UNESCAPED_UNICODE);
-            $json_data = str_replace(array("'", '"'), array("\'", '\"'), $json_data);
-            
+              'numberposts' => -1,
+            ]);            
           ?>
 
           <form 

@@ -18,7 +18,6 @@ function add_scripts() {
   wp_enqueue_script('lazyload', get_template_directory_uri() . '/assets/js/src/lazyload.min.js', [], null, true);
   wp_enqueue_script('choices', get_template_directory_uri() . '/assets/js/src/choices.min.js', [], null, true);
   wp_enqueue_script('air-datepicker', get_template_directory_uri() . '/assets/js/src/air-datepicker.js', [], null, true);
-  wp_enqueue_script('vue', 'https://unpkg.com/vue@3/dist/vue.global.js', [], null, true);
   wp_enqueue_script('fix-wp', get_template_directory_uri() . '/assets/js/src/fix-wp.js', [], null, true);
   wp_enqueue_script('main', get_template_directory_uri() . '/assets/js/src/main.js', [], null, true);
   
@@ -52,6 +51,9 @@ add_theme_support('post-thumbnails');
 add_action( 'init', 'register_services_post_type_and_taxonomy' );
 add_action( 'init', 'register_employees_post_type_and_taxonomy' );
 add_action ('init', 'register_works_post_type_and_taxonomy' );
+add_action( 'init', 'register_documents_post_type_and_taxonomy' );
+add_action( 'init', 'register_reviews_post_type_and_taxonomy' );
+add_action( 'init', 'register_questions_post_type_and_taxonomy' );
  
 // Своё поле для услуг
 function register_services_post_type_and_taxonomy() {
@@ -80,7 +82,7 @@ function register_services_post_type_and_taxonomy() {
 		'publicly_queryable' => false,
 		'has_archive' => false,
 		'menu_icon' => 'dashicons-grid-view',
-		'menu_position' => 5,
+		'menu_position' => 4,
     'show_in_rest' => true, // Для включения Gutenberg-редактора
 		'supports' => array( 'title', 'editor', 'thumbnail' )
 	);
@@ -129,7 +131,7 @@ function register_employees_post_type_and_taxonomy() {
 		'publicly_queryable' => false,
 		'has_archive' => false,
 		'menu_icon' => 'dashicons-universal-access-alt',
-		'menu_position' => 6,
+		'menu_position' => 4,
     'show_in_rest' => true, // Для включения Gutenberg-редактора
 		'supports' => array( 'title', 'editor', 'thumbnail' )
 	);
@@ -178,18 +180,88 @@ function register_works_post_type_and_taxonomy() {
 		'publicly_queryable' => false,
 		'has_archive' => false,
 		'menu_icon' => 'dashicons-yes-alt',
-		'menu_position' => 7,
+		'menu_position' => 4,
     'show_in_rest' => true, // Для включения Gutenberg-редактора
 		'supports' => array( 'title', 'editor', 'thumbnail' )
 	);
  
 	register_post_type( 'portfolio_works', $args );
+}
+
+// Своё поле для документов
+function register_documents_post_type_and_taxonomy() {
+  // Регистрация post type
+	$labels = array(
+		'name' => 'Документы',
+		'singular_name' => 'Документ',
+		'add_new' => 'Добавить документ',
+		'add_new_item' => 'Добавить документ',
+		'edit_item' => 'Редактировать документ',
+		'new_item' => 'Новый документ',
+		'all_items' => 'Все документы',
+		'search_items' => 'Искать документы',
+		'not_found' =>  'Документов по заданным критериям не найдено.',
+		'not_found_in_trash' => 'В корзине нет документов.',
+		'menu_name' => 'Документы',
+    'view_items' => 'Просмотр документов',
+    'attributes' => 'Свойства документов',
+
+    'item_updated' => 'Документ обновлен'
+	);
+ 
+	$args = array(
+		'labels' => $labels,
+		'public' => true,
+		'publicly_queryable' => false,
+		'has_archive' => false,
+		'menu_icon' => 'dashicons-media-document',
+		'menu_position' => 4,
+    'show_in_rest' => true, // Для включения Gutenberg-редактора
+		'supports' => array( 'title', 'editor', 'thumbnail' )
+	);
+ 
+	register_post_type( 'documents', $args );
+}
+
+// Своё поле для отзывов
+function register_reviews_post_type_and_taxonomy() {
+  // Регистрация post type
+	$labels = array(
+		'name' => 'Отзывы',
+		'singular_name' => 'Отзыв',
+		'add_new' => 'Добавить отзыв',
+		'add_new_item' => 'Добавить отзыв',
+		'edit_item' => 'Редактировать отзыв',
+		'new_item' => 'Новый отзыв',
+		'all_items' => 'Все отзывы',
+		'search_items' => 'Искать отзывы',
+		'not_found' =>  'Отзывов по заданным критериям не найдено.',
+		'not_found_in_trash' => 'В корзине нет отзывов.',
+		'menu_name' => 'Отзывы',
+    'view_items' => 'Просмотр отзывов',
+    'attributes' => 'Свойства отзывов',
+
+    'item_updated' => 'Отзыв обновлен'
+	);
+ 
+	$args = array(
+		'labels' => $labels,
+		'public' => true,
+		'publicly_queryable' => false,
+		'has_archive' => false,
+		'menu_icon' => 'dashicons-feedback',
+		'menu_position' => 21, // Ниже страниц (позиция у страниц - 20)
+    'show_in_rest' => true, // Для включения Gutenberg-редактора
+		'supports' => array( 'title', 'editor', 'thumbnail' )
+	);
+ 
+	register_post_type( 'reviews', $args );
 
 
   // Регистрация taxonomy
   $args = array(
     'labels' => array(
-      'menu_name' => 'Виды работ'
+      'menu_name' => 'Виды отзывов'
     ),
     'hierarchical' => true,
     'show_admin_column' => true,
@@ -197,13 +269,48 @@ function register_works_post_type_and_taxonomy() {
     'public' => true,
   );
 
-  register_taxonomy('portfolio_works_types', array('portfolio_works'), $args);
+  register_taxonomy('reviews_types', array('reviews'), $args);
 }
 
+// Своё поле для ответов на вопросы
+function register_questions_post_type_and_taxonomy() {
+  // Регистрация post type
+	$labels = array(
+		'name' => 'Ответы на вопросы',
+		'singular_name' => 'Ответ на вопрос',
+		'add_new' => 'Добавить ответ на вопрос',
+		'add_new_item' => 'Добавить ответ на вопрос',
+		'edit_item' => 'Редактировать ответ на вопрос',
+		'new_item' => 'Новый ответ на вопрос',
+		'all_items' => 'Все ответы на вопросы',
+		'search_items' => 'Искать ответы на вопросы',
+		'not_found' =>  'Ответов на вопросы по заданным критериям не найдено.',
+		'not_found_in_trash' => 'В корзине нет ответов на вопросы.',
+		'menu_name' => 'Ответы на вопросы',
+    'view_items' => 'Просмотр ответов на вопросы',
+    'attributes' => 'Свойства ответов на вопросы',
+
+    'item_updated' => 'Ответ на вопрос обновлен'
+	);
+ 
+	$args = array(
+		'labels' => $labels,
+		'public' => true,
+		'publicly_queryable' => false,
+		'has_archive' => false,
+		'menu_icon' => 'dashicons-rss',
+		'menu_position' => 21, // Ниже страниц (позиция у страниц - 20)
+    'show_in_rest' => true, // Для включения Gutenberg-редактора
+		'supports' => array( 'title', 'editor', 'thumbnail' )
+	);
+ 
+	register_post_type( 'questions', $args );
+}
+
+// Выбор названия из имеющихся работ в метабоксе
 add_action('add_meta_boxes', function () {
 	add_meta_box( 'portfio_works--services', 'Тип работы (Альтернатива заголовку)', 'portfolio_works_services_metabox', 'portfolio_works', 'advanced ', 'low'  );
 }, 1);
-
 function portfolio_works_services_metabox() {
   global $post;
 
