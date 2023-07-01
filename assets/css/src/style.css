@@ -332,6 +332,7 @@ body.unscroll {
 
 .service__bottom {
   margin-top: auto;
+  padding-top: 10px;
 }
 
 .service__content-block ul {
@@ -422,10 +423,6 @@ body.unscroll {
   .service__content-block {
     flex-grow: 1;
     flex-basis: auto;
-  }
-
-  .service__bottom {
-    padding-top: 10px;
   }
 }
 

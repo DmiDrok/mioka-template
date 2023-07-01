@@ -133,7 +133,12 @@
                                 <div class="service__bottom">
                                   <span class="service__price"><?php the_field('service_price') ?> руб.</span>
 
-                                  <button class="btn-blue service__action trigger" type="button"  data-trigger-result-selector=".order-modal">Записаться</button>
+                                  <button
+                                    class="btn-blue service__action trigger" 
+                                    type="button"
+                                    data-service-name="<?php the_title() ?>"
+                                    data-trigger-result-selector=".order-modal"
+                                  >Записаться</button>
                                 </div>
                               </div>
                             </article>

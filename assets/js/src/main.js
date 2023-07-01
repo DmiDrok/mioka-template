@@ -541,13 +541,16 @@ function setCorrectDateInputs() {
   if (!dateInputs.length) return;
   
   const minDate = new Date();
-  const maxDate = new Date(minDate).setMonth(minDate.getMonth() + 1);
+  let maxDate = new Date((new Date(minDate)).setMonth(minDate.getMonth() + 1));
+  maxDate = new Date(maxDate.setHours(19));
+  maxDate = new Date(maxDate.setMinutes(50));
   
   let isMobile = window.matchMedia('(max-width: 725px)').matches;
   
   dateInputs.forEach((dateInput, index) => {
     const datepicker = new AirDatepicker(dateInput, {
       minHours: 10,
+      maxHours: 20,
       minDate: minDate,
       maxDate: maxDate,
       timepicker: true,
@@ -596,8 +599,11 @@ function setCorrectOrderModal() {
 
 // Логика формы оформления записи
 function setCorrectOrderForm() {
-  const teamMemberBtns = Array.from(document.querySelectorAll('.team-member__action'));
-  const specialistsBtns = Array.from(document.querySelectorAll('.variation'));
+  const teamMemberBtns = Array.from(document.querySelectorAll('.team-member__action')); // Кнопки выбора специалиста в секции команды
+  const specialistsBtns = Array.from(document.querySelectorAll('.variation')); // Кнопки выбора специалиста в модалке
+  const servicesBtns = Array.from(document.querySelectorAll('.service__action')); // Кнопки выбора услуги в секции услуг
+
+  // Вспомогательные компоненты
   const orderForm = document.querySelector('#modal-form');
   const servicesDropdown = orderForm.services;
   const choicesDropdown = window[`my-choices-${servicesDropdown.dataset.myChoicesId}`];
@@ -619,20 +625,6 @@ function setCorrectOrderForm() {
       }
     });
   };
-
-  // Обработчики для кнопок в секции команды
-  teamMemberBtns.forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const employerId = Number(btn.dataset.employerId);
-      const specialist = specialistsBtns.find((specialist) => {
-        return Number(specialist.dataset.employerId) === employerId;
-      });
-
-      if (specialist) {
-        specialist.click();
-      }
-    });
-  });
 
   const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
   const setWeekends = (schedule=[]) => {
@@ -660,25 +652,19 @@ function setCorrectOrderForm() {
         
         // Ветка с выбранным специалистом
         if (selectedSpecialist) {
-          Array.from(orderForm.elements).forEach((el) => {
-            toggleOrderElems({ disable: false });
-          });
+          toggleOrderElems({ disable: false }); // Разблокируем форму для заполнения
           
           const employeerServicesStr = selectedSpecialist.dataset.employeerServices;
           choicesDropdown.clear();
 
           const schedule = JSON.parse(selectedSpecialist.dataset.schedule); // Расписание сотрудника
           setWeekends(schedule); // Проставляем выходные в календаре по графику работы
-          airDatepicker.update({
-            onSelect({ date, formattedDate }) {
-              let userDate = new Date(date);              
-            }
-          });
           if (employeerServicesStr !== '') {
-            let tempArr = employeerServicesStr.split('; ');
-            tempArr.forEach((service) =>
+            let servicesArr = employeerServicesStr.split('; ');
+            servicesArr.forEach((service) =>
                     services.push({ value: service, label: service, disabled: false }));
             choicesDropdown.setChoices(services, 'value', 'label', true);
+            choicesDropdown.setChoiceByValue(servicesArr[0]);
           }
         } else {
           Array.from(orderForm.elements).forEach((el) => {
@@ -688,6 +674,20 @@ function setCorrectOrderForm() {
         }
       }
     })
+  });
+
+  // Обработчики для кнопок в секции команды
+  teamMemberBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const employerId = Number(btn.dataset.employerId);
+      const specialist = specialistsBtns.find((specialist) => {
+        return Number(specialist.dataset.employerId) === employerId;
+      });
+
+      if (specialist) {
+        specialist.click();
+      }
+    });
   });
 
   // Обработчики для кнопок специалистов в модалке
@@ -702,6 +702,28 @@ function setCorrectOrderForm() {
       });
 
       btn.classList.toggle('active');
+    });
+  });
+
+  // Обработчики для кнопок в секции услуг
+  servicesBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const serviceNameDefault = btn.dataset.serviceName;
+      const serviceNameLower = serviceNameDefault.toLowerCase();
+      const specialistWithService = specialistsBtns.find((specialist) => {
+        return specialist.dataset.employeerServices
+                                 .toLowerCase()
+                                 .includes(serviceNameLower);
+      });
+      console.log({ serviceName: serviceNameLower, specialistWithService });
+      if (specialistWithService) {
+        if (!specialistWithService.classList.contains('active')) {
+          specialistWithService.click();
+        }
+        setTimeout(() => {
+          choicesDropdown.setChoiceByValue(serviceNameDefault);
+        }, 100);
+      }
     });
   });
 }
