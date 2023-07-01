@@ -547,7 +547,6 @@ function setCorrectDateInputs() {
   
   dateInputs.forEach((dateInput, index) => {
     const datepicker = new AirDatepicker(dateInput, {
-      inline: true,
       minHours: 10,
       minDate: minDate,
       maxDate: maxDate,
@@ -636,28 +635,21 @@ function setCorrectOrderForm() {
   });
 
   const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
-  const setWeekends = (schedule) => {
-    const tempDate = new Date();
+  const setWeekends = (schedule=[]) => {
     const weekends = new Set();
-    tempDate.setDate(1); // Устанавливаем первое число
-    
-    while (Number(tempDate.getDate()) < 30) {
-      const day = days[tempDate.getDay()];
-      const isWeekend = Object.values(schedule[day]).some((val) => val === null);      
-      tempDate.setDate(tempDate.getDate() + 1);
 
-      if (isWeekend) {
-        weekends.add(days.indexOf(day));
-      }
+    if (Object.keys(schedule).length > 0) {
+      days.forEach((day, index) => {
+        if (!schedule[day].start || !schedule[day].end) {
+          weekends.add(index);
+        }
+      });
     }
-
-    console.log('Получившиеся выходные дни:');
-    console.log(weekends);
+    
     airDatepicker.update({
       weekends: [...weekends.values()]
     });
-    console.log([...weekends.values()]);
-  };
+  }
 
   // Обсервер следит за изменением класса у карточек специалистов
   const specialistsObserver = new MutationObserver((mutations) => {
@@ -692,6 +684,7 @@ function setCorrectOrderForm() {
           Array.from(orderForm.elements).forEach((el) => {
             toggleOrderElems({ disable: true });
           });
+          setWeekends();
         }
       }
     })

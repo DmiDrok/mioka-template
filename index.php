@@ -740,7 +740,7 @@
   </div>
 
   <!-- Модальное окно оформления записи -->
-  <div class="active modal trigger-result order-modal">
+  <div class="modal trigger-result order-modal">
     <div class="modal__row">
       <div class="container modal__container">
         <div class="trigger-result__content modal__content">
