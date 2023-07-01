@@ -2,7 +2,7 @@
 
 
 <!-- Уникальное содержимое -->
-  <main id="main" class="main">
+<main id="main" class="main">
     <!-- Секция, встречающая пользователя -->
     <section id="hero" class="hero">
       <!-- Декоративные изображения -->
@@ -800,7 +800,39 @@
                             setup_postdata( $post );
 
                             $positions = wp_get_post_terms($post->ID, 'employees_types'); // Должности
-                            $services_str = get_field('employees_services_list');                          
+                            $services_str = get_field('employees_services_list');
+                            $test = get_field('schedule_monday_start');
+                            $schedule = array(
+                              'monday' => array(
+                                'start' => get_field('schedule_monday_start'),
+                                'end' => get_field('schedule_monday_end'),
+                              ),
+                              'tuesday' => array(
+                                'start' => get_field('schedule_tuesday_start'),
+                                'end' => get_field('schedule_tuesday_end'),
+                              ),
+                              'wednesday' => array(
+                                'start' => get_field('schedule_wednesday_start'),
+                                'end' => get_field('schedule_wednesday_end'),
+                              ),
+                              'thursday' => array(
+                                'start' => get_field('schedule_thursday_start'),
+                                'end' => get_field('schedule_thursday_end'),
+                              ),
+                              'friday' => array(
+                                'start' => get_field('schedule_friday_start'),
+                                'end' => get_field('schedule_friday_end'),
+                              ),
+                              'saturday' => array(
+                                'start' => get_field('schedule_saturday_start'),
+                                'end' => get_field('schedule_saturday_end'),
+                              ),
+                              'sunday' => array(
+                                'start' => get_field('schedule_sunday_start'),
+                                'end' => get_field('schedule_sunday_end'),
+                              )              
+                            );
+                            $schedule_json = htmlspecialchars(json_encode($schedule), ENT_QUOTES, 'UTF-8');
                             ?>
                               <button
                                 class="swiper-slide choice-slider__variation variation"
@@ -811,7 +843,8 @@
                                     $services = addslashes($services_str);
                                     echo $services;
                                   }
-                                ?>"
+                                ?>"                              
+                                data-schedule="<?php echo $schedule_json; ?>"
                               >
                                 <span class="variation__inner">
                                   <span class="variation__photo">
@@ -865,7 +898,7 @@
 
                 <div class="datetime-select modal-form-field__datetime-select">
                   <div class="datetime-select__inner">
-                    <input class="datetime-select__input" type="text" name="service_datetime">
+                    <input id="datepicker" class="datetime-select__input" type="text" name="service_datetime">
 
                     <img class="datetime-select__icon" src="<?php bloginfo('template_url') ?>/assets/images/icons/calendar.svg" alt="">
                   </div>

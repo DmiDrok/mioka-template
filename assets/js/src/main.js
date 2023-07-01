@@ -22,7 +22,7 @@ const funcsToCall = [
   setCorrectHeaderByScroll, setCorrectTelInputs, setCorrectBurger, setCorrectVisibilityForm,
   setCorrectContactForm, setCorrectTriggers, setCorrectImagesZoom, setCorrectDropdowns,
   setCorrectAccordion, setCorrectSliders, setCorrectLazyLoad, setCorrectDateInputs,
-  setCorrectOrderModal,
+  setCorrectOrderModal, setCorrectOrderForm,
 ];
 
 // Вызываем только на компьютерах, т. к. требовательные
@@ -319,7 +319,7 @@ function setCorrectTriggers() {
   }, 100);
   
   const observer = new MutationObserver((mutations) => {
-    for (let mutation of mutations) {
+    mutations.forEach((mutation) => {
       if (mutation.type === 'attributes') {
         const closeTriggerResultFunc = (event) => {
           closeTriggerResultGlobal(event, mutation.target);
@@ -332,7 +332,7 @@ function setCorrectTriggers() {
           document.removeEventListener('click', closeTriggerResultFunc);
         }
       }
-    }
+    });
   });
 
   // Логика работы попапов
@@ -536,18 +536,18 @@ function setCorrectDropdowns() {
 }
 
 // Выбор даты
-function setCorrectDateInputs() {
+function setCorrectDateInputs() { 
   const dateInputs = document.querySelectorAll('.datetime-select__input');
   if (!dateInputs.length) return;
   
   const minDate = new Date();
-  const maxDate = new Date(minDate)
-  .setFullYear(minDate.getFullYear() + 1);
+  const maxDate = new Date(minDate).setMonth(minDate.getMonth() + 1);
   
   let isMobile = window.matchMedia('(max-width: 725px)').matches;
   
-  dateInputs.forEach((dateInput) => {
-    new AirDatepicker(dateInput, {
+  dateInputs.forEach((dateInput, index) => {
+    const datepicker = new AirDatepicker(dateInput, {
+      inline: true,
       minHours: 10,
       minDate: minDate,
       maxDate: maxDate,
@@ -555,16 +555,23 @@ function setCorrectDateInputs() {
       position: 'right bottom',
       buttons: ['clear'],
       isMobile: isMobile,
+      weekends: [],
     });
+    dateInput.dataset.myDatepickerId = index;
+    window[`my-datepicker-${index}`] = datepicker;
   });
 
   // Контейнер для календаря появляется после его инициализации
   // Поэтому - выполняем через setTimeout
   setTimeout(() => {
-    const airDatepickerContainer = document.querySelector('.air-datepicker-global-container');
-    airDatepickerContainer.addEventListener('click', (event) => {
-      event.stopPropagation();
-    });
+    try {
+      const airDatepickerContainer = document.querySelector('.air-datepicker-global-container');
+      airDatepickerContainer.addEventListener('click', (event) => {
+        event.stopPropagation();
+      });
+    } catch(err) {
+
+    }
   }, 100);
 }
 
@@ -595,6 +602,8 @@ function setCorrectOrderForm() {
   const orderForm = document.querySelector('#modal-form');
   const servicesDropdown = orderForm.services;
   const choicesDropdown = window[`my-choices-${servicesDropdown.dataset.myChoicesId}`];
+  const dateInput = orderForm.datepicker;
+  const airDatepicker = window[`my-datepicker-${dateInput.dataset.myDatepickerId}`];
   choicesDropdown.clear = () => {
     choicesDropdown.clearStore(); // Очищаем уже имеющиеся опции
     choicesDropdown.setChoices([{ label: 'Меню выбора', value: '', disabled: true, selected: true }], 'value', 'label', true);
@@ -626,21 +635,53 @@ function setCorrectOrderForm() {
     });
   });
 
+  const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+  const setWeekends = (schedule) => {
+    const tempDate = new Date();
+    const weekends = new Set();
+    tempDate.setDate(1); // Устанавливаем первое число
+    
+    while (Number(tempDate.getDate()) < 30) {
+      const day = days[tempDate.getDay()];
+      const isWeekend = Object.values(schedule[day]).some((val) => val === null);      
+      tempDate.setDate(tempDate.getDate() + 1);
+
+      if (isWeekend) {
+        weekends.add(days.indexOf(day));
+      }
+    }
+
+    console.log('Получившиеся выходные дни:');
+    console.log(weekends);
+    airDatepicker.update({
+      weekends: [...weekends.values()]
+    });
+    console.log([...weekends.values()]);
+  };
+
   // Обсервер следит за изменением класса у карточек специалистов
   const specialistsObserver = new MutationObserver((mutations) => {
     mutations.forEach((mutation) => {
       if (mutation.type === 'attributes') {
         const selectedSpecialist = specialistsBtns.find((btn) => btn.classList.contains('active'));
         const services = [];
-
+        
+        // Ветка с выбранным специалистом
         if (selectedSpecialist) {
           Array.from(orderForm.elements).forEach((el) => {
             toggleOrderElems({ disable: false });
           });
           
           const employeerServicesStr = selectedSpecialist.dataset.employeerServices;
-          
           choicesDropdown.clear();
+
+          const schedule = JSON.parse(selectedSpecialist.dataset.schedule); // Расписание сотрудника
+          setWeekends(schedule); // Проставляем выходные в календаре по графику работы
+          airDatepicker.update({
+            onSelect({ date, formattedDate }) {
+              let userDate = new Date(date);              
+            }
+          });
           if (employeerServicesStr !== '') {
             let tempArr = employeerServicesStr.split('; ');
             tempArr.forEach((service) =>
@@ -672,4 +713,3 @@ function setCorrectOrderForm() {
   });
 }
 
-setCorrectOrderForm();

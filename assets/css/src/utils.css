@@ -11,3 +11,10 @@
   clip: rect(0 0 0 0);
   overflow: hidden;
 }
+
+/* Невозможность выделения выходных дней в AirDatepicker */
+.air-datepicker-cell.-weekend- {
+  opacity: .5;
+  user-select: none;
+  pointer-events: none;
+}
