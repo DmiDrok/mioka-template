@@ -135,11 +135,11 @@
   transition: opacity ease .2s;
 }
 
-.orange-gradient-btn:hover .orange-gradient-btn__inner {
+.orange-gradient-btn:not([disabled]):hover .orange-gradient-btn__inner {
   opacity: .7;
 }
 
-.orange-gradient-btn:active .orange-gradient-btn__inner {
+.orange-gradient-btn:not([disabled]):active .orange-gradient-btn__inner {
   opacity: .4;
   transition: opacity ease .01s;
 }

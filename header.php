@@ -15,6 +15,7 @@
     :root {
       --color-accent-1: #8fadc7;
       --color-accent-2: #f4ca90;
+      --color-accent-2-opacity: rgba(244, 202, 144, 0.5);
       --color-accent-3: #f7faff;
       --color-text: #5B4A58;
     }
@@ -546,7 +547,6 @@
   <link rel="shortcut icon" href="<?php bloginfo('template_url') ?>/assets/images/logo.svg">
 </head>
 <body>
-  
 
   <!-- Шапка -->
   <header id="header" class="header">

@@ -523,12 +523,15 @@ function setCorrectLazyLoad() {
 function setCorrectDropdowns() {
   const dropdowns = document.querySelectorAll('.dropdown__select');
 
-  dropdowns.forEach((dropdown) => {
+  dropdowns.forEach((dropdown, index) => {
     const choices = new Choices(dropdown, {
       searchEnabled: false,
       shouldSort: false,
       itemSelectText: '',
+      noChoicesText: 'Опции не найдены...',
     });
+    dropdown.dataset.myChoicesId = index;
+    window[`my-choices-${index}`] = choices;
   });
 }
 
@@ -587,7 +590,86 @@ function setCorrectOrderModal() {
 
 // Логика формы оформления записи
 function setCorrectOrderForm() {
-  
+  const teamMemberBtns = Array.from(document.querySelectorAll('.team-member__action'));
+  const specialistsBtns = Array.from(document.querySelectorAll('.variation'));
+  const orderForm = document.querySelector('#modal-form');
+  const servicesDropdown = orderForm.services;
+  const choicesDropdown = window[`my-choices-${servicesDropdown.dataset.myChoicesId}`];
+  choicesDropdown.clear = () => {
+    choicesDropdown.clearStore(); // Очищаем уже имеющиеся опции
+    choicesDropdown.setChoices([{ label: 'Меню выбора', value: '', disabled: true, selected: true }], 'value', 'label', true);
+  };
+  const toggleOrderElems = ({ disable }) => {
+    Array.from(orderForm.elements).forEach((el) => {
+      if (el.nodeName === 'BUTTON' && el.getAttribute('type') === 'submit') {
+        el.disabled = disable;
+      } else if (el.nodeName === 'SELECT') {
+        choicesDropdown[disable ? 'disable' : 'enable']();
+        el.disabled = disable;
+      } else if (el.nodeName === 'INPUT') {
+        el.disabled = disable;
+      }
+    });
+  };
+
+  // Обработчики для кнопок в секции команды
+  teamMemberBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const employerId = Number(btn.dataset.employerId);
+      const specialist = specialistsBtns.find((specialist) => {
+        return Number(specialist.dataset.employerId) === employerId;
+      });
+
+      if (specialist) {
+        specialist.click();
+      }
+    });
+  });
+
+  // Обсервер следит за изменением класса у карточек специалистов
+  const specialistsObserver = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      if (mutation.type === 'attributes') {
+        const selectedSpecialist = specialistsBtns.find((btn) => btn.classList.contains('active'));
+        const services = [];
+
+        if (selectedSpecialist) {
+          Array.from(orderForm.elements).forEach((el) => {
+            toggleOrderElems({ disable: false });
+          });
+          
+          const employeerServicesStr = selectedSpecialist.dataset.employeerServices;
+          
+          choicesDropdown.clear();
+          if (employeerServicesStr !== '') {
+            let tempArr = employeerServicesStr.split('; ');
+            tempArr.forEach((service) =>
+                    services.push({ value: service, label: service, disabled: false }));
+            choicesDropdown.setChoices(services, 'value', 'label', true);
+          }
+        } else {
+          Array.from(orderForm.elements).forEach((el) => {
+            toggleOrderElems({ disable: true });
+          });
+        }
+      }
+    })
+  });
+
+  // Обработчики для кнопок специалистов в модалке
+  specialistsBtns.forEach((btn) => {
+    specialistsObserver.observe(btn, { attributes: true });
+
+    btn.addEventListener('click', () => {
+      specialistsBtns.forEach((otherBtn) => {
+        if (otherBtn !== btn && otherBtn.classList.contains('active')) {
+          otherBtn.classList.remove('active');
+        }
+      });
+
+      btn.classList.toggle('active');
+    });
+  });
 }
 
 setCorrectOrderForm();

@@ -206,7 +206,14 @@
                           </div>
   
                           <div class="team-member__info-bottom">
-                            <button class="btn-blue team-member__action trigger" type="button" data-trigger-result-selector=".order-modal">Записаться</button>
+                            <button 
+                              class="btn-blue team-member__action trigger" 
+                              type="button" 
+                              data-trigger-result-selector=".order-modal"
+                              data-employer-id="<?php echo $post->ID ?>"
+                            >
+                            Записаться
+                          </button>
                           </div>
                         </div>
                       </div>
@@ -733,7 +740,7 @@
   </div>
 
   <!-- Модальное окно оформления записи -->
-  <div class="modal trigger-result order-modal">
+  <div class="active modal trigger-result order-modal">
     <div class="modal__row">
       <div class="container modal__container">
         <div class="trigger-result__content modal__content">
@@ -791,21 +798,42 @@
                         if( $myposts ):
                           foreach( $myposts as $post ):
                             setup_postdata( $post );
+
+                            $positions = wp_get_post_terms($post->ID, 'employees_types'); // Должности
+                            $services_str = get_field('employees_services_list');                          
                             ?>
-                              <article
+                              <button
                                 class="swiper-slide choice-slider__variation variation"
+                                type="button"
+                                data-employer-id="<?php echo $post->ID ?>"
+                                data-employeer-services="<?php
+                                  if ($services_str) {
+                                    $services = addslashes($services_str);
+                                    echo $services;
+                                  }
+                                ?>"
                               >
-                                <button class="variation__inner" type="button">
-                                  <div class="variation__photo">
+                                <span class="variation__inner">
+                                  <span class="variation__photo">
                                     <img src="<?php the_post_thumbnail_url() ?>" alt="<?php the_title() ?>">
-                                  </div>
+                                  </span>
           
-                                  <div class="variation__text">
+                                  <span class="variation__text">
                                     <h3 class="variation__name"><?php the_title() ?></h3>
-                                    <span class="variation__position"><?php the_field('team_member_position') ?></span>
-                                  </div>
-                                </button>
-                              </article>
+                                    <span class="variation__position">
+                                      <?php
+                                        if (count($positions) > 1) {
+                                          foreach($positions as $position) {
+                                            echo $position->name . '<br>';
+                                          }
+                                        } else {
+                                          echo $positions[0]->name;
+                                        }
+                                      ?>
+                                    </span>
+                                  </span>
+                                </span>
+                              </button>
                         <?php 
                           endforeach;
                           wp_reset_postdata();
@@ -823,11 +851,8 @@
                 </div>
 
                 <div class="dropdown modal-form-field__dropdown">
-                  <select class="dropdown__select" name="service">
-                    <option value="opt-1">Брови</option>
-                    <option value="opt-2">Ногти</option>
-                    <option value="opt-3">Ресницы</option>
-                    <option value="opt-4">Укладка долговечная</option>
+                  <select id="services" class="dropdown__select" name="services">
+                    <option disabled selected>Меню выбора</option>
                   </select>
                 </div>
               </div>
@@ -861,5 +886,6 @@
       </div>
     </div>
   </div>
+
 
 <?php get_footer(); ?>

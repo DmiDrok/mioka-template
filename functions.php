@@ -33,19 +33,18 @@ add_filter('wpcf7_autop_or_not', '__return_false');
 
 // Убрать ненужные теги у Contact Form
 add_filter('wpcf7_form_elements', function($content) {
-  // Убрать обёртку в виде <span>
-  $content = preg_replace('/<(span).*?class="\s*(?:.*\s)?wpcf7-form-control-wrap(?:\s[^"]+)?\s*"[^\>]*>(.*)<\/\1>/i', '\2', $content);
+	// Убрать обёртку в виде <span>
+	$content = preg_replace('/<(span).*?class="\s*(?:.*\s)?wpcf7-form-control-wrap(?:\s[^"]+)?\s*"[^\>]*>(.*)<\/\1>/i', '\2', $content);
 
-  // Убрать атрибуты size, rows, cols
-  $content = preg_replace('/(size|rows|cols)="\d+"/i', '', $content);
+	// Убрать атрибуты size, rows, cols
+	$content = preg_replace('/(size|rows|cols)="\d+"/i', '', $content);
 
-  return $content;
+	return $content;
 });
 
-// Поддержка дополнительных возможностей
+// === Поддержка дополнительных возможностей ===
+// Поддержка миниатюр
 add_theme_support('post-thumbnails');
-
-
 
 
 add_action( 'init', 'register_services_post_type_and_taxonomy' );
@@ -370,8 +369,86 @@ function portfolio_works_services_metabox() {
       </script>
     ";
   } else {
-    echo 'Работ нет';
+    echo 'Работ нет...';
   }
+}
+
+// Выбор услуг сотрудника из имеющихся
+add_action('add_meta_boxes', function () {
+	add_meta_box('employees--services', 'Услуги, оказываемые сотрудником',
+	'employees_services_metabox', 'employees', 'advanced', 'low');
+}, 1);
+function employees_services_metabox() {
+	global $post;
+
+  $services = get_posts(array( 'post_type' => 'services', 'posts_per_page'=>-1, 'orderby'=>'post_title', 'order'=>'ASC' ));
+	$custom = get_post_custom( $post->ID );
+	// Делаем метаполе в БД для хранения работ оказываемых сотрудником
+	$meta = get_post_meta($post->ID, 'meta_box_employees_services');
+	if (count($meta) === 0) {
+		$meta = add_post_meta($post->ID, 'meta_box_employees_services', '');
+	}
+
+	if ($services) {
+    echo '
+      <div style="max-height:200px; overflow-y:auto;">
+        <ul>
+      ';
+
+    foreach ($services as $service) {
+      setup_postdata( $service );
+
+      echo '
+        <li><label>
+          <input class="my_employees_services_radio" type="checkbox" name="meta_box_employees_services" value="'. $service->ID .'" '. checked($service->ID, $post->meta_box_employees_services, 0) .'>
+          <span>'. esc_html($service->post_title) .'</span>
+        </label></li>
+        ';
+    }
+
+		echo "
+			<script>
+				setTimeout(() => {
+					var jq_textarea = jQuery('[data-name=\"employees_services_list\"] textarea');
+					var jq_checkboxes = jQuery('.my_employees_services_radio');
+
+					var textInTextarea = jq_textarea.val()
+					var text = [];
+					if (textInTextarea.length > 0) {
+						text = textInTextarea.split('; ');
+					}
+					
+					// Если уже есть текст в массиве - выделяем чекбоксы
+					if (text.length > 0) {
+						jQuery(text).each(function(index, string) {
+							jq_checkboxes.each(function(index, checkbox) {
+								if (jQuery(checkbox).next().text() === string) {
+									jQuery(checkbox).prop('checked', true);
+								}
+							});
+						});
+					}
+
+
+					// Выделяем чекбоксы - заносим в textarea и наоборот
+					jq_checkboxes.on('change', function() {
+						var is_checked = jQuery(this).is(':checked');
+						var currentText = jQuery(this).next().text()
+
+						if (is_checked) {
+							text.push(currentText);
+						} else {
+							text.splice(text.indexOf(currentText), 1);
+						}
+
+						jq_textarea.val(text.join('; '));
+					});
+				}, 100);
+			</script>
+		";
+	} else {
+		echo 'Услуг нет...';
+	}
 }
 
 

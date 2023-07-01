@@ -4,7 +4,7 @@
 @import "all.css";
 @import "libs/fancybox.min.css";
 @import "libs/swiper.min.css";
-@import "libs/choices.min.css";
+@import "libs/choices.css";
 @import "libs/air-datepicker.css";
 
 /* Убери меня */
@@ -2095,6 +2095,12 @@ a.info-block__item:active {
   padding-top: 30px;
 }
 
+.modal-form-field input[disabled],
+.modal-form__submit[disabled] {
+  opacity: .3;
+  cursor: not-allowed;
+}
+
 .modal-form-field__header {
   display: flex;
   justify-content: space-between;
@@ -2174,6 +2180,8 @@ a.info-block__item:active {
 .variation {
   display: flex;
   height: auto;
+  transition: opacity ease .1s;
+  align-items: stretch;
 }
 
 .variation__inner {
@@ -2194,7 +2202,11 @@ a.info-block__item:active {
 
 .variation__inner:hover {
   background-color: #f2f7ff;
-  outline: 3px solid var(--color-accent-2);
+  outline: 3px solid var(--color-accent-2-opacity);
+}
+
+.variation:active {
+  opacity: .5;
 }
 
 .variation__inner::before {
@@ -2211,9 +2223,12 @@ a.info-block__item:active {
 }
 
 /* Selected Class */
-.variation.active::before {
-  opacity: 1;
+.variation.active .variation__inner {
   outline: 3px solid var(--color-accent-2);
+}
+
+.variation.active .variation__inner::before {
+  opacity: 1;
 }
 
 .variation__photo {
@@ -2260,16 +2275,17 @@ a.info-block__item:active {
   appearance: none;
 }
 
-.choices:focus-visible {
-  outline: 3px solid #000;
-}
-
 .choices__inner {
   display: inline-block;
   background-color: var(--color-accent-3);
   border: 1px solid var(--color-accent-1);
   border-radius: 6px;
   font-size: 16px;
+}
+
+.choices.is-disabled .choices__inner {
+  background-color: var(--color-accent-3);
+  opacity: .3;
 }
 
 .choices__list {
@@ -2300,6 +2316,8 @@ a.info-block__item:active {
   top: 50%;
   transform: translate(0, -50%);
   right: 10px;
+  pointer-events: none;
+  user-select: none;
 }
 
 .air-datepicker-global-container {
