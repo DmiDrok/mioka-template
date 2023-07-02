@@ -98,23 +98,25 @@
               ) );
 
               if ($sub_cats):
-                foreach ($sub_cats as $cat):                  
+                foreach ($sub_cats as $cat):
+                  $category_name = $cat->name;
               ?>
                 <div class="services-block">
                   <?php
                   
                   ?>
-                  <span class="services-block__title"><?php echo $cat->name; ?></span>
+                  <span class="services-block__title"><?php echo $category_name ?></span>
 
                   <div class="services-block__grid">
-                    <ul class="services-block-list">
+                    <ul class="services-block-list" data-list="<?php echo $category_name ?>">
                       <?php
                         global $post;
 
                         $myposts = get_posts([
                           'post_type' => 'services',
                           'services_types' => $cat->slug,
-                          'numberposts' => -1
+                          'numberposts' => -1,
+                          'order' => 'ASC'
                         ]);
 
                       if( $myposts ):
@@ -145,6 +147,18 @@
                           </li>
                         <?php endforeach; wp_reset_postdata(); endif; ?>                   
                     </ul>
+
+                    <div class="services-block__bottom">
+                      <button 
+                        class="orange-gradient-btn services__more-btn js-show-more"
+                        type="button"
+                        data-load-selector="[data-list='<?php echo $category_name ?>']"
+                      >
+                        <span class="orange-gradient-btn__inner js-show-more__inner">
+                          Показать ещё
+                        </span>
+                      </button>
+                    </div>
                   </div>
                 </div>              
             <?php endforeach; endif; ?>            

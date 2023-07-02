@@ -30,15 +30,42 @@ const desktopFuncs = [
   setCorrectTiltCards, setCorrectSmoothScrollToAnchors
 ];
 
+// Вызываем на малых экранах, т. к. скрывают/открывают элементы
+const mobileFuncs = [
+  setCorrectShowMoreBtn,
+];
+
 funcsToCall.forEach((func) => {
   safeCallFunc(func, this);
 });
 
-if (window.matchMedia('(min-width: 760px)').matches) {
-  desktopFuncs.forEach((func) => {
-    safeCallFunc(func, this);
-  });
-}
+const performDependingWidth = () => {
+  if (window.matchMedia('(min-width: 760px)').matches) {
+    desktopFuncs.forEach((func) => {
+      safeCallFunc(func, this);
+    });
+  } else if (window.matchMedia('(max-width: 759px)').matches) {
+    mobileFuncs.forEach((func) => {
+      safeCallFunc(func, this);
+    });
+  }
+};
+performDependingWidth();
+
+const getScreenOrientationType = () => {
+  return screen.orientation.type.includes('landscape') ? 'landscape' : 'portrait'
+};
+let nowScreenType = getScreenOrientationType();
+
+screen.orientation.addEventListener('change', () => {
+  let newOrientationType = getScreenOrientationType();
+  if (nowScreenType !== newOrientationType) {
+    setTimeout(() => {
+      performDependingWidth();
+    }, 100);
+    nowScreenType = newOrientationType;
+  }
+});
 
 
 // По скроллу - скрываем верхнюю часть шапки
@@ -595,6 +622,40 @@ function setCorrectOrderModal() {
   //     });
   //   });
   // });  
+}
+
+// Кнопка "показать ещё" в секции услуг
+function setCorrectShowMoreBtn() {
+  const showMoreButtons = document.querySelectorAll('.js-show-more');
+
+  showMoreButtons.forEach((showMore) => {
+    const showMoreParent = showMore.parentElement;
+    const services = Array.from(document.querySelector(showMore.dataset.loadSelector).children);
+    const allServicesLength = services.length;
+    let visibleNow = 4;
+
+    console.log(`Для ${showMore}`);
+    console.log(services);
+
+    // Скроет кнопку "Показать ещё" когда всё уже показано
+    const hideOnAll = () => {
+      if (visibleNow >= allServicesLength) {
+        showMoreParent.style.display = 'none';
+      }
+    };
+    hideOnAll();
+
+    showMore.addEventListener('click', () => {
+      console.log(showMore);
+
+      visibleNow += 2;
+      services.slice(0, visibleNow).forEach((elem) => {
+        elem.classList.add('is-visible');
+      });
+
+      hideOnAll();
+    });
+  });
 }
 
 // Логика формы оформления записи

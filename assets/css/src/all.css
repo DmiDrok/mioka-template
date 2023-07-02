@@ -208,3 +208,12 @@
     width: 100px;
   }
 }
+
+/* Кнопка подгрузки "Показать ещё". Скрытие кнопки лежит на родителе */
+.js-show-more {
+  cursor: pointer;
+}
+
+.js-show-more__inner {
+  padding: 10px 30px;
+}

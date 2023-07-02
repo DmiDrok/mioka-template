@@ -197,6 +197,27 @@ body.unscroll {
 
 }
 
+.services-block__bottom {
+  display: none;
+}
+
+/* Кнопка подгрузки "Ещё" */
+@media (max-width: 759px) {
+  .services-block__bottom {
+    text-align: center;
+    margin-top: 50px;
+    display: block;
+  }
+
+  .service:nth-child(n + 5) {
+    display: none;
+  }
+
+  .service.is-visible {
+    display: flex;
+  }
+}
+
 .services-block__title {
   font-size: 28px;
 }
@@ -1110,7 +1131,7 @@ body.unscroll {
 
   .work:nth-last-child(2),
   .work:nth-last-child(1) {
-    display: none;
+    transform: translate(50%, 0);
   }
 }
 
@@ -1154,6 +1175,11 @@ body.unscroll {
     padding-top: 25px;
     padding-bottom: 15px;
   }
+
+  .work:nth-last-child(2),
+  .work:nth-last-child(1) {
+    transform: translate(0, 0);
+  }
 }
 
 @media (max-width: 360px) {
@@ -1164,11 +1190,6 @@ body.unscroll {
   .work {
     flex-basis: 80%;
     height: 225px;
-  }
-
-  .work:nth-last-child(2),
-  .work:nth-last-child(1) {
-    display: block;
   }
 }
 
