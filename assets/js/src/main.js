@@ -702,14 +702,17 @@ function setCorrectOrderForm() {
 
   // Для валидации
   let formValid = false;
-  const validObj = {};
+  const validObj = {
+    fieldsValid: false,
+    selectedSpecialist: null
+  };
   Object.defineProperty(validObj, 'valid', {
     get() {
       return formValid;
     },
 
     set(newVal) {
-      formValid = newVal;
+      formValid = newVal && Boolean(this.selectedSpecialist);
 
       if (formValid === true) {
         // Обработка валидной формы 
@@ -725,10 +728,14 @@ function setCorrectOrderForm() {
   });
   const needFill = [userTel, servicesDropdown, dateInput];
   airDatepicker.update({
-    onSelect({ date }) {
-      if (date) {
-        validObj.valid = true && checkFullValid(needFill);
-      }
+    onSelect() {
+      const changeEvent = new Event('change');
+      dateInput.dispatchEvent(changeEvent);
+    }
+  });
+  dateInput.addEventListener('change', () => {
+    if (dateInput.value) {
+      validObj.valid = true && checkFullValid(needFill);
     }
   });
 
@@ -741,9 +748,11 @@ function setCorrectOrderForm() {
   const toggleOrderElems = ({ disable }) => {
     Array.from(orderForm.elements).forEach((el) => {
       if (el.nodeName === 'BUTTON' && el.getAttribute('type') === 'submit') {
+        // if (disable === true && !validObj.selectedSpecialist) {
         if (disable === true) {
           el.disabled = disable;
         } else {
+          // return el.disabled = false;
           return;
         }
       } else if (el.nodeName === 'SELECT') {
@@ -778,11 +787,13 @@ function setCorrectOrderForm() {
   const checkFullValid = (fields) => {
     let resultValid = true; // resultValid копим только для обычных полей, не имеющих readonly
 
-    validObj.valid = fields.every((field) => {
-      if (field.hasAttribute('readonly')) return true; // Для readonly - описаны свои проверки
+    for (let field of fields) {
+      if (field.hasAttribute('readonly')) {
+        continue; // Для readonly - описаны свои проверки
+      }
 
       resultValid = resultValid && field.value.length > 0;
-    });
+    }
 
     return resultValid;
   };
@@ -794,35 +805,34 @@ function setCorrectOrderForm() {
       if (mutation.type === 'attributes') {
         const selectedSpecialist = specialistsBtns.find((btn) => btn.classList.contains('active'));
         const services = [];
-        
+
         // Ветка с выбранным специалистом
-        if (selectedSpecialist) {
+        if (selectedSpecialist) {          
+          validObj.selectedSpecialist = selectedSpecialist;
+          resultPrice.classList.remove('is-disabled'); // ЖЕЛАТЕЛЬНО ВЫНЕСТИ В ОТДЕЛЬНОЕ МЕСТО
           toggleOrderElems({ disable: false }); // Разблокируем форму для заполнения
           
           const employeerServicesStr = selectedSpecialist.dataset.employeerServices;
-          choicesDropdown.clear();
-
+          
           const schedule = JSON.parse(selectedSpecialist.dataset.schedule); // Расписание сотрудника
           setWeekends(schedule); // Проставляем выходные в календаре по графику работы
           if (employeerServicesStr !== '') {
             let servicesArr = employeerServicesStr.split('; ');
             servicesArr.forEach((service) =>
-                    services.push({ value: service, label: service, disabled: false }));
-            choicesDropdown.setChoices(services, 'value', 'label', true);
-            choicesDropdown.setChoiceByValue(servicesArr[0]);
+            services.push({ value: service, label: service, disabled: false }));
 
-            // Проверим, что все нужные поля заполнены и покажем итоговую цену
-            needFill.forEach((field) => {
-              field.addEventListener('change', () => {
-                const isFormValid = checkFullValid(needFill);
-                if (isFormValid) {
-    
-                }
-              });
-            });
+            // Если услуга была выбрана при первом выделении специалиста - оставляем её
+            const choicesValue = choicesDropdown.getValue(true);
+            if (!servicesArr.includes(choicesValue)) {
+              choicesDropdown.clear();
+              choicesDropdown.setChoiceByValue(servicesArr[0]);
+            }
+            choicesDropdown.setChoices(services, 'value', 'label', true);
           }
         } else {
-          Array.from(orderForm.elements).forEach((el) => {
+          validObj.selectedSpecialist = null;
+          resultPrice.classList.add('is-disabled'); // ЖЕЛАТЕЛЬНО ВЫНЕСТИ В ОТДЕЛЬНОЕ МЕСТО
+          Array.from(orderForm.elements).forEach(() => {
             toggleOrderElems({ disable: true });
           });
           setWeekends();
@@ -870,7 +880,6 @@ function setCorrectOrderForm() {
                                  .toLowerCase()
                                  .includes(serviceNameLower);
       });
-      console.log({ serviceName: serviceNameLower, specialistWithService });
       if (specialistWithService) {
         if (!specialistWithService.classList.contains('active')) {
           specialistWithService.click();
