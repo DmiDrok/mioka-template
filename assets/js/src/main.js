@@ -17,9 +17,13 @@ const safeCallFunc = (func, ctx) => {
   }
 };
 
+// Паттерн регулярки для проверки корректности введённого номера телефона
+// Необходим из-за маски, устанавливаемой в setCorrectMasksOnInputs на input[type="tel"]
+window['telephone-pattern'] = '\\+\\d-\\d{3}-\\d{3}-\\d{2}-\\d{2}';
+
 // Вызываем на любых устройствах
 const funcsToCall = [
-  setCorrectHeaderByScroll, setCorrectTelInputs, setCorrectBurger, setCorrectVisibilityForm,
+  setCorrectHeaderByScroll, setCorrectMasksOnInputs, setCorrectBurger, setCorrectVisibilityForm,
   setCorrectContactForm, setCorrectTriggers, setCorrectImagesZoom, setCorrectDropdowns,
   setCorrectAccordion, setCorrectSliders, setCorrectLazyLoad, setCorrectDateInputs,
   setCorrectOrderModal, setCorrectOrderForm,
@@ -39,6 +43,7 @@ funcsToCall.forEach((func) => {
   safeCallFunc(func, this);
 });
 
+// Выполнение тела условий зависит от ширины экрана
 const performDependingWidth = () => {
   if (window.matchMedia('(min-width: 760px)').matches) {
     desktopFuncs.forEach((func) => {
@@ -60,6 +65,8 @@ let nowScreenType = getScreenOrientationType();
 screen.orientation.addEventListener('change', () => {
   let newOrientationType = getScreenOrientationType();
   if (nowScreenType !== newOrientationType) {
+    // Ориентация устройства изменилась
+    // Выполняем функции с задержкой, чтобы всё точно обновилось
     setTimeout(() => {
       performDependingWidth();
     }, 100);
@@ -124,14 +131,18 @@ function setCorrectHeaderByScroll() {
   }, { passive: true });
 }
 
-// Маски для полей ввода телефона
-function setCorrectTelInputs() {
-  const mask = new Inputmask('+7-999-999-99-99');
-  const telInputs = document.querySelectorAll('input[type="tel"]');
+// Маски для полей ввода (телефона и т. д.)
+function setCorrectMasksOnInputs() {
+  const setTelMasks = () => {
+    const telMask = new Inputmask('+7-999-999-99-99');
+    const telInputs = document.querySelectorAll('input[type="tel"]');
+  
+    telInputs.forEach((telInput) => {
+      telMask.mask(telInput);
+    });
+  };
 
-  telInputs.forEach((telInput) => {
-    mask.mask(telInput);
-  });
+  setTelMasks();
 }
 
 // Настройка логики бургера
@@ -240,7 +251,7 @@ function setCorrectContactForm() {
   contactFormFields.forEach((el) => {
     el.setAttribute('required', true);
   });
-  contactFormTel.pattern = '\\+\\d-\\d{3}-\\d{3}-\\d{2}-\\d{2}';
+  contactFormTel.pattern = window['telephone-pattern'];
 
   contactFormSubmit.classList.add('trigger');
   contactFormSubmit.dataset.triggerResultSelector = '.popup-footer-form';
@@ -572,7 +583,13 @@ function setCorrectDateInputs() {
   maxDate = new Date(maxDate.setHours(19));
   maxDate = new Date(maxDate.setMinutes(50));
   
-  let isMobile = window.matchMedia('(max-width: 725px)').matches;
+  const mobileDatepickerMedia = window.matchMedia('(max-width: 725px)');
+  const updateDatepickerToMobileOrNo = ({ isMobile, datepicker }) => {
+    datepicker.update({
+      isMobile: isMobile
+    });
+  };
+  let isMobile = mobileDatepickerMedia.matches;
   
   dateInputs.forEach((dateInput, index) => {
     const datepicker = new AirDatepicker(dateInput, {
@@ -586,6 +603,20 @@ function setCorrectDateInputs() {
       isMobile: isMobile,
       weekends: [],
     });
+
+    // В зависимости от браузера будет использоваться разный метод для установки обработчика
+    if ('addEventListener' in mobileDatepickerMedia) {
+      mobileDatepickerMedia.addEventListener('change', (event) => {
+        isMobile = event.matches;
+        updateDatepickerToMobileOrNo({ isMobile, datepicker });
+      });
+    } else {
+      mobileDatepickerMedia.addListener((event) => {
+        isMobile = event.matches;
+        updateDatepickerToMobileOrNo({ isMobile, datepicker });
+      });
+    }
+
     dateInput.dataset.myDatepickerId = index;
     window[`my-datepicker-${index}`] = datepicker;
   });
@@ -634,9 +665,6 @@ function setCorrectShowMoreBtn() {
     const allServicesLength = services.length;
     let visibleNow = 4;
 
-    console.log(`Для ${showMore}`);
-    console.log(services);
-
     // Скроет кнопку "Показать ещё" когда всё уже показано
     const hideOnAll = () => {
       if (visibleNow >= allServicesLength) {
@@ -646,8 +674,6 @@ function setCorrectShowMoreBtn() {
     hideOnAll();
 
     showMore.addEventListener('click', () => {
-      console.log(showMore);
-
       visibleNow += 2;
       services.slice(0, visibleNow).forEach((elem) => {
         elem.classList.add('is-visible');
@@ -666,18 +692,60 @@ function setCorrectOrderForm() {
 
   // Вспомогательные компоненты
   const orderForm = document.querySelector('#modal-form');
-  const servicesDropdown = orderForm.services;
-  const choicesDropdown = window[`my-choices-${servicesDropdown.dataset.myChoicesId}`];
-  const dateInput = orderForm.datepicker;
-  const airDatepicker = window[`my-datepicker-${dateInput.dataset.myDatepickerId}`];
+  const userTel = orderForm['user-tel'];
+  const servicesDropdown = orderForm.services; // Узел <select>
+  const choicesDropdown = window[`my-choices-${servicesDropdown.dataset.myChoicesId}`]; // Компонент от choices.js
+  const dateInput = orderForm.datepicker; // Узел <input type="text">
+  const airDatepicker = window[`my-datepicker-${dateInput.dataset.myDatepickerId}`]; // Компонент от air-datepicker.js
+  const resultPrice = orderForm.querySelector('.modal-form__result-price'); // Узел блока итоговой цены
+  const orderFormSubmit = orderForm['modal-form-submit'];
+
+  // Для валидации
+  let formValid = false;
+  const validObj = {};
+  Object.defineProperty(validObj, 'valid', {
+    get() {
+      return formValid;
+    },
+
+    set(newVal) {
+      formValid = newVal;
+
+      if (formValid === true) {
+        // Обработка валидной формы 
+        // (показать итоговую цену и разблокировать кнопку оформления заказа)
+        resultPrice.classList.add('is-visible');
+        orderFormSubmit.disabled = false;
+      } else {
+        // Делаем обратные действия валидной ветки
+        resultPrice.classList.remove('is-visible');
+        orderFormSubmit.disabled = true;
+      }
+    }
+  });
+  const needFill = [userTel, servicesDropdown, dateInput];
+  airDatepicker.update({
+    onSelect({ date }) {
+      if (date) {
+        validObj.valid = true && checkFullValid(needFill);
+      }
+    }
+  });
+
+  // Вспомогательные функции
   choicesDropdown.clear = () => {
     choicesDropdown.clearStore(); // Очищаем уже имеющиеся опции
     choicesDropdown.setChoices([{ label: 'Меню выбора', value: '', disabled: true, selected: true }], 'value', 'label', true);
   };
+  // Переключатель в состояния disabled и обратно
   const toggleOrderElems = ({ disable }) => {
     Array.from(orderForm.elements).forEach((el) => {
       if (el.nodeName === 'BUTTON' && el.getAttribute('type') === 'submit') {
-        el.disabled = disable;
+        if (disable === true) {
+          el.disabled = disable;
+        } else {
+          return;
+        }
       } else if (el.nodeName === 'SELECT') {
         choicesDropdown[disable ? 'disable' : 'enable']();
         el.disabled = disable;
@@ -687,7 +755,10 @@ function setCorrectOrderForm() {
     });
   };
 
+  // Выходные дни в массиве. Требуются для взятия корректного индекса
+  // Т. к. 0 индекс - это воскресенье (другой формат)
   const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+  // Установка выходных дней
   const setWeekends = (schedule=[]) => {
     const weekends = new Set();
 
@@ -702,7 +773,20 @@ function setCorrectOrderForm() {
     airDatepicker.update({
       weekends: [...weekends.values()]
     });
-  }
+  };
+  // Проверка на заполненность полей
+  const checkFullValid = (fields) => {
+    let resultValid = true; // resultValid копим только для обычных полей, не имеющих readonly
+
+    validObj.valid = fields.every((field) => {
+      if (field.hasAttribute('readonly')) return true; // Для readonly - описаны свои проверки
+
+      resultValid = resultValid && field.value.length > 0;
+    });
+
+    return resultValid;
+  };
+  checkFullValid(needFill);
 
   // Обсервер следит за изменением класса у карточек специалистов
   const specialistsObserver = new MutationObserver((mutations) => {
@@ -726,6 +810,16 @@ function setCorrectOrderForm() {
                     services.push({ value: service, label: service, disabled: false }));
             choicesDropdown.setChoices(services, 'value', 'label', true);
             choicesDropdown.setChoiceByValue(servicesArr[0]);
+
+            // Проверим, что все нужные поля заполнены и покажем итоговую цену
+            needFill.forEach((field) => {
+              field.addEventListener('change', () => {
+                const isFormValid = checkFullValid(needFill);
+                if (isFormValid) {
+    
+                }
+              });
+            });
           }
         } else {
           Array.from(orderForm.elements).forEach((el) => {

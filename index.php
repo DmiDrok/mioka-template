@@ -759,7 +759,7 @@
   </div>
 
   <!-- Модальное окно оформления записи -->
-  <div class="modal trigger-result order-modal">
+  <div class="active modal trigger-result order-modal">
     <div class="modal__row">
       <div class="container modal__container">
         <div class="trigger-result__content modal__content">
@@ -896,6 +896,21 @@
                 </div>
               </div>
 
+              <!-- Номер телефона -->
+              <div class="modal-form-field">
+                <div class="modal-form-field__header">
+                  <span class="modal-form-field__label-text">Введите номер телефона</span>
+                </div>
+
+                <div class="action-field tel-input-block modal-form-field__tel-block">
+                  <div class="action-field__inner tel-input-block__inner">
+                    <input id="user-tel" class="tel-input action-field__input tel-input-block__input" type="tel" name="service_tel">
+
+                    <img class="action-field__icon datetime-select__icon" src="<?php bloginfo('template_url') ?>/assets/images/icons/tel-icon.svg" alt="" aria-hidden="true">
+                  </div>
+                </div>
+              </div>
+
               <!-- Выбор услуги -->
               <div class="modal-form-field">
                 <div class="modal-form-field__header">
@@ -915,18 +930,27 @@
                   <span class="modal-form-field__label-text">Выберите дату и время</span>
                 </div>
 
-                <div class="datetime-select modal-form-field__datetime-select">
-                  <div class="datetime-select__inner">
-                    <input id="datepicker" class="datetime-select__input" type="text" name="service_datetime">
+                <div class="action-field datetime-select modal-form-field__datetime-select">
+                  <div class="action-field__inner datetime-select__inner">
+                    <input readonly id="datepicker" class="date-input datetime-select__input" type="text" name="service_datetime">
 
-                    <img class="datetime-select__icon" src="<?php bloginfo('template_url') ?>/assets/images/icons/calendar.svg" alt="">
+                    <img class="action-field__icon datetime-select__icon" src="<?php bloginfo('template_url') ?>/assets/images/icons/calendar.svg" alt="" aria-hidden="true">
                   </div>
+                </div>
+              </div>
+
+              <!-- Цена -->
+              <div class="modal-form-field">
+                <div class="modal-form-field__header">
+                  <span class="modal-form-field__label-text modal-form__result-price">
+                    Итоговая цена: <u>400-600 руб.</u>
+                  </span>
                 </div>
               </div>
 
               <!-- Кнопка оформления -->
               <div class="modal-form-field submit-field">
-                <button class="modal-form__submit orange-gradient-btn" type="submit">
+                <button id="modal-form-submit" class="modal-form__submit orange-gradient-btn" type="submit">
                   <span class="orange-gradient-btn__inner">
                     <?php the_field('order_submit_text', 322) ?>
                   </span>

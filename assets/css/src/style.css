@@ -2315,12 +2315,12 @@ a.info-block__item:active {
   border-left: 4px solid var(--color-accent-2);
 }
 
-.datetime-select__inner {
+.action-field__inner {
   max-width: 300px;
   position: relative;
 }
 
-.datetime-select__input {
+.modal-form-field input {
   font-size: 16px;
   padding: 10.3px 11.5px;
   border-radius: 6px;
@@ -2341,6 +2341,17 @@ a.info-block__item:active {
 .air-datepicker-global-container {
   position: absolute;
   z-index: 99999999999999999999;
+}
+
+/* Result Price */
+.modal-form__result-price {
+  color: #000;
+  font-weight: 900;
+  display: none;
+}
+
+.modal-form__result-price.is-visible {
+  display: block;
 }
 
 @media (max-width: 425px) {
