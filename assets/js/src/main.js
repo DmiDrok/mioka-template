@@ -702,6 +702,7 @@ function setCorrectOrderForm() {
   const orderFormSubmit = orderForm['modal-form-submit'];
 
   // Для валидации
+  const telephoneRegExp = new RegExp(window['telephone-pattern']);
   let formValid = false;
   const validObj = {
     fieldsValid: false,
@@ -750,13 +751,6 @@ function setCorrectOrderForm() {
     emitChangeOnDateInput();
   });
 
-  dateInput.addEventListener('change', () => {
-    // if (dateInput.value) {
-    //   validObj.valid = true && checkFullValid(needFill);
-    // } else {
-    //   validObj.valid = false && checkFullValid(needFill);
-    // }
-  });
   dateInput.customValidate = () => Boolean(dateInput.value);
 
   // Вспомогательные функции
@@ -808,14 +802,16 @@ function setCorrectOrderForm() {
   };
   // Проверка на заполненность полей
   const checkFullValid = (fields) => {
-    let resultValid = true; // resultValid копим только для обычных полей, не имеющих readonly
+    let resultValid = true; // resultValid копим только для полей с readonly (у них кастомные проверки)
 
     for (let field of fields) {
       if (field.hasAttribute('readonly')) {
         resultValid = field.customValidate();
         continue; // Для readonly - описаны свои проверки
-      } else {
-        resultValid = resultValid && field.value.length > 0;
+      } else if (field.type === 'tel' && !telephoneRegExp.test(field.value)) {
+          return false;
+      } else if (field.value.length <= 0) {
+        return false;
       }
     }
 
@@ -859,8 +855,8 @@ function setCorrectOrderForm() {
           let fieldsValid = null;
           setTimeout(() => {
             fieldsValid = checkFullValid(needFill);
+            validObj.valid = fieldsValid;
           }, 0);
-          validObj.valid = fieldsValid;
         } else {
           validObj.selectedSpecialist = null;
           resultPrice.classList.add('is-disabled'); // ЖЕЛАТЕЛЬНО ВЫНЕСТИ В ОТДЕЛЬНОЕ МЕСТО
