@@ -813,7 +813,6 @@ function setCorrectOrderForm() {
     for (let field of fields) {
       if (field.hasAttribute('readonly')) {
         resultValid = field.customValidate();
-        console.log(`В проверке: ${resultValid}`);
         continue; // Для readonly - описаны свои проверки
       } else {
         resultValid = resultValid && field.value.length > 0;
@@ -857,7 +856,11 @@ function setCorrectOrderForm() {
             choicesDropdown.clear();
           }
 
-          validObj.valid = checkFullValid(needFill);
+          let fieldsValid = null;
+          setTimeout(() => {
+            fieldsValid = checkFullValid(needFill);
+          }, 0);
+          validObj.valid = fieldsValid;
         } else {
           validObj.selectedSpecialist = null;
           resultPrice.classList.add('is-disabled'); // ЖЕЛАТЕЛЬНО ВЫНЕСТИ В ОТДЕЛЬНОЕ МЕСТО
