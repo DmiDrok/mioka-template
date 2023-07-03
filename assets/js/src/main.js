@@ -569,6 +569,7 @@ function setCorrectDropdowns() {
       noChoicesText: 'Опции не найдены...',
     });
     dropdown.dataset.myChoicesId = index;
+    choices.customDefaultLabel = 'Меню выбора';
     window[`my-choices-${index}`] = choices;
   });
 }
@@ -727,33 +728,49 @@ function setCorrectOrderForm() {
     }
   });
   const needFill = [userTel, servicesDropdown, dateInput];
-  airDatepicker.update({
-    onSelect() {
+  // Будем имитировать событие change по клику на календарь и в onSelect у airDatepicker
+  // Т. к. у пользователя нет возможности вводить самому в поле, т. к. оно readonly
+  const emitChangeOnDateInput = () => {
+    setTimeout(() => {
       const changeEvent = new Event('change');
       dateInput.dispatchEvent(changeEvent);
+    }, 0);
+  };
+  airDatepicker.update({
+    onSelect() {
+      emitChangeOnDateInput();
     }
+  })
+  airDatepicker.$datepicker.addEventListener('click', () => {
+    emitChangeOnDateInput();
   });
+
   dateInput.addEventListener('change', () => {
     if (dateInput.value) {
       validObj.valid = true && checkFullValid(needFill);
+    } else {
+      validObj.valid = false && checkFullValid(needFill);
     }
   });
 
   // Вспомогательные функции
   choicesDropdown.clear = () => {
     choicesDropdown.clearStore(); // Очищаем уже имеющиеся опции
-    choicesDropdown.setChoices([{ label: 'Меню выбора', value: '', disabled: true, selected: true }], 'value', 'label', true);
+    choicesDropdown.setChoices([{ 
+      label: choicesDropdown.customDefaultLabel, 
+      value: '', 
+      disabled: true, 
+      selected: true }], 
+      'value', 'label', true);
   };
   // Переключатель в состояния disabled и обратно
   const toggleOrderElems = ({ disable }) => {
     Array.from(orderForm.elements).forEach((el) => {
       if (el.nodeName === 'BUTTON' && el.getAttribute('type') === 'submit') {
-        // if (disable === true && !validObj.selectedSpecialist) {
         if (disable === true) {
           el.disabled = disable;
-        } else {
-          // return el.disabled = false;
-          return;
+        } else if (validObj.valid) {
+          el.disabled = false;
         }
       } else if (el.nodeName === 'SELECT') {
         choicesDropdown[disable ? 'disable' : 'enable']();
@@ -787,9 +804,14 @@ function setCorrectOrderForm() {
   const checkFullValid = (fields) => {
     let resultValid = true; // resultValid копим только для обычных полей, не имеющих readonly
 
-    for (let field of fields) {
+    for (let field of fields) {      
       if (field.hasAttribute('readonly')) {
         continue; // Для readonly - описаны свои проверки
+      }
+
+      if (field.nodeName === 'SELECT') {
+        resultValid = resultValid && field.value !== choicesDropdown.customDefaultLabel;
+        continue;
       }
 
       resultValid = resultValid && field.value.length > 0;
@@ -805,9 +827,9 @@ function setCorrectOrderForm() {
       if (mutation.type === 'attributes') {
         const selectedSpecialist = specialistsBtns.find((btn) => btn.classList.contains('active'));
         const services = [];
-
+        
         // Ветка с выбранным специалистом
-        if (selectedSpecialist) {          
+        if (selectedSpecialist) {
           validObj.selectedSpecialist = selectedSpecialist;
           resultPrice.classList.remove('is-disabled'); // ЖЕЛАТЕЛЬНО ВЫНЕСТИ В ОТДЕЛЬНОЕ МЕСТО
           toggleOrderElems({ disable: false }); // Разблокируем форму для заполнения
@@ -828,6 +850,8 @@ function setCorrectOrderForm() {
               choicesDropdown.setChoiceByValue(servicesArr[0]);
             }
             choicesDropdown.setChoices(services, 'value', 'label', true);
+          } else {
+            choicesDropdown.clear();
           }
         } else {
           validObj.selectedSpecialist = null;

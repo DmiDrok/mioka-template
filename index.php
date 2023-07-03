@@ -5,6 +5,7 @@
 <main id="main" class="main">
     <!-- Секция, встречающая пользователя -->
     <section id="hero" class="hero">
+
       <!-- Декоративные изображения -->
       <picture>
         <source type="image/avif" srcset="<?php bloginfo('template_url') ?>/assets/images/decor-left.avif">
