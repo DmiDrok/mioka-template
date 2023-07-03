@@ -705,7 +705,7 @@ function setCorrectOrderForm() {
   let formValid = false;
   const validObj = {
     fieldsValid: false,
-    selectedSpecialist: null
+    selectedSpecialist: null,
   };
   Object.defineProperty(validObj, 'valid', {
     get() {
@@ -728,6 +728,11 @@ function setCorrectOrderForm() {
     }
   });
   const needFill = [userTel, servicesDropdown, dateInput];
+  needFill.forEach((field) => {
+    field.addEventListener('change', () => {
+      validObj.valid = checkFullValid(needFill);
+    });
+  });
   // Будем имитировать событие change по клику на календарь и в onSelect у airDatepicker
   // Т. к. у пользователя нет возможности вводить самому в поле, т. к. оно readonly
   const emitChangeOnDateInput = () => {
@@ -740,18 +745,19 @@ function setCorrectOrderForm() {
     onSelect() {
       emitChangeOnDateInput();
     }
-  })
+  });
   airDatepicker.$datepicker.addEventListener('click', () => {
     emitChangeOnDateInput();
   });
 
   dateInput.addEventListener('change', () => {
-    if (dateInput.value) {
-      validObj.valid = true && checkFullValid(needFill);
-    } else {
-      validObj.valid = false && checkFullValid(needFill);
-    }
+    // if (dateInput.value) {
+    //   validObj.valid = true && checkFullValid(needFill);
+    // } else {
+    //   validObj.valid = false && checkFullValid(needFill);
+    // }
   });
+  dateInput.customValidate = () => Boolean(dateInput.value);
 
   // Вспомогательные функции
   choicesDropdown.clear = () => {
@@ -804,22 +810,19 @@ function setCorrectOrderForm() {
   const checkFullValid = (fields) => {
     let resultValid = true; // resultValid копим только для обычных полей, не имеющих readonly
 
-    for (let field of fields) {      
+    for (let field of fields) {
       if (field.hasAttribute('readonly')) {
+        resultValid = field.customValidate();
+        console.log(`В проверке: ${resultValid}`);
         continue; // Для readonly - описаны свои проверки
+      } else {
+        resultValid = resultValid && field.value.length > 0;
       }
-
-      if (field.nodeName === 'SELECT') {
-        resultValid = resultValid && field.value !== choicesDropdown.customDefaultLabel;
-        continue;
-      }
-
-      resultValid = resultValid && field.value.length > 0;
     }
 
     return resultValid;
   };
-  checkFullValid(needFill);
+  validObj.valid = checkFullValid(needFill);
 
   // Обсервер следит за изменением класса у карточек специалистов
   const specialistsObserver = new MutationObserver((mutations) => {
@@ -853,6 +856,8 @@ function setCorrectOrderForm() {
           } else {
             choicesDropdown.clear();
           }
+
+          validObj.valid = checkFullValid(needFill);
         } else {
           validObj.selectedSpecialist = null;
           resultPrice.classList.add('is-disabled'); // ЖЕЛАТЕЛЬНО ВЫНЕСТИ В ОТДЕЛЬНОЕ МЕСТО
