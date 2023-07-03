@@ -832,25 +832,27 @@ function setCorrectOrderForm() {
           resultPrice.classList.remove('is-disabled'); // ЖЕЛАТЕЛЬНО ВЫНЕСТИ В ОТДЕЛЬНОЕ МЕСТО
           toggleOrderElems({ disable: false }); // Разблокируем форму для заполнения
           
-          const employeerServicesStr = selectedSpecialist.dataset.employeerServices;
-          
+          const pricesArr = JSON.parse(selectedSpecialist.dataset.employeerPrices);
+          const servicesArr = JSON.parse(selectedSpecialist.dataset.employeerServices);
           const schedule = JSON.parse(selectedSpecialist.dataset.schedule); // Расписание сотрудника
+          
           setWeekends(schedule); // Проставляем выходные в календаре по графику работы
-          if (employeerServicesStr !== '') {
-            let servicesArr = employeerServicesStr.split('; ');
-            servicesArr.forEach((service) =>
-            services.push({ value: service, label: service, disabled: false }));
 
-            // Если услуга была выбрана при первом выделении специалиста - оставляем её
-            const choicesValue = choicesDropdown.getValue(true);
-            if (!servicesArr.includes(choicesValue)) {
-              choicesDropdown.clear();
-              choicesDropdown.setChoiceByValue(servicesArr[0]);
-            }
-            choicesDropdown.setChoices(services, 'value', 'label', true);
-          } else {
+          servicesArr.forEach((service) =>
+                services.push({ value: service, label: service, disabled: false }));
+
+          // Если услуга была выбрана при первом выделении специалиста - оставляем её
+          const choicesValue = choicesDropdown.getValue(true);
+          if (!servicesArr.includes(choicesValue)) {
             choicesDropdown.clear();
+            choicesDropdown.setChoiceByValue(servicesArr[0]);
           }
+          choicesDropdown.setChoices(services, 'value', 'label', true);
+
+          if (servicesArr.includes(choicesValue)) {
+            choicesDropdown.setChoiceByValue(choicesValue);
+          }
+
 
           let fieldsValid = null;
           setTimeout(() => {

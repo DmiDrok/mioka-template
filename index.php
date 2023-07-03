@@ -853,6 +853,20 @@
                               )              
                             );
                             $schedule_json = htmlspecialchars(json_encode($schedule), ENT_QUOTES, 'UTF-8');
+                            $query = new WP_Query(array(
+                              'post_type' => 'services',
+
+                            ));
+                            $all_services = $query->posts;
+                            $prices = [];
+                            foreach ($all_services as $service) {
+                              $meta = get_post_meta($service->ID);
+                              array_push($prices, [
+                                'service_title' => $service->post_title,
+                                'service_price' => $meta['service_price']
+                              ]);
+                            }
+                            $prices_json = htmlspecialchars(json_encode($prices, JSON_UNESCAPED_UNICODE), ENT_QUOTES, 'UTF-8');
                             ?>
                               <button
                                 class="swiper-slide choice-slider__variation variation"
@@ -860,10 +874,16 @@
                                 data-employer-id="<?php echo $post->ID ?>"
                                 data-employeer-services="<?php
                                   if ($services_str) {
-                                    $services = addslashes($services_str);
-                                    echo $services;
+                                    // $services = addslashes($services_str);
+                                    $services_json = htmlspecialchars(json_encode(explode(';', $services_str), JSON_UNESCAPED_UNICODE), ENT_QUOTES, 'UTF-8');
+                                    echo $services_json;
                                   }
-                                ?>"                              
+                                ?>"
+                                data-employeer-prices="<?php
+                                  if ($prices_json) {
+                                    echo $prices_json;
+                                  }
+                                ?>"  
                                 data-schedule="<?php echo $schedule_json; ?>"
                               >
                                 <span class="variation__inner">
