@@ -703,6 +703,8 @@ function setCorrectOrderForm() {
   const resultPriceField = orderForm.querySelector('.field');
   const orderFormSubmit = orderForm['modal-form-submit'];
 
+  // airDatepicker.selectDate(new Date());
+
   // Для валидации
   const telephoneRegExp = new RegExp(window['telephone-pattern']);
   let formValid = false;
@@ -750,8 +752,48 @@ function setCorrectOrderForm() {
       dateInput.dispatchEvent(changeEvent);
     }, 0);
   };
+  const setTimetable = ({ date }) => {
+    let dateNowSelected = new Date(date);
+    let dateMax = new Date(date);
+    const dayIndex = dateNowSelected.getDay();
+    const timetable = validObj.selectedSpecialist.schedule[days[dayIndex]];
+    if (!timetable) {
+      return;
+    }
+
+    const startDates = timetable.start.split(':');
+    const endDates = timetable.end.split(':');
+    dateMax.setHours(dateMax.getHours() + endDates[0]);
+    dateMax.setMinutes(dateMax.getMinutes() + endDates[1]);
+
+    if (dayIndex === new Date().getDay()) {
+      startDates[0] = new Date().getHours();
+      startDates[1] = new Date().getMinutes();
+    }
+
+    airDatepicker.clear();
+
+    airDatepicker.update({
+      minHours: startDates[0],
+      minMinutes: startDates[1],
+
+      maxHours: endDates[0]-1,
+    });
+
+    airDatepicker.selectDate(date, {
+      date: date,
+      silent: true,
+    });
+    airDatepicker.$datepicker.dataset.changedByTimetable = true;
+  };
   airDatepicker.update({
-    onSelect() {
+    onSelect({ date, formattedDate }) {
+      if (airDatepicker.$datepicker.dataset.changedByTimetable === 'true') {
+        airDatepicker.$datepicker.dataset.changedByTimetable = null;
+        return;
+      }
+
+      setTimetable({ date });
       emitChangeOnDateInput();
     }
   });
@@ -808,6 +850,15 @@ function setCorrectOrderForm() {
       weekends: [...weekends.values()]
     });
   };
+  // Установка графика работы (по часам в текущий день у пользователя)
+  const setTimetableToday = () => {
+    const startTimetableToday = Number(validObj.selectedSpecialist.schedule[days[new Date().getDay()]].start.split(':')[0]);
+    const endTimetableToday = Number(validObj.selectedSpecialist.schedule[days[new Date().getDay()]].end.split(':')[0]);
+    airDatepicker.update({
+      minHours: startTimetableToday,
+      maxHours: endTimetableToday-1
+    });
+  };
   // Проверка на кастомные цены кастомных услуг из админки
   const checkCustomPrices = (servicesArr) => {
     servicesArr.forEach((service, index) => {
@@ -815,7 +866,6 @@ function setCorrectOrderForm() {
         const [ serviceName, servicePrice ] = service.split('=').map((value) => value.trim());
 
         if (isFinite(servicePrice)) {
-          console.log(serviceName, servicePrice);
           pricesObj[serviceName] = { 'service_price': servicePrice };
           servicesArr.splice(index, 1, serviceName); // Объекты передаются по ссылке - поэтому сразу меняем его
         }
@@ -841,6 +891,13 @@ function setCorrectOrderForm() {
   };
   validObj.valid = checkFullValid(needFill);
 
+  // Проверка валидности расписания
+  const isScheduleCorrect = (schedule) => {
+    return Object.keys(schedule)
+           .some((dayKey) => Object.keys(schedule[dayKey])
+              .some((dayValue) => schedule[dayKey][dayValue] !== null));
+  };
+
   // Обсервер следит за изменением класса у карточек специалистов
   const specialistsObserver = new MutationObserver((mutations) => {
     mutations.forEach((mutation) => {
@@ -851,7 +908,7 @@ function setCorrectOrderForm() {
         // Ветка с выбранным специалистом
         if (selectedSpecialist) {
           validObj.selectedSpecialist = selectedSpecialist;
-          resultPrice.classList.remove('is-disabled'); // ЖЕЛАТЕЛЬНО ВЫНЕСТИ В ОТДЕЛЬНОЕ МЕСТО
+          resultPrice.classList.remove('is-disabled');
           toggleOrderElems({ disable: false }); // Разблокируем форму для заполнения
           
           const servicesArr = JSON.parse(selectedSpecialist.dataset.employeerServices);
@@ -862,11 +919,19 @@ function setCorrectOrderForm() {
           }
 
           const schedule = JSON.parse(selectedSpecialist.dataset.schedule); // Расписание сотрудника
-          setWeekends(schedule); // Проставляем выходные в календаре по графику работы
+          if (schedule) {
+            selectedSpecialist.schedule = schedule;
 
-          choicesDropdown.clear();
+            if (isScheduleCorrect(schedule)) {
+              setWeekends(schedule); // Проставляем выходные в календаре по графику работы
+              setTimetableToday(); // Проставляем график работы по часам
+            }
+          }
+
+          // choicesDropdown.clear();
           if (servicesArr.length > 0) {
             servicesArr.forEach((service) => {
+              service = service.trim();
               services.push({ value: service, label: service, disabled: false });
             });
 
@@ -880,11 +945,10 @@ function setCorrectOrderForm() {
           }, 0);
         } else {
           validObj.selectedSpecialist = null;
-          resultPrice.classList.add('is-disabled'); // ЖЕЛАТЕЛЬНО ВЫНЕСТИ В ОТДЕЛЬНОЕ МЕСТО
+          resultPrice.classList.add('is-disabled');
           Array.from(orderForm.elements).forEach(() => {
             toggleOrderElems({ disable: true });
           });
-          setWeekends();
         }
       }
     })
@@ -922,7 +986,7 @@ function setCorrectOrderForm() {
   // Обработчики для кнопок в секции услуг
   servicesBtns.forEach((btn) => {
     btn.addEventListener('click', () => {
-      const serviceNameDefault = btn.dataset.serviceName;
+      const serviceNameDefault = btn.dataset.serviceName.trim();
       const serviceNameLower = serviceNameDefault.toLowerCase();
       const specialistWithService = specialistsBtns.find((specialist) => {
         return specialist.dataset.employeerServices
@@ -934,6 +998,7 @@ function setCorrectOrderForm() {
           specialistWithService.click();
         }
         setTimeout(() => {
+          console.log('Надо выбрать:', serviceNameDefault);
           choicesDropdown.setChoiceByValue(serviceNameDefault);
         }, 100);
       }
