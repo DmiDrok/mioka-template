@@ -693,12 +693,14 @@ function setCorrectOrderForm() {
 
   // Вспомогательные компоненты
   const orderForm = document.querySelector('#modal-form');
+  const pricesObj = JSON.parse(orderForm.dataset.prices); // Объект вида {услуга: цена}
   const userTel = orderForm['user-tel'];
   const servicesDropdown = orderForm.services; // Узел <select>
   const choicesDropdown = window[`my-choices-${servicesDropdown.dataset.myChoicesId}`]; // Компонент от choices.js
   const dateInput = orderForm.datepicker; // Узел <input type="text">
   const airDatepicker = window[`my-datepicker-${dateInput.dataset.myDatepickerId}`]; // Компонент от air-datepicker.js
   const resultPrice = orderForm.querySelector('.modal-form__result-price'); // Узел блока итоговой цены
+  const resultPriceField = orderForm.querySelector('.field');
   const orderFormSubmit = orderForm['modal-form-submit'];
 
   // Для валидации
@@ -720,6 +722,7 @@ function setCorrectOrderForm() {
         // Обработка валидной формы 
         // (показать итоговую цену и разблокировать кнопку оформления заказа)
         resultPrice.classList.add('is-visible');
+        setValueToPriceField();
         orderFormSubmit.disabled = false;
       } else {
         // Делаем обратные действия валидной ветки
@@ -728,6 +731,11 @@ function setCorrectOrderForm() {
       }
     }
   });
+  const setValueToPriceField = () => {
+    const serviceName = choicesDropdown.getValue(true);
+    const priceValue = pricesObj[serviceName]['service_price'];
+    resultPriceField.textContent = priceValue;
+  };
   const needFill = [userTel, servicesDropdown, dateInput];
   needFill.forEach((field) => {
     field.addEventListener('change', () => {
@@ -790,7 +798,7 @@ function setCorrectOrderForm() {
 
     if (Object.keys(schedule).length > 0) {
       days.forEach((day, index) => {
-        if (!schedule[day].start || !schedule[day].end) {
+        if (schedule[day]['is_weekend']?.toLowerCase() === 'является') {
           weekends.add(index);
         }
       });
@@ -798,6 +806,20 @@ function setCorrectOrderForm() {
     
     airDatepicker.update({
       weekends: [...weekends.values()]
+    });
+  };
+  // Проверка на кастомные цены кастомных услуг из админки
+  const checkCustomPrices = (servicesArr) => {
+    servicesArr.forEach((service, index) => {
+      if (service.includes('=')) {
+        const [ serviceName, servicePrice ] = service.split('=').map((value) => value.trim());
+
+        if (isFinite(servicePrice)) {
+          console.log(serviceName, servicePrice);
+          pricesObj[serviceName] = { 'service_price': servicePrice };
+          servicesArr.splice(index, 1, serviceName); // Объекты передаются по ссылке - поэтому сразу меняем его
+        }
+      }
     });
   };
   // Проверка на заполненность полей
@@ -832,27 +854,24 @@ function setCorrectOrderForm() {
           resultPrice.classList.remove('is-disabled'); // ЖЕЛАТЕЛЬНО ВЫНЕСТИ В ОТДЕЛЬНОЕ МЕСТО
           toggleOrderElems({ disable: false }); // Разблокируем форму для заполнения
           
-          const pricesArr = JSON.parse(selectedSpecialist.dataset.employeerPrices);
           const servicesArr = JSON.parse(selectedSpecialist.dataset.employeerServices);
+          checkCustomPrices(servicesArr);
+          // Синхронизируем объекты в data-атрибуте и в коде
+          if (selectedSpecialist.dataset.employeerServices !== JSON.stringify(servicesArr)) {
+            selectedSpecialist.dataset.employeerServices = JSON.stringify(servicesArr);
+          }
+
           const schedule = JSON.parse(selectedSpecialist.dataset.schedule); // Расписание сотрудника
-          
           setWeekends(schedule); // Проставляем выходные в календаре по графику работы
 
-          servicesArr.forEach((service) =>
-                services.push({ value: service, label: service, disabled: false }));
+          choicesDropdown.clear();
+          if (servicesArr.length > 0) {
+            servicesArr.forEach((service) => {
+              services.push({ value: service, label: service, disabled: false });
+            });
 
-          // Если услуга была выбрана при первом выделении специалиста - оставляем её
-          const choicesValue = choicesDropdown.getValue(true);
-          if (!servicesArr.includes(choicesValue)) {
-            choicesDropdown.clear();
-            choicesDropdown.setChoiceByValue(servicesArr[0]);
-          }
-          choicesDropdown.setChoices(services, 'value', 'label', true);
-
-          if (servicesArr.includes(choicesValue)) {
-            choicesDropdown.setChoiceByValue(choicesValue);
-          }
-
+            choicesDropdown.setChoices(services, 'value', 'label', true);
+          }         
 
           let fieldsValid = null;
           setTimeout(() => {

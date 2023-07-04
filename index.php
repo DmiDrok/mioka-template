@@ -783,7 +783,21 @@
               'post_type' => 'employees',
               'order' => 'ASC',
               'numberposts' => -1,
-            ]);            
+            ]);
+
+            $query = new WP_Query(array(
+              'post_type' => 'services',
+
+            ));
+            $all_services = $query->posts;
+            $prices = [];
+            foreach ($all_services as $service) {
+              $meta = get_post_meta($service->ID);
+              $prices[$service->post_title] = [
+                'service_price' => $meta['service_price'][0]
+              ];
+            }
+            $prices_json = htmlspecialchars(json_encode($prices, JSON_UNESCAPED_UNICODE), ENT_QUOTES, 'UTF-8');        
           ?>
 
           <form 
@@ -791,6 +805,15 @@
             method="POST" 
             id="modal-form" 
             class="modal-form"
+            data-prices="
+              <?php
+                if ($prices_json) {
+                  echo $prices_json;
+                } else {
+                  echo "[]";
+                }
+              ?>
+            "
           >
             <div class="modal-form__inner">
               <!-- Выбор специалиста -->
@@ -821,52 +844,44 @@
 
                             $positions = wp_get_post_terms($post->ID, 'employees_types'); // Должности
                             $services_str = get_field('employees_services_list');
-                            $test = get_field('schedule_monday_start');
                             $schedule = array(
                               'monday' => array(
                                 'start' => get_field('schedule_monday_start'),
                                 'end' => get_field('schedule_monday_end'),
+                                'is_weekend' => get_field('schedule_monday_is_weekend'),
                               ),
                               'tuesday' => array(
                                 'start' => get_field('schedule_tuesday_start'),
                                 'end' => get_field('schedule_tuesday_end'),
+                                'is_weekend' => get_field('schedule_tuesday_is_weekend'),
                               ),
                               'wednesday' => array(
                                 'start' => get_field('schedule_wednesday_start'),
                                 'end' => get_field('schedule_wednesday_end'),
+                                'is_weekend' => get_field('schedule_wednesday_is_weekend'),
                               ),
                               'thursday' => array(
                                 'start' => get_field('schedule_thursday_start'),
                                 'end' => get_field('schedule_thursday_end'),
+                                'is_weekend' => get_field('schedule_thursday_is_weekend'),
                               ),
                               'friday' => array(
                                 'start' => get_field('schedule_friday_start'),
                                 'end' => get_field('schedule_friday_end'),
+                                'is_weekend' => get_field('schedule_thursday_is_weekend'),
                               ),
                               'saturday' => array(
                                 'start' => get_field('schedule_saturday_start'),
                                 'end' => get_field('schedule_saturday_end'),
+                                'is_weekend' => get_field('schedule_saturday_is_weekend'),
                               ),
                               'sunday' => array(
                                 'start' => get_field('schedule_sunday_start'),
                                 'end' => get_field('schedule_sunday_end'),
+                                'is_weekend' => get_field('schedule_sunday_is_weekend')
                               )              
                             );
-                            $schedule_json = htmlspecialchars(json_encode($schedule), ENT_QUOTES, 'UTF-8');
-                            $query = new WP_Query(array(
-                              'post_type' => 'services',
-
-                            ));
-                            $all_services = $query->posts;
-                            $prices = [];
-                            foreach ($all_services as $service) {
-                              $meta = get_post_meta($service->ID);
-                              array_push($prices, [
-                                'service_title' => $service->post_title,
-                                'service_price' => $meta['service_price']
-                              ]);
-                            }
-                            $prices_json = htmlspecialchars(json_encode($prices, JSON_UNESCAPED_UNICODE), ENT_QUOTES, 'UTF-8');
+                            $schedule_json = htmlspecialchars(json_encode($schedule, JSON_UNESCAPED_UNICODE), ENT_QUOTES, 'UTF-8');
                             ?>
                               <button
                                 class="swiper-slide choice-slider__variation variation"
@@ -875,13 +890,13 @@
                                 data-employeer-services="<?php
                                   if ($services_str) {
                                     // $services = addslashes($services_str);
+                                    // echo "<pre>";
+                                    // var_dump($services_str);
+                                    // echo "</pre>";
                                     $services_json = htmlspecialchars(json_encode(explode(';', $services_str), JSON_UNESCAPED_UNICODE), ENT_QUOTES, 'UTF-8');
                                     echo $services_json;
-                                  }
-                                ?>"
-                                data-employeer-prices="<?php
-                                  if ($prices_json) {
-                                    echo $prices_json;
+                                  } else {
+                                    echo "[]";
                                   }
                                 ?>"  
                                 data-schedule="<?php echo $schedule_json; ?>"
@@ -964,7 +979,7 @@
               <div class="modal-form-field">
                 <div class="modal-form-field__header">
                   <span class="modal-form-field__label-text modal-form__result-price">
-                    Итоговая цена: <u>400-600 руб.</u>
+                    Итоговая цена: <u><span class="field">требует уточнения специалиста. Валюта:</span> руб.</u>
                   </span>
                 </div>
               </div>

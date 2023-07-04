@@ -417,12 +417,18 @@ function employees_services_metabox() {
 					if (textInTextarea.length > 0) {
 						text = textInTextarea.split('; ');
 					}
+					console.log(text);
 					
 					// Если уже есть текст в массиве - выделяем чекбоксы
 					if (text.length > 0) {
 						jQuery(text).each(function(index, string) {
 							jq_checkboxes.each(function(index, checkbox) {
-								if (jQuery(checkbox).next().text() === string) {
+								var serviceName = jQuery(checkbox).next().text();
+								if (string.includes('=')) {
+									string = string.split('=')[0].trim();
+								}
+
+								if (serviceName === string) {
 									jQuery(checkbox).prop('checked', true);
 								}
 							});
