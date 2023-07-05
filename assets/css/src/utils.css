@@ -18,3 +18,8 @@
   user-select: none;
   pointer-events: none;
 }
+
+/* Скрыть невидимую форму */
+#wpcf7-f437-o1 {
+  display: none;
+}

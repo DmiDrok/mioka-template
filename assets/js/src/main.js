@@ -26,7 +26,7 @@ const funcsToCall = [
   setCorrectHeaderByScroll, setCorrectMasksOnInputs, setCorrectBurger, setCorrectVisibilityForm,
   setCorrectContactForm, setCorrectTriggers, setCorrectImagesZoom, setCorrectDropdowns,
   setCorrectAccordion, setCorrectSliders, setCorrectLazyLoad, setCorrectDateInputs,
-  setCorrectOrderModal, setCorrectOrderForm,
+  setCorrectOrderModal, setCorrectOrderForm, setCorrectOrderFormSubmit,
 ];
 
 // Вызываем только на компьютерах, т. к. требовательные
@@ -706,8 +706,6 @@ function setCorrectOrderForm() {
   const resultPriceField = orderForm.querySelector('.field');
   const orderFormSubmit = orderForm['modal-form-submit'];
 
-  // airDatepicker.selectDate(new Date());
-
   // Для валидации
   const telephoneRegExp = new RegExp(window['telephone-pattern']);
   let formValid = false;
@@ -855,8 +853,15 @@ function setCorrectOrderForm() {
   };
   // Установка графика работы (по часам в текущий день у пользователя)
   const setTimetableToday = () => {
-    const startTimetableToday = Number(validObj.selectedSpecialist.schedule[days[new Date().getDay()]].start.split(':')[0]);
-    const endTimetableToday = Number(validObj.selectedSpecialist.schedule[days[new Date().getDay()]].end.split(':')[0]);
+    const nowDay = Number(validObj.selectedSpecialist.schedule[days[new Date().getDay()]]);
+    const endDay = Number(validObj.selectedSpecialist.schedule[days[new Date().getDay()]]);
+
+    if (!nowDay || !endDay) {
+      return;
+    }
+
+    const startTimetableToday = nowDay.start.split(':')[0];
+    const endTimetableToday = endDay.end.split(':')[0];
     airDatepicker.update({
       minHours: startTimetableToday,
       maxHours: endTimetableToday-1
@@ -926,12 +931,15 @@ function setCorrectOrderForm() {
             selectedSpecialist.schedule = schedule;
 
             if (isScheduleCorrect(schedule)) {
+              console.log('Full correct schedule!');
+              console.log(selectedSpecialist);
+              console.log(schedule);
               setWeekends(schedule); // Проставляем выходные в календаре по графику работы
               setTimetableToday(); // Проставляем график работы по часам
             }
           }
 
-          // choicesDropdown.clear();
+          choicesDropdown.clear();
           if (servicesArr.length > 0) {
             servicesArr.forEach((service) => {
               service = service.trim();
@@ -939,7 +947,7 @@ function setCorrectOrderForm() {
             });
 
             choicesDropdown.setChoices(services, 'value', 'label', true);
-          }         
+          }      
 
           let fieldsValid = null;
           setTimeout(() => {
@@ -1016,6 +1024,14 @@ function setCorrectOrderFormSubmit() {
   const alrightModal = document.querySelector('.popup-modal-form');
   const accessAccept = accessModal.querySelector('.access-modal__accept');
 
+  // Форма из Contact Form 7
+  const formHidden = document.querySelector('[action="/#wpcf7-f437-o1"]');
+  const formSpecialistName = formHidden['specialist-name'];
+  const formTelNumber = formHidden['tel-number'];
+  const formServiceName = formHidden['service-name'];
+  const formDatetime = formHidden['datetime'];
+  const submitBtn = formHidden.querySelector('.wpcf7-submit');
+
   // Правильный сброс формы, у инпутов есть обработчики на валидность - поэтому триггерим change
   const resetOrderForm = () => {
     orderForm.reset();
@@ -1026,16 +1042,58 @@ function setCorrectOrderFormSubmit() {
     });
   };
 
+  const blockOrderStart = () => {
+    const allOrderActions = document.querySelectorAll('.order-action');
+    allOrderActions.forEach((orderAction) => {
+      orderAction.disabled = true;
+    });
+  };
+
+  const removeOrderElems = () => {
+    orderModal.remove();
+    accessAccept.remove();
+  };
+
+  const removeOrderNotification = () => {
+    alrightModal.remove();
+  };
+
   orderForm.addEventListener('submit', (event) => {
     event.preventDefault();
 
     accessAccept.addEventListener('click', () => {
+      
+      // Отправка формы
+      const userFields = {
+        specialistName: document.querySelector('.variation.active').querySelector('.variation__name').textContent,
+        telNumber: orderForm['user-tel'].value,
+        serviceName: orderForm['services'].value,
+        datetime: orderForm['datepicker'].value,
+      };
+      formSpecialistName.value = userFields.specialistName;
+      formTelNumber.value = userFields.telNumber;
+      formServiceName.value = userFields.serviceName;
+      formDatetime.value = userFields.datetime;
+      submitBtn.click();
+
+      const halfDay = 0.5;
+      Cookies.set('orderSended', true, { expires: halfDay });
+
+      // Сброс всех состояний
       resetOrderForm();
 
       accessModal.classList.remove('active');
       orderModal.classList.remove('active');
+      document.body.classList.remove('unscroll');
+
+      blockOrderStart();
+      formHidden.addEventListener('wpcf7mailsent', () => {
+        removeOrderElems();
+
+        setTimeout(() => {
+          removeOrderNotification();
+        }, 10000);
+      });
     });
   });
 }
-
-setCorrectOrderFormSubmit();

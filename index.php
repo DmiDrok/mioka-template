@@ -137,10 +137,24 @@
                                   <span class="service__price"><?php the_field('service_price') ?> руб.</span>
 
                                   <button
-                                    class="btn-blue service__action trigger" 
+                                    class="btn-blue service__action order-action trigger" 
                                     type="button"
                                     data-service-name="<?php the_title() ?>"
                                     data-trigger-result-selector=".order-modal"
+                                    <?php 
+                                    
+                                    if (!empty($_COOKIE['orderSended'])) {
+                                      echo 'disabled';
+                                    }
+
+                                    ?>
+                                    <?php
+                              
+                                    if (empty($_COOKIE['orderSended'])) {
+                                      echo 'title="Вы уже оформили запись"';
+                                    }
+
+                                    ?>
                                   >Записаться</button>
                                 </div>
                               </div>
@@ -227,10 +241,24 @@
   
                           <div class="team-member__info-bottom">
                             <button 
-                              class="btn-blue team-member__action trigger" 
+                              class="btn-blue team-member__action order-action trigger" 
                               type="button" 
                               data-trigger-result-selector=".order-modal"
                               data-employer-id="<?php echo $post->ID ?>"
+                              <?php
+                              
+                              if (!empty($_COOKIE['orderSended'])) {
+                                echo 'disabled';
+                              }
+
+                              ?>
+                              <?php
+                              
+                              if (empty($_COOKIE['orderSended'])) {
+                                echo 'title="Вы уже оформили запись"';
+                              }
+
+                              ?>
                             >
                             Записаться
                           </button>
@@ -758,9 +786,12 @@
       </button>
     </div>
   </div>
-
+  
+  <?php 
+    if (empty($_COOKIE['orderSended'])):
+  ?>
   <!-- Модальное окно оформления записи -->
-  <div class="modal trigger-result order-modal">
+  <div class="active modal trigger-result order-modal">
     <div class="modal__row">
       <div class="container modal__container">
         <div class="trigger-result__content modal__content">
@@ -868,7 +899,7 @@
                               'friday' => array(
                                 'start' => get_field('schedule_friday_start'),
                                 'end' => get_field('schedule_friday_end'),
-                                'is_weekend' => get_field('schedule_thursday_is_weekend'),
+                                'is_weekend' => get_field('schedule_friday_is_weekend'),
                               ),
                               'saturday' => array(
                                 'start' => get_field('schedule_saturday_start'),
@@ -1014,7 +1045,9 @@
             <button 
               type="button"
               class="trigger access-modal__button access-modal__accept orange-gradient-btn"
-              data-trigger-result-selector=".popup-modal-form">
+              data-trigger-result-selector=".popup-modal-form"
+              data-form-selector='[action="/#wpcf7-f437-o1"]'
+              >
               <span class="orange-gradient-btn__inner">
                 Подтвердить
               </span>
@@ -1048,5 +1081,9 @@
       </button>
     </div>
   </div>
+
+  <?php echo do_shortcode('[contact-form-7 id="437" title="Контактная форма 2 (Модальное окно)"]') ?>
+
+  <?php endif; ?>
 
 <?php get_footer(); ?>

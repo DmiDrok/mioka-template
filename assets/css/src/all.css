@@ -64,6 +64,13 @@
   transform: scale(.95);
 }
 
+.btn-blue:disabled {
+  opacity: .5 !important;
+  transform: scale(1) !important;
+  cursor: default !important;
+  background-color: var(--color-accent-1) !important;
+}
+
 /* Список соцсетей */
 .social-list {
   display: flex;
