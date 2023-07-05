@@ -327,7 +327,8 @@ function setCorrectTriggers() {
   const closeTriggerResultGlobal = (event, triggerResult) => {
     const triggerResultContent = triggerResult.querySelector('.trigger-result__content');
 
-    if (event.target.closest('.trigger-result__content') !== triggerResultContent) {
+    // if (event.target.closest('.trigger-result__content') !== triggerResultCon) {
+    if (!event.target.closest('.trigger-result__content')) {
       triggerResult.classList.remove('active');
       makeBodyScroll();
     }
@@ -364,7 +365,9 @@ function setCorrectTriggers() {
         };
         if (mutation.target.classList.contains('active')) {
           needInert.forEach((node) => node.inert = true);
-          document.addEventListener('click', closeTriggerResultFunc);
+          document.addEventListener('click', (event) => {
+            closeTriggerResultFunc(event);
+          });
         } else {          
           needInert.forEach((node) => node.inert = false);
           document.removeEventListener('click', closeTriggerResultFunc);
@@ -373,7 +376,7 @@ function setCorrectTriggers() {
     });
   });
 
-  // Логика работы попапов
+  // Логика работы всех видов открывашек
   triggerResults.forEach((triggerResult) => {
     observer.observe(triggerResult, { attributes: true });
 
@@ -998,7 +1001,6 @@ function setCorrectOrderForm() {
           specialistWithService.click();
         }
         setTimeout(() => {
-          console.log('Надо выбрать:', serviceNameDefault);
           choicesDropdown.setChoiceByValue(serviceNameDefault);
         }, 100);
       }
@@ -1006,3 +1008,34 @@ function setCorrectOrderForm() {
   });
 }
 
+// Отправка формы с оформлением записи
+function setCorrectOrderFormSubmit() {
+  const orderModal = document.querySelector('.order-modal');
+  const orderForm = orderModal.querySelector('#modal-form');
+  const accessModal = document.querySelector('.access-modal');
+  const alrightModal = document.querySelector('.popup-modal-form');
+  const accessAccept = accessModal.querySelector('.access-modal__accept');
+
+  // Правильный сброс формы, у инпутов есть обработчики на валидность - поэтому триггерим change
+  const resetOrderForm = () => {
+    orderForm.reset();
+
+    Array.from(orderForm.elements).forEach((field) => {
+      const event = new Event('change');
+      field.dispatchEvent(event);
+    });
+  };
+
+  orderForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    accessAccept.addEventListener('click', () => {
+      resetOrderForm();
+
+      accessModal.classList.remove('active');
+      orderModal.classList.remove('active');
+    });
+  });
+}
+
+setCorrectOrderFormSubmit();
