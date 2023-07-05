@@ -931,9 +931,6 @@ function setCorrectOrderForm() {
             selectedSpecialist.schedule = schedule;
 
             if (isScheduleCorrect(schedule)) {
-              console.log('Full correct schedule!');
-              console.log(selectedSpecialist);
-              console.log(schedule);
               setWeekends(schedule); // Проставляем выходные в календаре по графику работы
               setTimetableToday(); // Проставляем график работы по часам
             }
